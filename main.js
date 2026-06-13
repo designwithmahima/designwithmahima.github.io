@@ -44,14 +44,27 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
-  // 2. HERO PARALLAX & BLUR-ON-SCROLL
+  // 2. HERO PARALLAX & CURSOR EYE/HEAD TRACKING
   const emojiLayer = document.getElementById('hero-emoji-layer');
   const avatarBtn = document.getElementById('hero-avatar-btn');
   const heroSection = document.getElementById('hero-section');
+  const avatarBob = emojiLayer ? emojiLayer.querySelector('.avatar-bob') : null;
 
   if (emojiLayer && heroSection) {
     const MAX_BLUR = 12;
     const emojis = emojiLayer.querySelectorAll('.fe, .hero-face');
+
+    // Track mouse coordinates
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let curRotX = 0;
+    let curRotY = 0;
+    let isHovered = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
 
     const updateHeroParallax = () => {
       const scrollY = window.scrollY;
@@ -97,16 +110,57 @@
       });
     };
 
+    // 3D head-tracking frame tick
+    const tickTracking = () => {
+      if (avatarBob) {
+        const rect = avatarBob.getBoundingClientRect();
+        const avatarCenterX = rect.left + rect.width / 2;
+        const avatarCenterY = rect.top + rect.height / 2;
+
+        const dx = mouseX - avatarCenterX;
+        const dy = mouseY - avatarCenterY;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = Math.max(window.innerWidth, window.innerHeight);
+        const intensity = Math.min(distance / (maxDist * 0.35), 1.0); // full tilt at 35% distance
+
+        // Calculate pitch (rotX) and yaw (rotY) angles
+        const targetX = -(dy / Math.max(distance, 1)) * intensity * 14; // max 14deg tilt
+        const targetY = (dx / Math.max(distance, 1)) * intensity * 16;  // max 16deg rotate
+
+        // Smooth ease interpolation
+        const easeFactor = 0.12;
+        curRotX += (targetX - curRotX) * easeFactor;
+        curRotY += (targetY - curRotY) * easeFactor;
+
+        // Leaning drift offset
+        const driftX = curRotY * 0.32;
+        const driftY = -curRotX * 0.32;
+        
+        const scaleVal = isHovered ? 1.05 : 1.0;
+
+        avatarBob.style.transform = `perspective(800px) rotateX(${curRotX.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) translate3d(${driftX.toFixed(1)}px, ${driftY.toFixed(1)}px, 0) scale(${scaleVal})`;
+      }
+      requestAnimationFrame(tickTracking);
+    };
+
     window.addEventListener('scroll', updateHeroParallax, { passive: true });
     window.addEventListener('resize', updateHeroParallax);
 
-    // Brighten background radiance on avatar hover
+    // Hover listeners
     if (avatarBtn) {
-      avatarBtn.addEventListener('mouseenter', () => emojiLayer.classList.add('face-hover'));
-      avatarBtn.addEventListener('mouseleave', () => emojiLayer.classList.remove('face-hover'));
+      avatarBtn.addEventListener('mouseenter', () => {
+        emojiLayer.classList.add('face-hover');
+        isHovered = true;
+      });
+      avatarBtn.addEventListener('mouseleave', () => {
+        emojiLayer.classList.remove('face-hover');
+        isHovered = false;
+      });
     }
 
     updateHeroParallax();
+    tickTracking();
   }
 
   // 3. UNDULATING CANVAS GROW LINE
@@ -156,11 +210,16 @@
       const hFrac = headX / W;
       const margin = 0.02; // soft border sweep
 
-      if (tFrac > margin) grad.addColorStop(Math.max(0, tFrac - margin), 'rgba(94, 103, 230, 0.00)');
-      grad.addColorStop(Math.min(1, tFrac + margin), 'rgba(94, 103, 230, 0.7)');
-      grad.addColorStop(Math.min(1, tFrac + (hFrac - tFrac) * 0.5), 'rgba(158, 95, 230, 0.75)');
-      grad.addColorStop(Math.max(0, hFrac - margin), 'rgba(94, 103, 230, 0.7)');
-      if (hFrac < 1 - margin) grad.addColorStop(Math.min(1, hFrac + margin), 'rgba(94, 103, 230, 0.00)');
+      // Get dynamic accent colors from theme variables
+      const rootStyles = getComputedStyle(document.documentElement);
+      const accentColor1 = rootStyles.getPropertyValue('--accent').trim() || '#1a6fff';
+      const accentColor2 = rootStyles.getPropertyValue('--accent2').trim() || '#4f3fd9';
+
+      if (tFrac > margin) grad.addColorStop(Math.max(0, tFrac - margin), 'rgba(0, 0, 0, 0)');
+      grad.addColorStop(Math.min(1, tFrac + margin), accentColor1);
+      grad.addColorStop(Math.min(1, tFrac + (hFrac - tFrac) * 0.5), accentColor2);
+      grad.addColorStop(Math.max(0, hFrac - margin), accentColor1);
+      if (hFrac < 1 - margin) grad.addColorStop(Math.min(1, hFrac + margin), 'rgba(0, 0, 0, 0)');
 
       const traceWave = () => {
         ctx.beginPath();
@@ -419,5 +478,67 @@
     // Fallback if not supported
     revealElements.forEach(el => el.classList.add('in'));
   }
+
+  // 7b. PEEKING AVATARS REVEAL
+  // Watch the .peeking-stage wrapper (it's not clipped by IntersectionObserver)
+  // and trigger .visible on the inner .peeking-avatar
+  const peekStages = document.querySelectorAll('.peeking-stage');
+  if ('IntersectionObserver' in window && peekStages.length > 0) {
+    const peekObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate the inner peeking avatar
+          const avatar = entry.target.querySelector('.reveal-peek');
+          if (avatar) avatar.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    peekStages.forEach(el => peekObserver.observe(el));
+  } else {
+    // Fallback
+    document.querySelectorAll('.reveal-peek').forEach(el => el.classList.add('visible'));
+  }
+
+  // 8. ACCENT COLOR PICKER
+  const pickers = document.querySelectorAll('.accent-picker');
+  const storedAccent = localStorage.getItem('accent') || 'blue';
+
+  const applyAccent = (accentName) => {
+    if (accentName === 'blue') {
+      document.documentElement.removeAttribute('data-accent');
+    } else {
+      document.documentElement.setAttribute('data-accent', accentName);
+    }
+    localStorage.setItem('accent', accentName);
+
+    // Update active states
+    pickers.forEach(picker => {
+      picker.querySelectorAll('.accent-dot').forEach(dot => {
+        if (dot.dataset.accent === accentName) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    });
+  };
+
+  // Init color accent
+  applyAccent(storedAccent);
+
+  // Click handlers
+  pickers.forEach(picker => {
+    picker.addEventListener('click', (e) => {
+      const dot = e.target.closest('.accent-dot');
+      if (dot) {
+        applyAccent(dot.dataset.accent);
+      }
+    });
+  });
 
 })();
