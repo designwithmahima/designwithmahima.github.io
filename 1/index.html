@@ -31,16 +31,32 @@
       <a href="#hero-section" class="nav-logo" id="nav-logo-link">
         MAHIMA<span>.G</span>
       </a>
-      <div class="nav-links" id="nav-links">
-        <a href="#work" id="nav-work-link">Work</a>
-        <a href="#about" id="nav-about-link">About</a>
-        <a href="#insights" id="nav-insights-link">Insights</a>
-        <a href="assets/mahima_gupta_resume.pdf" target="_blank" download id="nav-resume-link">Resume</a>
-        <a href="#contact" class="open-contact-trigger" id="nav-contact-link">Contact</a>
+      <div class="nav-right">
+        <div class="accent-picker" id="nav-accent-picker" title="Change accent color">
+          <button class="accent-dot active" data-accent="blue" style="background: #1a6fff;" aria-label="Blue Accent"></button>
+          <button class="accent-dot" data-accent="violet" style="background: #8b5cf6;" aria-label="Violet Accent"></button>
+          <button class="accent-dot" data-accent="emerald" style="background: #10b981;" aria-label="Emerald Accent"></button>
+          <button class="accent-dot" data-accent="rose" style="background: #f43f5e;" aria-label="Rose Accent"></button>
+          <button class="accent-dot" data-accent="amber" style="background: #f59e0b;" aria-label="Amber Accent"></button>
+        </div>
+
+        <div class="nav-links" id="nav-links">
+          <a href="#work" id="nav-work-link">Work</a>
+          <a href="#about" id="nav-about-link">About</a>
+          <a href="#insights" id="nav-insights-link">Insights</a>
+          <a href="assets/mahima_gupta_resume.pdf" target="_blank" download id="nav-resume-link">Resume</a>
+          <a href="#contact" class="open-contact-trigger" id="nav-contact-link">Contact</a>
+        </div>
+        
+        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"></line></svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </nav>
 
@@ -51,6 +67,17 @@
     <a href="#insights" class="mobile-menu-item" id="mob-insights-link">Insights</a>
     <a href="assets/mahima_gupta_resume.pdf" target="_blank" download id="mob-resume-link">Resume</a>
     <a href="#contact" class="mobile-menu-item open-contact-trigger" id="mob-contact-link">Contact</a>
+    
+    <div class="mobile-picker-wrap">
+      <span class="mobile-picker-label">Choose Accent Color</span>
+      <div class="accent-picker" id="mob-accent-picker">
+        <button class="accent-dot active" data-accent="blue" style="background: #1a6fff;" aria-label="Blue Accent"></button>
+        <button class="accent-dot" data-accent="violet" style="background: #8b5cf6;" aria-label="Violet Accent"></button>
+        <button class="accent-dot" data-accent="emerald" style="background: #10b981;" aria-label="Emerald Accent"></button>
+        <button class="accent-dot" data-accent="rose" style="background: #f43f5e;" aria-label="Rose Accent"></button>
+        <button class="accent-dot" data-accent="amber" style="background: #f59e0b;" aria-label="Amber Accent"></button>
+      </div>
+    </div>
   </div>
 
   <!-- Fixed Canvas for Grow Line Neon Sweep -->
@@ -70,7 +97,7 @@
     <div class="hero-emoji-layer" id="hero-emoji-layer" aria-hidden="true">
       <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
         <div class="avatar-bob">
-          <img src="assets/images/me-cloud.png" alt="Mahima Gupta Avatar" draggable="false">
+          <img src="assets/images/me-clean.png" alt="Mahima Gupta Avatar" draggable="false">
         </div>
       </a>
       <!-- Floating Emojis (blur on scroll) -->
@@ -105,63 +132,19 @@
         <div class="hero-logos-label">Designed digital experiences for</div>
         <div class="logo-strip">
           <div class="logo-item" title="Bikanervala">
-            <svg class="logo-svg" viewBox="0 0 160 35" width="160" height="35" xmlns="http://www.w3.org/2000/svg">
-              <g fill="#e28704">
-                <path d="M15 8 C11 8, 8 11, 8 15 C8 19, 11 22, 15 22 C19 22, 22 19, 22 15 C22 11, 19 8, 15 8 Z M15 10 C17.8 10, 20 12.2, 20 15 C20 17.8, 17.8 20, 15 20 C12.2 20, 10 17.8, 10 15 C10 12.2, 12.2 10, 15 10 Z"/>
-                <circle cx="15" cy="15" r="2.5"/>
-                <circle cx="15" cy="5" r="1.5"/>
-                <circle cx="15" cy="25" r="1.5"/>
-                <circle cx="5" cy="15" r="1.5"/>
-                <circle cx="25" cy="15" r="1.5"/>
-              </g>
-              <text x="36" y="21" font-family="'Plus Jakarta Sans', 'Sora', sans-serif" font-weight="800" font-size="12" letter-spacing="0.04em" fill="#b91c1c">BIKANERVALA</text>
-            </svg>
+            <img src="assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
           </div>
           <div class="logo-item" title="Green Park Hotels">
-            <svg class="logo-svg" viewBox="0 0 160 35" width="160" height="35" xmlns="http://www.w3.org/2000/svg">
-              <g fill="none" stroke="#047857" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 25 C6 15, 15 10, 21 8 C19 14, 15 24, 6 25 Z" fill="#e6f4ea"/>
-                <path d="M6 25 C11 21, 17 16, 21 8"/>
-              </g>
-              <text x="32" y="16" font-family="'Outfit', 'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="10.5" letter-spacing="0.06em" fill="#1e293b">GREEN PARK</text>
-              <text x="32" y="25" font-family="'Outfit', 'Plus Jakarta Sans', sans-serif" font-weight="500" font-size="6.5" letter-spacing="0.12em" fill="#64748b">HOTELS & RESORTS</text>
-            </svg>
+            <img src="assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
           </div>
           <div class="logo-item" title="Moxy Hotels by Marriott">
-            <svg class="logo-svg" viewBox="0 0 140 35" width="140" height="35" xmlns="http://www.w3.org/2000/svg">
-              <text x="5" y="24" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-style="italic" font-size="22" letter-spacing="-0.06em" fill="#e3007b">moxy</text>
-              <text x="76" y="22" font-family="'Inter', sans-serif" font-weight="700" font-size="8" letter-spacing="0.18em" fill="#1e293b">HOTELS</text>
-            </svg>
+            <img src="assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
           </div>
           <div class="logo-item" title="Dabur">
-            <svg class="logo-svg" viewBox="0 0 120 35" width="120" height="35" xmlns="http://www.w3.org/2000/svg">
-              <g fill="#15803d">
-                <path d="M12 25 L14 25 L14 20 C14 18, 16 16, 17 15 L17 14 L15 14 L15 16 C14 17, 13 18, 12 18 L12 25 Z" fill="#78350f"/>
-                <path d="M14 25 L16 25 L16 19 C16 17, 19 14, 21 13 L21 11 L19 11 L17 13 C16 14, 15 16, 14 19 L14 25 Z" fill="#78350f"/>
-                <circle cx="10" cy="12" r="4.5"/>
-                <circle cx="16" cy="9" r="5.5"/>
-                <circle cx="22" cy="11" r="4.5"/>
-                <circle cx="13" cy="15" r="3.5"/>
-                <circle cx="19" cy="14" r="3.5"/>
-              </g>
-              <text x="34" y="22" font-family="'Georgia', serif" font-weight="700" font-size="14" fill="#b91c1c">Dabur</text>
-            </svg>
+            <img src="assets/images/dabur-logo.png" alt="Dabur Logo">
           </div>
           <div class="logo-item" title="India Gate Basmati">
-            <svg class="logo-svg" viewBox="0 0 150 35" width="150" height="35" xmlns="http://www.w3.org/2000/svg">
-              <g stroke-linejoin="round" stroke-linecap="round">
-                <line x1="5" y1="28" x2="25" y2="28" stroke="#b21f24" stroke-width="1.8"/>
-                <line x1="7" y1="25" x2="23" y2="25" stroke="#b21f24" stroke-width="1.2"/>
-                <rect x="9" y="15" width="3" height="10" fill="#b21f24"/>
-                <rect x="18" y="15" width="3" height="10" fill="#b21f24"/>
-                <path d="M12 25 L12 17 C12 15, 18 15, 18 17 L18 25" fill="none" stroke="#b21f24" stroke-width="1.2"/>
-                <rect x="8" y="13" width="14" height="2" fill="#c5a823"/>
-                <path d="M10 13 C10 9, 20 9, 20 13 Z" fill="#c5a823"/>
-                <line x1="15" y1="9" x2="15" y2="6" stroke="#c5a823" stroke-width="1.2"/>
-              </g>
-              <text x="32" y="17" font-family="'Plus Jakarta Sans', 'Sora', sans-serif" font-weight="800" font-size="10" letter-spacing="0.05em" fill="#1e293b">INDIA GATE</text>
-              <text x="32" y="26" font-family="'Plus Jakarta Sans', 'Sora', sans-serif" font-weight="600" font-size="6.5" letter-spacing="0.1em" fill="#64748b">PREMIUM BASMATI</text>
-            </svg>
+            <img src="assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
           </div>
         </div>
       </div>
@@ -383,7 +366,7 @@
   </section>
 
   <!-- Insights / Blog Section -->
-  <section id="insights" class="sec-about" style="background: rgba(228, 233, 250, 0.18);">
+  <section id="insights" class="sec-about">
     <div class="section-wrap">
       <div class="section-label">Insights & Ideas</div>
       <div class="insights-grid">

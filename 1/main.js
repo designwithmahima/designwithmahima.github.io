@@ -156,11 +156,16 @@
       const hFrac = headX / W;
       const margin = 0.02; // soft border sweep
 
-      if (tFrac > margin) grad.addColorStop(Math.max(0, tFrac - margin), 'rgba(94, 103, 230, 0.00)');
-      grad.addColorStop(Math.min(1, tFrac + margin), 'rgba(94, 103, 230, 0.7)');
-      grad.addColorStop(Math.min(1, tFrac + (hFrac - tFrac) * 0.5), 'rgba(158, 95, 230, 0.75)');
-      grad.addColorStop(Math.max(0, hFrac - margin), 'rgba(94, 103, 230, 0.7)');
-      if (hFrac < 1 - margin) grad.addColorStop(Math.min(1, hFrac + margin), 'rgba(94, 103, 230, 0.00)');
+      // Get dynamic accent colors from theme variables
+      const rootStyles = getComputedStyle(document.documentElement);
+      const accentColor1 = rootStyles.getPropertyValue('--accent').trim() || '#1a6fff';
+      const accentColor2 = rootStyles.getPropertyValue('--accent2').trim() || '#4f3fd9';
+
+      if (tFrac > margin) grad.addColorStop(Math.max(0, tFrac - margin), 'rgba(0, 0, 0, 0)');
+      grad.addColorStop(Math.min(1, tFrac + margin), accentColor1);
+      grad.addColorStop(Math.min(1, tFrac + (hFrac - tFrac) * 0.5), accentColor2);
+      grad.addColorStop(Math.max(0, hFrac - margin), accentColor1);
+      if (hFrac < 1 - margin) grad.addColorStop(Math.min(1, hFrac + margin), 'rgba(0, 0, 0, 0)');
 
       const traceWave = () => {
         ctx.beginPath();
@@ -419,5 +424,67 @@
     // Fallback if not supported
     revealElements.forEach(el => el.classList.add('in'));
   }
+
+  // 8. THEME TOGGLER (DARK / LIGHT MODE)
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const activeTheme = localStorage.getItem('theme');
+
+  const setTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  };
+
+  // Initial check
+  if (activeTheme) {
+    setTheme(activeTheme);
+  } else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    });
+  }
+
+  // 9. ACCENT COLOR PICKER
+  const pickers = document.querySelectorAll('.accent-picker');
+  const storedAccent = localStorage.getItem('accent') || 'blue';
+
+  const applyAccent = (accentName) => {
+    if (accentName === 'blue') {
+      document.documentElement.removeAttribute('data-accent');
+    } else {
+      document.documentElement.setAttribute('data-accent', accentName);
+    }
+    localStorage.setItem('accent', accentName);
+
+    // Update active states
+    pickers.forEach(picker => {
+      picker.querySelectorAll('.accent-dot').forEach(dot => {
+        if (dot.dataset.accent === accentName) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    });
+  };
+
+  // Init color accent
+  applyAccent(storedAccent);
+
+  // Click handlers
+  pickers.forEach(picker => {
+    picker.addEventListener('click', (e) => {
+      const dot = e.target.closest('.accent-dot');
+      if (dot) {
+        applyAccent(dot.dataset.accent);
+      }
+    });
+  });
 
 })();
