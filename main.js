@@ -522,12 +522,46 @@
   // Init color accent
   applyAccent(storedAccent);
 
+  const splashOverlay = document.getElementById('color-splash-overlay');
+  const accentColors = {
+    blue: '#1a6fff',
+    violet: '#8b5cf6',
+    emerald: '#10b981',
+    rose: '#f43f5e',
+    amber: '#f59e0b'
+  };
+
   // Click handlers
   pickers.forEach(picker => {
     picker.addEventListener('click', (e) => {
       const dot = e.target.closest('.accent-dot');
       if (dot) {
-        applyAccent(dot.dataset.accent);
+        // Prevent redundant splash if the same color is clicked
+        if (dot.classList.contains('active')) return;
+
+        const accentName = dot.dataset.accent;
+
+        if (splashOverlay) {
+          // Find origin point
+          const rect = dot.getBoundingClientRect();
+          const originX = rect.left + rect.width / 2;
+          const originY = rect.top + rect.height / 2;
+          const color = accentColors[accentName] || '#1a6fff';
+
+          splashOverlay.style.setProperty('--origin-x', `${originX}px`);
+          splashOverlay.style.setProperty('--origin-y', `${originY}px`);
+          splashOverlay.style.setProperty('--splash-color', color);
+          splashOverlay.style.setProperty('--splash-rot', `${Math.floor(Math.random() * 360)}deg`);
+
+          splashOverlay.classList.remove('splashing');
+          void splashOverlay.offsetWidth; // Force a browser reflow to reset animation
+          splashOverlay.classList.add('splashing');
+
+          // Apply the theme midway through the splash animation
+          setTimeout(() => applyAccent(accentName), 400);
+        } else {
+          applyAccent(accentName);
+        }
       }
     });
   });
