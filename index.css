@@ -858,7 +858,6 @@ nav {
   grid-column: 1;
   align-self: center;
   max-width: 620px;
-  position: relative;
   z-index: 12;
 }
 
@@ -1023,11 +1022,21 @@ nav {
 }
 
 .logo-strip {
+  width: 100%;
+  overflow: hidden;
+}
+
+.logo-track {
   display: flex;
   gap: 0.8rem 2.2rem;
   align-items: center;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+
+/* Hide duplicate logos on desktop layout */
+.logo-item.duplicate {
+  display: none;
 }
 
 @keyframes heroRubberBand {
@@ -2024,9 +2033,12 @@ footer span {
   }
 
   .hero-face {
-    bottom: 11.5rem;
-    left: 50%;
-    width: clamp(230px, 55vw, 290px);
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: clamp(160px, 42vw, 220px);
+    margin: 1.5rem auto 2.5rem;
     filter: drop-shadow(0 12px 28px rgba(26, 111, 255, 0.18)) contrast(1.03);
   }
 
@@ -2040,7 +2052,7 @@ footer span {
 
   .hero-logos {
     margin-top: auto;
-    padding-top: 32rem;
+    padding-top: 2rem;
   }
 
   .hero-logos-label {
@@ -2048,7 +2060,34 @@ footer span {
   }
 
   .logo-strip {
-    justify-content: center;
+    padding: 0.5rem 0 1rem 0;
+    margin: 0 calc(-1 * var(--pad));
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .logo-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .logo-track {
+    flex-wrap: nowrap;
+    gap: 2.5rem;
+    width: max-content;
+    animation: mobileMarquee 15s linear infinite;
+  }
+
+  .logo-item.duplicate {
+    display: flex;
+  }
+
+  .logo-item {
+    flex-shrink: 0;
+  }
+
+  @keyframes mobileMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 1.25rem)); }
   }
 
   .fe {

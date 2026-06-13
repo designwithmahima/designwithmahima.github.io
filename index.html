@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mahima Gupta — Senior UI/UX Designer & Product Designer Portfolio</title>
   <meta name="description" content="Senior UI/UX Designer crafting intuitive, human-centered digital experiences for AI, robotics, and enterprise SaaS platforms.">
-  
+
   <!-- Preconnect and Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-  
+
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="index.css">
 </head>
@@ -47,7 +47,7 @@
           <a href="assets/mahima_gupta_resume.pdf" target="_blank" download id="nav-resume-link">Resume</a>
           <a href="#contact" class="open-contact-trigger" id="nav-contact-link">Contact</a>
         </div>
-        
+
         <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
           <span></span><span></span><span></span>
         </button>
@@ -62,7 +62,7 @@
     <a href="#insights" class="mobile-menu-item" id="mob-insights-link">Insights</a>
     <a href="assets/mahima_gupta_resume.pdf" target="_blank" download id="mob-resume-link">Resume</a>
     <a href="#contact" class="mobile-menu-item open-contact-trigger" id="mob-contact-link">Contact</a>
-    
+
     <div class="mobile-picker-wrap">
       <span class="mobile-picker-label">Choose Accent Color</span>
       <div class="accent-picker" id="mob-accent-picker">
@@ -90,14 +90,6 @@
     </div>
 
     <div class="hero-emoji-layer" id="hero-emoji-layer" aria-hidden="true">
-      <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
-        <div class="avatar-bob">
-          <video class="hero-avatar-video" autoplay muted loop playsinline poster="assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
-            <source src="assets/images/avatar-hero-Picsart-BackgroundRemover.webm" type="video/webm">
-          </video>
-        </div>
-      </a>
-      <!-- Cohesive product-design badges (blur and drift by depth) -->
       <img class="fe fe-1 far" src="assets/images/hero-icons/cursor.png" alt="">
       <img class="fe fe-2 near" src="assets/images/hero-icons/wireframe.png" alt="">
       <img class="fe fe-3 mid" src="assets/images/hero-icons/layers.png" alt="">
@@ -120,6 +112,14 @@
         </h1>
         <p class="hero-sub" id="hero-sub-text">I turn complex AI, robotics, SaaS, and voice-product workflows into clear digital experiences that people understand and enjoy using.</p>
 
+        <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
+          <div class="avatar-bob">
+            <video class="hero-avatar-video" autoplay muted loop playsinline poster="assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
+              <source src="assets/images/avatar-hero-Picsart-BackgroundRemover.webm" type="video/webm">
+            </video>
+          </div>
+        </a>
+
         <div class="hero-actions" id="hero-actions-container">
           <a href="#work" class="btn-primary" id="hero-cta-primary">Explore My Work <span aria-hidden="true">→</span></a>
           <a href="assets/mahima_gupta_resume.pdf" target="_blank" download class="btn-secondary" id="hero-cta-secondary">Download Resume</a>
@@ -136,20 +136,38 @@
       <div class="hero-logos" id="hero-logos-strip">
         <div class="hero-logos-label">Designed digital experiences for</div>
         <div class="logo-strip">
-          <div class="logo-item" title="Bikanervala">
-            <img src="assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
-          </div>
-          <div class="logo-item" title="Green Park Hotels">
-            <img src="assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
-          </div>
-          <div class="logo-item" title="Moxy Hotels by Marriott">
-            <img src="assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
-          </div>
-          <div class="logo-item" title="Dabur">
-            <img src="assets/images/dabur-logo.png" alt="Dabur Logo">
-          </div>
-          <div class="logo-item" title="India Gate Basmati">
-            <img src="assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
+          <div class="logo-track">
+            <div class="logo-item" title="Bikanervala">
+              <img src="assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
+            </div>
+            <div class="logo-item" title="Green Park Hotels">
+              <img src="assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
+            </div>
+            <div class="logo-item" title="Moxy Hotels by Marriott">
+              <img src="assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
+            </div>
+            <div class="logo-item" title="Dabur">
+              <img src="assets/images/dabur-logo.png" alt="Dabur Logo">
+            </div>
+            <div class="logo-item" title="India Gate Basmati">
+              <img src="assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
+            </div>
+            <!-- Duplicated set for seamless mobile marquee -->
+            <div class="logo-item duplicate" aria-hidden="true" title="Bikanervala">
+              <img src="assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
+            </div>
+            <div class="logo-item duplicate" aria-hidden="true" title="Green Park Hotels">
+              <img src="assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
+            </div>
+            <div class="logo-item duplicate" aria-hidden="true" title="Moxy Hotels by Marriott">
+              <img src="assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
+            </div>
+            <div class="logo-item duplicate" aria-hidden="true" title="Dabur">
+              <img src="assets/images/dabur-logo.png" alt="Dabur Logo">
+            </div>
+            <div class="logo-item duplicate" aria-hidden="true" title="India Gate Basmati">
+              <img src="assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
+            </div>
           </div>
         </div>
       </div>
@@ -453,10 +471,10 @@
       <div class="pw-icon" aria-hidden="true">🔒</div>
       <h4 class="pw-title" id="pw-title-text">Protected Case Study</h4>
       <p class="pw-sub">This case study contains confidential business information. Enter the password to unlock.</p>
-      
+
       <input type="password" class="pw-input" id="pw-input-field" placeholder="Enter password" autocomplete="off" aria-label="Password input">
       <div class="pw-error" id="pw-error-msg">Incorrect password. Enter 'mgupta' to try.</div>
-      
+
       <button class="pw-submit" id="pw-submit-btn">Unlock &amp; View &rarr;</button>
     </div>
   </div>
@@ -465,12 +483,12 @@
   <div class="modal-overlay" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title-text">
     <div class="contact-card">
       <button class="contact-close" id="contact-close-btn" aria-label="Close modal">&times;</button>
-      
+
       <div id="contact-form-container">
         <div class="contact-eyebrow">Get in touch</div>
         <h4 class="contact-title" id="contact-title-text">Let's build something great.</h4>
         <p class="contact-sub">Fill out the form below and I will respond to your inquiry as soon as possible.</p>
-        
+
         <form class="contact-form" id="contact-mail-form" action="https://formspree.io/f/mpqoyagn" method="POST">
           <div class="contact-row">
             <div class="contact-field">
