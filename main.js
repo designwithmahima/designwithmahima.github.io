@@ -5,7 +5,7 @@
 
   // 1. CUSTOM CURSOR
   const cursor = document.getElementById('cursor');
-  const interactives = 'a, button, .hero-face, .project-card, .insight-card, .hamburger, .pw-close, .contact-close';
+  const interactives = 'a, button, .hero-face, .project-card, .insight-card, .hamburger, .contact-close';
 
   if (cursor) {
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
@@ -391,86 +391,6 @@
     });
   }
 
-  // 5. PASSWORD PROTECTED STUDIES
-  const pwOverlay = document.getElementById('pw-overlay');
-  const pwInputField = document.getElementById('pw-input-field');
-  const pwSubmitBtn = document.getElementById('pw-submit-btn');
-  const pwCloseBtn = document.getElementById('pw-close-btn');
-  const pwErrorMsg = document.getElementById('pw-error-msg');
-  const SESSION_KEY = 'mgupta_unlocked';
-  let targetURL = '';
-
-  const openUnlockModal = (url) => {
-    targetURL = url;
-    pwInputField.value = '';
-    pwErrorMsg.style.display = 'none';
-    pwInputField.style.borderColor = '';
-    pwInputField.style.boxShadow = '';
-    pwOverlay.classList.add('active');
-    setTimeout(() => pwInputField.focus(), 100);
-  };
-
-  const closeUnlockModal = () => {
-    pwOverlay.classList.remove('active');
-  };
-
-  const triggerVerification = () => {
-    const code = pwInputField.value.trim().toLowerCase();
-
-    // Check password 'mgupta'
-    if (code === 'mgupta') {
-      sessionStorage.setItem(SESSION_KEY, '1');
-      closeUnlockModal();
-      window.open(targetURL, '_blank');
-    } else {
-      pwErrorMsg.style.display = 'block';
-      pwInputField.style.borderColor = '#d93838';
-      pwInputField.style.boxShadow = '0 0 0 3px rgba(217, 56, 56, 0.15)';
-
-      // Quick shake effect
-      pwInputField.animate([
-        { transform: 'translateX(0px)' },
-        { transform: 'translateX(-6px)' },
-        { transform: 'translateX(6px)' },
-        { transform: 'translateX(-6px)' },
-        { transform: 'translateX(6px)' },
-        { transform: 'translateX(0px)' }
-      ], {
-        duration: 350,
-        easing: 'ease-in-out'
-      });
-    }
-  };
-
-  // Bind password clicks
-  document.querySelectorAll('[data-pw="true"]').forEach(card => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      const url = card.getAttribute('href');
-
-      // If already unlocked, open direct URL
-      if (sessionStorage.getItem(SESSION_KEY) === '1') {
-        window.open(url, '_blank');
-      } else {
-        openUnlockModal(url);
-      }
-    });
-  });
-
-  if (pwCloseBtn) pwCloseBtn.addEventListener('click', closeUnlockModal);
-  if (pwOverlay) {
-    pwOverlay.addEventListener('click', (e) => {
-      if (e.target === pwOverlay) closeUnlockModal();
-    });
-  }
-
-  if (pwSubmitBtn) pwSubmitBtn.addEventListener('click', triggerVerification);
-  if (pwInputField) {
-    pwInputField.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') triggerVerification();
-    });
-  }
-
   // 6. CONTACT MODAL & FORM SUBMISSION
   const contactModal = document.getElementById('contact-modal');
   const contactCloseBtn = document.getElementById('contact-close-btn');
@@ -506,7 +426,6 @@
   // ESC key handler for modals
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      closeUnlockModal();
       closeContact();
     }
   });
