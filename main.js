@@ -169,7 +169,7 @@
     tickTracking();
   }
 
-  // 3. UNDULATING CANVAS GROW LINE
+  // 3. SCROLL-DRAWN SIGNATURE
   const canvas = document.getElementById('grow-line-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -182,21 +182,6 @@
     };
     window.addEventListener('resize', resizeCanvas);
 
-    // Dynamic wave coordinate list generator
-    const generateWavePoints = () => {
-      const points = [];
-      const density = 100;
-      for (let i = 0; i <= density; i++) {
-        const t = i / density;
-        const x = t * W;
-        const y = H * (0.45 
-                  + Math.sin(t * Math.PI * 2.8) * 0.08 
-                  + Math.sin(t * Math.PI * 5.2 + 0.8) * 0.03);
-        points.push({ x, y });
-      }
-      return points;
-    };
-
     let headProgress = 0;
     let tailProgress = 0;
 
@@ -204,82 +189,49 @@
       ctx.clearRect(0, 0, W, H);
       if (headProgress <= 0 && tailProgress <= 0) return;
 
-      const headX = Math.min(headProgress * W * 1.08, W);
-      const tailX = Math.max(0, tailProgress * W * 1.14 - W * 0.08);
+      const fontSize = Math.min(W * 0.34, H * 0.52, 360);
+      const signature = 'Mahima';
+      const font = `italic ${fontSize}px "Brush Script MT", "Segoe Script", cursive`;
+      ctx.font = font;
+      const textWidth = ctx.measureText(signature).width;
+      const startX = (W - textWidth) / 2;
+      const baselineY = H * 0.61;
+      const revealPadding = fontSize * 0.16;
+      const revealWidth = textWidth + revealPadding * 2;
+      const headX = startX - revealPadding + headProgress * revealWidth;
+      const tailX = startX - revealPadding + tailProgress * revealWidth;
 
       if (headX - tailX < 2) return;
 
-      const points = generateWavePoints();
-      const grad = ctx.createLinearGradient(0, 0, W, 0);
-
-      const tFrac = tailX / W;
-      const hFrac = headX / W;
-      const margin = 0.02; // soft border sweep
-
-      // Get dynamic accent colors from theme variables
       const rootStyles = getComputedStyle(document.documentElement);
       const accentColor1 = rootStyles.getPropertyValue('--accent').trim() || '#1a6fff';
       const accentColor2 = rootStyles.getPropertyValue('--accent2').trim() || '#4f3fd9';
-
-      if (tFrac > margin) grad.addColorStop(Math.max(0, tFrac - margin), 'rgba(0, 0, 0, 0)');
-      grad.addColorStop(Math.min(1, tFrac + margin), accentColor1);
-      grad.addColorStop(Math.min(1, tFrac + (hFrac - tFrac) * 0.5), accentColor2);
-      grad.addColorStop(Math.max(0, hFrac - margin), accentColor1);
-      if (hFrac < 1 - margin) grad.addColorStop(Math.min(1, hFrac + margin), 'rgba(0, 0, 0, 0)');
-
-      const traceWave = () => {
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          const mx = (points[i-1].x + points[i].x) / 2;
-          const my = (points[i-1].y + points[i].y) / 2;
-          ctx.quadraticCurveTo(points[i-1].x, points[i-1].y, mx, my);
-        }
-      };
+      const grad = ctx.createLinearGradient(startX, 0, startX + textWidth, 0);
+      grad.addColorStop(0, accentColor1);
+      grad.addColorStop(0.52, accentColor2);
+      grad.addColorStop(1, accentColor1);
 
       ctx.save();
-      
-      // Soft UI signal rail rather than a heavy decorative wave.
-      ctx.filter = 'blur(16px)';
-      ctx.globalAlpha = 0.14;
-      traceWave();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 30;
-      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.rect(tailX, 0, headX - tailX, H);
+      ctx.clip();
+
+      ctx.font = font;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
       ctx.lineJoin = 'round';
-      ctx.stroke();
 
-      [-14, 0, 14].forEach((offset, index) => {
-        ctx.save();
-        ctx.translate(0, offset);
-        ctx.filter = 'none';
-        ctx.globalAlpha = index === 1 ? 0.62 : 0.25;
-        traceWave();
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = index === 1 ? 3 : 1;
-        ctx.stroke();
-        ctx.restore();
-      });
+      ctx.filter = 'blur(12px)';
+      ctx.globalAlpha = 0.16;
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = Math.max(7, fontSize * 0.035);
+      ctx.strokeText(signature, startX, baselineY);
 
-      // Interface nodes make the animated rail feel like a product-system map.
-      const nodeIndexes = [18, 42, 68, 88];
-      nodeIndexes.forEach((pointIndex, index) => {
-        const point = points[pointIndex];
-        if (!point || point.x < tailX || point.x > headX) return;
-
-        ctx.beginPath();
-        ctx.globalAlpha = 0.9;
-        ctx.fillStyle = index % 2 === 0 ? accentColor1 : accentColor2;
-        ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.globalAlpha = 0.28;
-        ctx.strokeStyle = index % 2 === 0 ? accentColor1 : accentColor2;
-        ctx.lineWidth = 1;
-        ctx.arc(point.x, point.y, 12, 0, Math.PI * 2);
-        ctx.stroke();
-      });
+      ctx.filter = 'none';
+      ctx.globalAlpha = 0.46;
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = Math.max(2, fontSize * 0.012);
+      ctx.strokeText(signature, startX, baselineY);
 
       ctx.restore();
     };
