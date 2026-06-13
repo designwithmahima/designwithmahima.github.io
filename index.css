@@ -453,8 +453,12 @@ nav {
 }
 
 .vcard-line span {
-  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
   flex-shrink: 0;
+  color: var(--accent);
 }
 
 
@@ -1458,6 +1462,7 @@ nav {
   font-size: 1.6rem;
   margin-bottom: 0.9rem;
   line-height: 1;
+  color: var(--accent);
 }
 
 .about-card-title {
@@ -1776,6 +1781,7 @@ footer span {
   justify-content: center;
   font-size: 1.3rem;
   margin: 0 auto 1.2rem;
+  color: var(--accent);
 }
 
 .pw-title {
