@@ -295,13 +295,13 @@ nav {
   justify-content: center;
   align-items: flex-end;
   position: relative;
-  flex: 0 0 clamp(110px, 12vw, 155px);
+  flex: 0 0 clamp(120px, 13vw, 165px);
   z-index: 2;
-  margin-right: -34px;
+  margin-left: -34px;
 }
 
 .about-peek img {
-  width: clamp(140px, 15vw, 190px);
+  width: clamp(145px, 16vw, 205px);
   height: auto;
   display: block;
   filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.10));
@@ -311,30 +311,6 @@ nav {
 
 .about-peek:hover img {
   transform: scale(1.06) translateY(-8px) rotate(-3deg);
-}
-
-.about-peek-bubble {
-  position: absolute;
-  top: 6%;
-  left: 3%;
-  background: var(--white);
-  color: var(--ink);
-  border: 1.5px solid var(--border);
-  padding: 0.5rem 1rem;
-  border-radius: 14px 14px 0 14px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  white-space: nowrap;
-  opacity: 0;
-  transform: scale(0.9) translateY(8px);
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
-  pointer-events: none;
-}
-
-.about-peek:hover .about-peek-bubble {
-  opacity: 1;
-  transform: scale(1) translateY(0);
 }
 
 .about-card-presenter {
@@ -351,7 +327,7 @@ nav {
 .about-card-held {
   flex: 1;
   min-width: 0;
-  padding-left: 3.2rem;
+  padding-right: 3.2rem;
 }
 
 /* ============================================
@@ -1029,7 +1005,7 @@ nav {
   height: 52px;
 }
 .logo-item[title="India Gate Basmati"] img {
-  height: 54px;
+  height: 70px;
 }
 
 @keyframes fadeUp {
@@ -1981,22 +1957,20 @@ footer span {
 
   .about-card-presenter {
     width: 100%;
-    flex-direction: row-reverse;
   }
 
   .about-peek {
-    flex-basis: 105px;
-    margin-right: 0;
-    margin-left: -28px;
+    flex-basis: 112px;
+    margin-left: -30px;
   }
 
   .about-peek img {
-    width: 135px;
+    width: 145px;
   }
 
   .about-card-held {
     padding-left: 1.6rem;
-    padding-right: 2.6rem;
+    padding-right: 2.8rem;
   }
   
   /* Stack insights section grid */
