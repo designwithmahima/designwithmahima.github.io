@@ -117,6 +117,32 @@
     updateHeroParallax();
   }
 
+  // 2b. HERO VIDEO SOUND TOGGLE
+  const soundToggleBtn = document.getElementById('hero-sound-toggle');
+  const heroVideo = document.querySelector('.hero-avatar-video');
+
+  if (soundToggleBtn && heroVideo) {
+    soundToggleBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent navigating to #work link
+      e.stopPropagation();
+
+      heroVideo.muted = !heroVideo.muted;
+
+      const offIcon = soundToggleBtn.querySelector('.sound-off');
+      const onIcon = soundToggleBtn.querySelector('.sound-on');
+
+      if (heroVideo.muted) {
+        offIcon.style.display = 'inline';
+        onIcon.style.display = 'none';
+      } else {
+        offIcon.style.display = 'none';
+        onIcon.style.display = 'inline';
+        // Ensure the video plays if paused
+        heroVideo.play().catch(() => {});
+      }
+    });
+  }
+
   // 3. SCROLL-DRAWN WAVEY LINE
   const canvas = document.getElementById('grow-line-canvas');
   if (canvas) {

@@ -742,6 +742,7 @@ nav {
   user-select: none;
   cursor: pointer;
   pointer-events: auto;
+  display: block;
   filter: drop-shadow(0 15px 35px rgba(26, 111, 255, 0.22)) contrast(1.02);
   transition: filter 0.5s ease;
 }
@@ -777,6 +778,31 @@ nav {
   object-fit: cover;
   object-position: center 15%;
   transform: scale(1.05);
+}
+
+.sound-toggle {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transition: background-color 0.2s, transform 0.2s var(--ease);
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.sound-toggle:hover {
+  background: var(--white);
+  transform: scale(1.1);
 }
 
 .hero-face::before {
