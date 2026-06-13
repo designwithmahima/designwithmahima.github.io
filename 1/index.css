@@ -440,15 +440,15 @@ nav {
 
 .hero-face {
   position: absolute;
-  bottom: -10px;
+  bottom: -15px;
   left: 50%;
   transform: translateX(-50%);
-  width: clamp(160px, 22vw, 250px);
+  width: clamp(220px, 28vw, 340px); /* Bigger avatar! */
   z-index: 4;
   user-select: none;
   cursor: pointer;
   pointer-events: auto;
-  filter: drop-shadow(0 12px 28px rgba(26, 111, 255, 0.15)) grayscale(1) contrast(1.02);
+  filter: drop-shadow(0 15px 35px rgba(26, 111, 255, 0.22)) contrast(1.02); /* Colored by default! */
   transition: filter 0.5s ease; /* No transform transition here to avoid JS scroll conflicts */
 }
 
@@ -473,7 +473,7 @@ nav {
 }
 
 .hero-face:hover {
-  filter: drop-shadow(0 18px 35px rgba(26, 111, 255, 0.28)) grayscale(0) contrast(1.0);
+  filter: drop-shadow(0 22px 45px rgba(26, 111, 255, 0.35));
 }
 
 .hero-face:hover .avatar-bob {
@@ -646,7 +646,7 @@ nav {
 
 .logo-strip {
   display: flex;
-  gap: 2.5rem;
+  gap: 3.2rem; /* Wider gap for larger logos */
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
@@ -656,21 +656,18 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink3);
-  opacity: 0.35;
-  transition: opacity 0.35s var(--ease), color 0.35s var(--ease), transform 0.35s var(--ease);
+  opacity: 0.8; /* Higher base opacity for full color prominence */
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
 
 .logo-item:hover {
-  opacity: 0.95;
-  color: var(--accent);
-  transform: translateY(-2px);
+  opacity: 1;
+  transform: translateY(-3px) scale(1.04);
 }
 
 .logo-item svg {
-  height: 25px;
+  height: 38px; /* Larger client logos! */
   width: auto;
-  fill: currentColor;
   display: block;
 }
 
