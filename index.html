@@ -9,7 +9,7 @@
   <!-- Preconnect and Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="index.css">
@@ -69,7 +69,9 @@
 
     <div class="hero-emoji-layer" id="hero-emoji-layer" aria-hidden="true">
       <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
-        <img src="assets/images/me-cloud.png" alt="Mahima Gupta Avatar" draggable="false">
+        <div class="avatar-bob">
+          <img src="assets/images/me-cloud.png" alt="Mahima Gupta Avatar" draggable="false">
+        </div>
       </a>
       <!-- Floating Emojis (blur on scroll) -->
       <span class="fe fe-1 far" id="emoji-rainbow">🌈</span>
@@ -118,22 +120,79 @@
       <div class="section-label">Featured Work</div>
       <div class="projects-list">
 
-        <!-- Project 1: HeyAlpha Touch + Touchless UI -->
-        <a href="#heyalpha-details" class="project-card reveal" data-pw="true" id="proj-card-heyalpha">
+        <!-- Project 1: Get ready in 3 second -->
+        <a href="https://www.behance.net/gallery/248535429/Get-ready-in-3-second" target="_blank" class="project-card reveal" id="proj-card-getready">
+          <div class="card-arrow"></div>
+          <div class="card-image">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/674a28248535429.69f35e7e7ecdd.png" alt="Get ready in 3 second - Self-Checkout Kiosk" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-company">Retail IoT &bull; Smart Cart System</div>
+            <div class="card-tags">
+              <span class="tag">IoT Screen</span>
+              <span class="tag">Self-Checkout</span>
+              <span class="tag">Figma</span>
+            </div>
+            <h3 class="card-title">Get Ready in 3 Seconds: Rapid Self-Checkout Kiosk</h3>
+            <p class="card-desc">Designed a modern supermarket checkout concept that trims payment and scanning cycles down to 3 seconds using real-time cart lists, visual budget rings, and immediate checkout gates.</p>
+            <div class="card-metrics">
+              <div class="metric">
+                <span class="metric-num">85%</span>
+                <span class="metric-label">Satisfaction Score</span>
+              </div>
+              <div class="metric">
+                <span class="metric-num">3s</span>
+                <span class="metric-label">Checkout Time</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 2: food order through voice -->
+        <a href="https://www.behance.net/gallery/244217839/food-order-through-voice" class="project-card reveal" data-pw="true" id="proj-card-foodvoice">
           <div class="lock-badge" title="Protected study">🔒</div>
           <div class="card-arrow"></div>
           <div class="card-image">
-            <img src="assets/images/heyalpha-healthcare.png" alt="HeyAlpha Healthcare Solution Touchless UI" loading="lazy">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/21036d244217839.Y3JvcCw3NzM3LDYwNTIsMCww.png" alt="food order through voice - VUI helper" loading="lazy">
           </div>
           <div class="card-body">
-            <div class="card-company">Alphadroid &bull; VUI & Conversational AI</div>
+            <div class="card-company">HeyAlpha &bull; Hospitality AI Voice UI</div>
             <div class="card-tags">
-              <span class="tag">AI Platform</span>
               <span class="tag">Voice UI (VUI)</span>
-              <span class="tag">Healthcare</span>
+              <span class="tag">Conversational AI</span>
+              <span class="tag">QR Web App</span>
             </div>
-            <h3 class="card-title">HeyAlpha: Multimodal Conversational UI for Hospitals</h3>
-            <p class="card-desc">Redesigned post-pandemic check-in kiosk interfaces to combine physical touch screens with multimodal touchless voice UI, resolving sanitization concerns and reducing hospital staff burdens.</p>
+            <h3 class="card-title">HeyAlpha Food Voice: Touchless Restaurant Ordering</h3>
+            <p class="card-desc">Developed an in-room and table QR-code voice web application for Marriott Moxy and Bikanervala restaurants, allowing guests to talk with an AI assistant to order food without app downloads.</p>
+            <div class="card-metrics">
+              <div class="metric">
+                <span class="metric-num">78%</span>
+                <span class="metric-label">Guest Adoption Rate</span>
+              </div>
+              <div class="metric">
+                <span class="metric-num">3x</span>
+                <span class="metric-label">Faster Dining Orders</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 3: Voice-Assisted Patient Appointments & Wayfinding -->
+        <a href="https://www.behance.net/gallery/242225823/Voice-Assisted-Patient-Appointments-Wayfinding" class="project-card reveal" data-pw="true" id="proj-card-patientvoice">
+          <div class="lock-badge" title="Protected study">🔒</div>
+          <div class="card-arrow"></div>
+          <div class="card-image">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/b89ddd242225823.Y3JvcCw2MTQxLDQ4MDQsMzgwLDA.png" alt="Voice-Assisted Patient Appointments & Wayfinding hospital kiosk" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-company">HeyAlpha &bull; Healthcare SaaS Kiosk</div>
+            <div class="card-tags">
+              <span class="tag">Wayfinding</span>
+              <span class="tag">Kiosk UX</span>
+              <span class="tag">Accessibility</span>
+            </div>
+            <h3 class="card-title">Patient Voice Helper: Wayfinding &amp; Appointment Kiosk</h3>
+            <p class="card-desc">Built a self-service check-in kiosk system for Novacare Hospital that combines physical touch UI with AI-powered conversational voice dialogues, resolving queues and sanitization concerns.</p>
             <div class="card-metrics">
               <div class="metric">
                 <span class="metric-num">92%</span>
@@ -147,130 +206,69 @@
           </div>
         </a>
 
-        <!-- Project 2: In-Room QR Service Talking Avatar -->
-        <a href="#inroom-details" class="project-card reveal" data-pw="true" id="proj-card-inroom">
-          <div class="lock-badge" title="Protected study">🔒</div>
+        <!-- Project 4: Agentic AI Landing page -->
+        <a href="https://www.behance.net/gallery/237938909/Agentic-AI-Landing-page" target="_blank" class="project-card reveal" id="proj-card-agenticlanding">
           <div class="card-arrow"></div>
           <div class="card-image">
-            <img src="assets/images/in-room-qr.png" alt="In-room Hospitality QR talking avatar assistant" loading="lazy">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e14c6e237938909.690ae2e66753b.png" alt="Agentic AI Landing page mockup" loading="lazy">
           </div>
           <div class="card-body">
-            <div class="card-company">Green Park Hotels & Marriott Moxy</div>
+            <div class="card-company">Alphadroid &bull; Robotics Marketing Web</div>
             <div class="card-tags">
-              <span class="tag">Hospitality</span>
+              <span class="tag">Web Design</span>
+              <span class="tag">Agentic AI</span>
+              <span class="tag">Branding</span>
+            </div>
+            <h3 class="card-title">Agentic AI: Futuristic Corporate Landing Page</h3>
+            <p class="card-desc">Designed and prototyped a high-converting web landing page for Alphadroid's agentic AI solutions, balancing complex technical explanations with interactive 3D elements and details.</p>
+            <div class="card-metrics">
+              <div class="metric">
+                <span class="metric-num">45%</span>
+                <span class="metric-label">Conversion Uplift</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 5: Voice User Interface with 3D talking avatar -->
+        <a href="https://www.behance.net/gallery/235512843/Voice-User-Interface-with-3D-talking-avatar" target="_blank" class="project-card reveal" id="proj-card-avatarvui">
+          <div class="card-arrow"></div>
+          <div class="card-image">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/caa8c9235512843.Y3JvcCw1NzczLDQ1MTYsMzU3LDA.png" alt="Voice User Interface with 3D talking avatar concierge" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-company">Aliste Hotel &bull; 3D Conversational VUI</div>
+            <div class="card-tags">
               <span class="tag">3D Avatar</span>
-              <span class="tag">Product Design</span>
+              <span class="tag">Concierge App</span>
+              <span class="tag">Interaction Design</span>
             </div>
-            <h3 class="card-title">In-Room Digital Companion: QR-Based Concierge</h3>
-            <p class="card-desc">Designed an interactive companion application using talking 3D avatars to help hotel guests order food, schedule cleaning, and access services seamlessly on tablet screens without waiting for staff.</p>
-            <div class="card-metrics">
-              <div class="metric">
-                <span class="metric-num">78%</span>
-                <span class="metric-label">Guest Adoption Rate</span>
-              </div>
-              <div class="metric">
-                <span class="metric-num">3x</span>
-                <span class="metric-label">Faster Requests</span>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Project 3: Smart Shopping Cart IoT -->
-        <a href="https://www.behance.net/mahima-gupta" target="_blank" class="project-card reveal" id="proj-card-smartcart">
-          <div class="card-arrow"></div>
-          <div class="card-image">
-            <img src="assets/images/smart-cart.png" alt="Smart Shopping Cart IoT screen dashboard" loading="lazy">
-          </div>
-          <div class="card-body">
-            <div class="card-company">Alphadroid &bull; Retail Robotics</div>
-            <div class="card-tags">
-              <span class="tag">IoT Dashboard</span>
-              <span class="tag">Hardware UI</span>
-              <span class="tag">User Journey</span>
-            </div>
-            <h3 class="card-title">Smart Shopping Cart: Frictionless Retail IoT</h3>
-            <p class="card-desc">Designed the real-time tablet interface mounted on next-generation grocery carts, allowing shoppers to scan items, see live budget rings, and check out instantly on-cart.</p>
-            <div class="card-metrics">
-              <div class="metric">
-                <span class="metric-num">85%</span>
-                <span class="metric-label">Satisfaction Score</span>
-              </div>
-              <div class="metric">
-                <span class="metric-num">15%</span>
-                <span class="metric-label">Faster Checkout</span>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Project 4: Medicare Hospital Operations -->
-        <a href="https://www.behance.net/mahima-gupta" target="_blank" class="project-card reveal" id="proj-card-medicare">
-          <div class="card-arrow"></div>
-          <div class="card-image">
-            <img src="assets/images/medicare.png" alt="Medicare SaaS enterprise operations dashboard" loading="lazy">
-          </div>
-          <div class="card-body">
-            <div class="card-company">HeyAlpha &bull; Enterprise SaaS</div>
-            <div class="card-tags">
-              <span class="tag">SaaS Dashboard</span>
-              <span class="tag">Data Viz</span>
-              <span class="tag">B2B Product</span>
-            </div>
-            <h3 class="card-title">Medicare: Streamlining Clinical Staff Operations</h3>
-            <p class="card-desc">Created a comprehensive B2B cloud dashboard to coordinate doctor schedules, manage incoming patient queues, monitor diagnostic alerts, and surface operations metrics visually.</p>
+            <h3 class="card-title">In-Room Companion: QR Concierge with 3D Talking Avatar</h3>
+            <p class="card-desc">Created a multimodal room companion system featuring a 3D avatar that helps hotel guests order services, check amenities, and schedule requests hands-free using voice interactions.</p>
             <div class="card-metrics">
               <div class="metric">
                 <span class="metric-num">95%</span>
-                <span class="metric-label">Workflow Efficiency</span>
-              </div>
-              <div class="metric">
-                <span class="metric-num">30%</span>
-                <span class="metric-label">Reduced Admin Load</span>
+                <span class="metric-label">Guest Satisfaction</span>
               </div>
             </div>
           </div>
         </a>
 
-        <!-- Project 5: TTribe Clothing Brand -->
-        <a href="https://www.behance.net/mahima-gupta" target="_blank" class="project-card reveal" id="proj-card-ttribe">
+        <!-- Project 6: AlphaDiz Online Gaming Platform -->
+        <a href="https://www.behance.net/gallery/213906955/AlphaDiz-Online-Gaming-Platform" target="_blank" class="project-card reveal" id="proj-card-alphadiz">
           <div class="card-arrow"></div>
           <div class="card-image">
-            <img src="assets/images/ttribe.png" alt="TTribe streetwear minimal clothing storefront" loading="lazy">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/c7166c213906955.Y3JvcCw4MDgsNjMyLDAsMA.png" alt="AlphaDiz Online Gaming Platform community hub" loading="lazy">
           </div>
           <div class="card-body">
-            <div class="card-company">TTribe &bull; Brand Identity & E-Commerce</div>
+            <div class="card-company">Gamemano &bull; Game Platform HUD</div>
             <div class="card-tags">
-              <span class="tag">Branding</span>
-              <span class="tag">Web Design</span>
-              <span class="tag">Visual Design</span>
+              <span class="tag">Gaming Platform</span>
+              <span class="tag">HUD Dashboards</span>
+              <span class="tag">Collaboration</span>
             </div>
-            <h3 class="card-title">TTribe: Brand Identity & Streetwear Web Store</h3>
-            <p class="card-desc">Developed the visual styling, logo design, organic guidelines, and shopping website layout for a minimal nomad streetwear brand focused on community, culture, and nature.</p>
-            <div class="card-metrics">
-              <div class="metric">
-                <span class="metric-num">200%</span>
-                <span class="metric-label">Client Revenue Growth</span>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Project 6: Gamemano Slot Game Interfaces -->
-        <a href="https://www.behance.net/mahima-gupta" target="_blank" class="project-card reveal" id="proj-card-gamemano">
-          <div class="card-arrow"></div>
-          <div class="card-image">
-            <img src="assets/images/slot-game.png" alt="Gamemano slot game mobile dashboard UI" loading="lazy">
-          </div>
-          <div class="card-body">
-            <div class="card-company">Gamemano &bull; Mobile Game UX</div>
-            <div class="card-tags">
-              <span class="tag">Game UI</span>
-              <span class="tag">Gamification</span>
-              <span class="tag">Interaction Design</span>
-            </div>
-            <h3 class="card-title">GameUX: High-Retention Slot Machine Game interfaces</h3>
-            <p class="card-desc">Spearheaded the in-game UI/UX, modeling dynamic reels, interactive win overlays, level systems, HUD overlays, and onboarding flows that optimize game retentions.</p>
+            <h3 class="card-title">AlphaDiz: Online Gaming &amp; Community Hub</h3>
+            <p class="card-desc">Designed the end-to-end user experience for a collaborative online gaming platform, mapping gamer profiles, tournament bracket builders, team feeds, and metric dashboard overlays.</p>
             <div class="card-metrics">
               <div class="metric">
                 <span class="metric-num">28%</span>

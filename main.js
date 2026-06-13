@@ -290,7 +290,7 @@
     if (code === 'mgupta') {
       sessionStorage.setItem(SESSION_KEY, '1');
       closeUnlockModal();
-      window.open('https://www.behance.net/mahima-gupta', '_blank');
+      window.open(targetURL, '_blank');
     } else {
       pwErrorMsg.style.display = 'block';
       pwInputField.style.borderColor = '#d93838';
@@ -315,12 +315,13 @@
   document.querySelectorAll('[data-pw="true"]').forEach(card => {
     card.addEventListener('click', (e) => {
       e.preventDefault();
+      const url = card.getAttribute('href');
       
       // If already unlocked, open direct URL
       if (sessionStorage.getItem(SESSION_KEY) === '1') {
-        window.open('https://www.behance.net/mahima-gupta', '_blank');
+        window.open(url, '_blank');
       } else {
-        openUnlockModal(card.getAttribute('href'));
+        openUnlockModal(url);
       }
     });
   });

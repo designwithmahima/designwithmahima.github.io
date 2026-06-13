@@ -7,21 +7,21 @@
 }
 
 :root {
-  --ink: #0b0f19;
-  --ink2: #384860;
-  --ink3: #758ca9;
-  --bg: #f4f6fc;
+  --ink: #0d1421;
+  --ink2: #3d4f6a;
+  --ink3: #8496ae;
+  --bg: #f0f4ff;
   --white: #ffffff;
-  --accent: #5e67e6;
-  --accent2: #9e5fe6;
-  --border: rgba(94, 103, 230, 0.15);
-  --grad1: linear-gradient(135deg, #5e67e6 0%, #9e5fe6 100%);
-  --title: 'Antonio', 'Sora', system-ui, sans-serif;
-  --sans: 'Inter', system-ui, sans-serif;
+  --accent: #1a6fff;
+  --accent2: #5b4bcc;
+  --border: rgba(26, 111, 255, 0.15);
+  --grad1: linear-gradient(135deg, #1a6fff 0%, #5b4bcc 100%);
+  --title: 'Sora', 'Inter', system-ui, sans-serif;
+  --sans: 'DM Sans', 'Inter', system-ui, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --max: 1080px;
   --pad: 2.5rem;
-  --glass: rgba(255, 255, 255, 0.45);
+  --glass: rgba(255, 255, 255, 0.55);
   --glass-border: rgba(255, 255, 255, 0.7);
 }
 
@@ -534,18 +534,17 @@ nav {
 .hero-headline {
   font-family: var(--title);
   font-weight: 700;
-  font-size: clamp(2.8rem, 6.2vw, 5.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   color: var(--ink);
   margin-bottom: 1.6rem;
-  text-transform: uppercase;
   opacity: 0;
   animation: fadeUp 0.9s 0.3s var(--ease) forwards;
 }
 
 .hero-headline em {
-  font-style: normal;
+  font-style: italic;
   background: var(--grad1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
