@@ -151,9 +151,8 @@
       heroVideo.muted = !heroVideo.muted;
       updateSoundUI();
 
-      if (!heroVideo.muted) {
-        heroVideo.play().catch(() => {});
-      }
+      // Always ensure the video keeps playing when toggled, even if muted
+      heroVideo.play().catch(() => {});
     });
 
     // Auto-play sound on first interaction, then turn off after 5 seconds
@@ -172,11 +171,13 @@
           autoMuteTimer = setTimeout(() => {
             heroVideo.muted = true;
             updateSoundUI();
+            heroVideo.play().catch(() => {}); // Keep video looping seamlessly
           }, 5000);
         }).catch(() => {
           // Fallback if browser still blocks it
           heroVideo.muted = true;
           updateSoundUI();
+          heroVideo.play().catch(() => {});
         });
       }
 
