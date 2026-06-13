@@ -92,34 +92,44 @@
     <div class="hero-emoji-layer" id="hero-emoji-layer" aria-hidden="true">
       <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
         <div class="avatar-bob">
-          <img src="assets/images/me-clean.png" alt="Mahima Gupta Avatar" draggable="false">
+          <video class="hero-avatar-video" autoplay muted loop playsinline poster="assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
+            <source src="assets/images/avatar-hero.mp4" type="video/mp4">
+          </video>
         </div>
       </a>
-      <!-- Floating Emojis (blur on scroll) -->
-      <span class="fe fe-1 far" id="emoji-rainbow">🌈</span>
-      <span class="fe fe-2 near" id="emoji-lightning">⚡</span>
-      <span class="fe fe-3 near" id="emoji-target">🎯</span>
-      <span class="fe fe-4 near" id="emoji-rocket">🚀</span>
-      <span class="fe fe-5 far" id="emoji-gem">💎</span>
-      <span class="fe fe-6 near" id="emoji-brain">🧠</span>
-      <span class="fe fe-7 near" id="emoji-sparkles">✨</span>
-      <span class="fe fe-8 near" id="emoji-robot">🤖</span>
-      <span class="fe fe-9 far" id="emoji-fire">🔥</span>
-      <span class="fe fe-10 near" id="emoji-idea">💡</span>
+      <!-- Cohesive product-design badges (blur and drift by depth) -->
+      <img class="fe fe-1 far" src="assets/images/hero-icons/cursor.png" alt="">
+      <img class="fe fe-2 near" src="assets/images/hero-icons/wireframe.png" alt="">
+      <img class="fe fe-3 mid" src="assets/images/hero-icons/layers.png" alt="">
+      <img class="fe fe-4 near" src="assets/images/hero-icons/sparkle.png" alt="">
+      <img class="fe fe-5 far" src="assets/images/hero-icons/voice.png" alt="">
+      <img class="fe fe-6 mid" src="assets/images/hero-icons/robot.png" alt="">
+      <img class="fe fe-7 near" src="assets/images/hero-icons/analytics.png" alt="">
+      <img class="fe fe-8 mid" src="assets/images/hero-icons/prototype.png" alt="">
+      <img class="fe fe-9 far" src="assets/images/hero-icons/accessibility.png" alt="">
+      <img class="fe fe-10 near" src="assets/images/hero-icons/research.png" alt="">
     </div>
 
     <!-- Normal Scroll Layer B: Content -->
     <div class="hero-inner">
-      <div class="hero-eyebrow" id="hero-eyebrow-text">Senior UI/UX Designer &bull; 5+ Years</div>
-      <h1 class="hero-headline" id="hero-headline-text">
-        Designing products that
-        <em>scale & connect.</em>
-      </h1>
-      <p class="hero-sub" id="hero-sub-text">I translate complex requirements into clean, user-centered digital solutions across conversational AI, robotics, dashboards, and enterprise SaaS.</p>
-      
-      <div class="hero-actions" id="hero-actions-container">
-        <a href="#work" class="btn-primary" id="hero-cta-primary">Explore Work ↓</a>
-        <a href="assets/mahima_gupta_resume.pdf" target="_blank" download class="btn-secondary" id="hero-cta-secondary">Download Resume</a>
+      <div class="hero-copy">
+        <div class="hero-eyebrow" id="hero-eyebrow-text">Hello, I&apos;m <strong>Mahima Gupta</strong></div>
+        <h1 class="hero-headline" id="hero-headline-text">
+          Senior Product &amp;
+          <em>UI/UX Designer.</em>
+        </h1>
+        <p class="hero-sub" id="hero-sub-text">I turn complex AI, robotics, SaaS, and voice-product workflows into clear digital experiences that people understand and enjoy using.</p>
+
+        <div class="hero-actions" id="hero-actions-container">
+          <a href="#work" class="btn-primary" id="hero-cta-primary">Explore My Work <span aria-hidden="true">→</span></a>
+          <a href="assets/mahima_gupta_resume.pdf" target="_blank" download class="btn-secondary" id="hero-cta-secondary">Download Resume</a>
+        </div>
+
+        <div class="hero-proof">
+          <div class="hero-proof-mark" aria-hidden="true">“</div>
+          <p>Designing thoughtful products where business goals, technology, and human needs meet.</p>
+          <span>5+ years across product ecosystems</span>
+        </div>
       </div>
 
       <!-- Brands Strip -->
