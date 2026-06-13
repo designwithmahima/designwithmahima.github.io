@@ -40,47 +40,12 @@
   --hero-gradient: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(94, 103, 230, 0.08) 0%, rgba(158, 95, 230, 0.05) 50%, transparent 100%);
 }
 
-/* Dark Theme Overrides */
-[data-theme="dark"] {
-  --ink: #f3f6fc;
-  --ink2: #a5b5cc;
-  --ink3: #74859c;
-  --bg: #090d16;
-  --white: #0d1421;
-  --accent: #4785ff;
-  --accent2: #6d5ef2;
-  --border: rgba(26, 111, 255, 0.22);
-  --grad1: linear-gradient(135deg, #4785ff 0%, #6d5ef2 100%);
-  --glass: rgba(13, 20, 33, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --sec-work-bg: rgba(13, 20, 33, 0.45);
-  --sec-about-bg: rgba(9, 13, 22, 0.4);
-  --sec-contact-bg: rgba(13, 20, 33, 0.5);
-  --insight-section-bg: rgba(13, 20, 33, 0.3);
-  --blob1: rgba(94, 103, 230, 0.08);
-  --blob2: rgba(158, 95, 230, 0.06);
-  --blob3: rgba(0, 180, 255, 0.05);
-  --blob4: rgba(180, 100, 255, 0.05);
-  --nav-bg: rgba(9, 13, 22, 0.75);
-  --modal-bg: rgba(13, 20, 33, 0.96);
-  --card-bg-hover: rgba(13, 20, 33, 0.85);
-  --project-card-border: rgba(255, 255, 255, 0.05);
-  --input-bg: rgba(13, 20, 33, 0.5);
-  --hero-gradient: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(94, 103, 230, 0.04) 0%, rgba(158, 95, 230, 0.03) 50%, transparent 100%);
-}
-
 /* Violet Accent Override */
 [data-accent="violet"] {
   --accent: #8b5cf6;
   --accent2: #6d28d9;
   --grad1: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
   --border: rgba(139, 92, 246, 0.12);
-}
-[data-theme="dark"][data-accent="violet"] {
-  --accent: #a78bfa;
-  --accent2: #7c3aed;
-  --grad1: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
-  --border: rgba(167, 139, 250, 0.22);
 }
 
 /* Emerald Accent Override */
@@ -90,12 +55,6 @@
   --grad1: linear-gradient(135deg, #10b981 0%, #047857 100%);
   --border: rgba(16, 185, 129, 0.12);
 }
-[data-theme="dark"][data-accent="emerald"] {
-  --accent: #34d399;
-  --accent2: #059669;
-  --grad1: linear-gradient(135deg, #34d399 0%, #059669 100%);
-  --border: rgba(52, 211, 153, 0.22);
-}
 
 /* Rose Accent Override */
 [data-accent="rose"] {
@@ -104,12 +63,6 @@
   --grad1: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
   --border: rgba(244, 63, 94, 0.12);
 }
-[data-theme="dark"][data-accent="rose"] {
-  --accent: #fb7185;
-  --accent2: #e11d48;
-  --grad1: linear-gradient(135deg, #fb7185 0%, #e11d48 100%);
-  --border: rgba(251, 113, 133, 0.22);
-}
 
 /* Amber Accent Override */
 [data-accent="amber"] {
@@ -117,12 +70,6 @@
   --accent2: #b45309;
   --grad1: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
   --border: rgba(245, 158, 11, 0.12);
-}
-[data-theme="dark"][data-accent="amber"] {
-  --accent: #fbbf24;
-  --accent2: #d97706;
-  --grad1: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-  --border: rgba(251, 191, 36, 0.22);
 }
 
 html {
@@ -339,46 +286,160 @@ nav {
   gap: 1.6rem;
 }
 
-.theme-toggle {
-  background: none;
-  border: none;
+/* ============================================
+   About Section — Inline Waving Avatar
+   Lives inside the about-grid as a flow element.
+   ============================================ */
+.about-peek {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: relative;
+  padding-top: 0.5rem;
+}
+
+.about-peek img {
+  width: clamp(150px, 20vw, 240px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.10));
+  transition: transform 0.5s var(--ease);
   cursor: pointer;
-  padding: 6px;
+}
+
+.about-peek:hover img {
+  transform: scale(1.06) translateY(-8px) rotate(-3deg);
+}
+
+.about-peek-bubble {
+  position: absolute;
+  bottom: calc(100% - 10px);
+  right: clamp(90px, 14vw, 160px);
+  background: var(--white);
+  color: var(--ink);
+  border: 1.5px solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: 14px 14px 0 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.9) translateY(8px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  pointer-events: none;
+}
+
+.about-peek:hover .about-peek-bubble {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ============================================
+   Contact Section — Visiting Card Interaction
+   Curious avatar holds a business card that
+   slides out on hover.
+   ============================================ */
+.vcard-peek {
+  position: absolute;
+  left: clamp(1rem, 3vw, 2.5rem);
+  bottom: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  z-index: 3;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.vcard-avatar {
+  width: clamp(160px, 18vw, 230px);
+  height: auto;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.13));
+  transition: transform 0.5s var(--ease);
+  flex-shrink: 0;
+}
+
+.vcard-peek:hover .vcard-avatar {
+  transform: scale(1.03) translateX(6px);
+}
+
+/* The visiting card */
+.vcard {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.3rem 1.5rem 1.1rem;
+  min-width: 230px;
+  margin-left: -30px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.09), 0 2px 8px rgba(0, 0, 0, 0.04);
+  /* Initial: tucked behind avatar, rotated */
+  transform: translateX(-50px) rotate(-8deg) scale(0.85);
+  opacity: 0;
+  transition: transform 0.6s var(--ease), opacity 0.5s var(--ease);
+  overflow: hidden;
+}
+
+.vcard-peek:hover .vcard {
+  transform: translateX(0) rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.vcard-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--grad1);
+  border-radius: 16px 16px 0 0;
+}
+
+.vcard-name {
+  font-family: var(--title);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin: 0.4rem 0 0.1rem;
+  line-height: 1.2;
+}
+
+.vcard-role {
+  font-size: 0.68rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.7rem;
+}
+
+.vcard-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent 80%);
+  margin-bottom: 0.6rem;
+}
+
+.vcard-line {
+  font-size: 0.74rem;
   color: var(--ink2);
+  line-height: 1.9;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: color 0.25s, transform 0.25s, background-color 0.25s;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  gap: 0.45rem;
+  margin: 0;
 }
 
-.theme-toggle:hover {
-  color: var(--accent);
-  background: rgba(26, 111, 255, 0.08);
-  transform: rotate(15deg);
+.vcard-line span {
+  font-size: 0.82rem;
+  flex-shrink: 0;
 }
 
-.theme-toggle svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 2.2px;
-}
-
-.theme-toggle .sun-icon {
-  display: none;
-}
-.theme-toggle .moon-icon {
-  display: block;
-}
-
-[data-theme="dark"] .theme-toggle .sun-icon {
-  display: block;
-}
-[data-theme="dark"] .theme-toggle .moon-icon {
-  display: none;
-}
 
 /* Accent picker styles */
 .accent-picker {
@@ -541,6 +602,7 @@ nav {
 .sec-contact {
   background: var(--sec-contact-bg);
   position: relative;
+  overflow: hidden;
   transition: background-color 0.4s var(--ease);
 }
 
@@ -661,8 +723,8 @@ nav {
   user-select: none;
   cursor: pointer;
   pointer-events: auto;
-  filter: drop-shadow(0 15px 35px rgba(26, 111, 255, 0.22)) contrast(1.02); /* Colored by default! */
-  transition: filter 0.5s ease; /* No transform transition here to avoid JS scroll conflicts */
+  filter: drop-shadow(0 15px 35px rgba(26, 111, 255, 0.22)) contrast(1.02);
+  transition: filter 0.5s ease;
 }
 
 .hero-face img {
@@ -670,27 +732,19 @@ nav {
   height: auto;
   display: block;
   pointer-events: none;
+  mix-blend-mode: multiply; /* Make white areas transparent on light bg */
 }
 
 .avatar-bob {
   width: 100%;
   height: auto;
   display: block;
-  animation: face-bob 6s ease-in-out infinite;
-  transition: transform 0.4s var(--ease);
-}
-
-@keyframes face-bob {
-  0%, 100% { transform: translateY(0) rotate(-0.5deg); }
-  50% { transform: translateY(-6px) rotate(0.5deg); }
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .hero-face:hover {
   filter: drop-shadow(0 22px 45px rgba(26, 111, 255, 0.35));
-}
-
-.hero-face:hover .avatar-bob {
-  transform: translateY(-8px) scale(1.04);
 }
 
 .hero-emoji-layer.face-hover .hero-radiance {
@@ -935,7 +989,7 @@ nav {
   text-decoration: none;
   color: inherit;
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: minmax(0, 380px) 1fr;
   opacity: 0;
   transform: translateY(28px) rotateX(3deg);
   transition: opacity 0.65s var(--ease), transform 0.65s var(--ease), box-shadow 0.3s, border-color 0.25s, background-color 0.4s var(--ease);
@@ -963,7 +1017,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 420px;
+  width: 100%;
   aspect-ratio: 1.1 / 1;
   align-self: stretch;
   border-right: 1px solid rgba(255, 255, 255, 0.4);
@@ -1702,6 +1756,33 @@ footer span {
 }
 
 /* Tablet & Mobile Breakpoints */
+
+/* Medium tablet — fix project card layout before it overflows at zoom out */
+@media (max-width: 960px) {
+  .project-card {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+  }
+
+  .project-card .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 280px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .project-card .card-image img {
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 1.8rem 2rem;
+  }
+}
+
 @media (max-width: 900px) {
   .insight-card {
     padding: 1.8rem 2rem;
@@ -1728,6 +1809,11 @@ footer span {
   .nav-links {
     display: none;
   }
+
+  /* Hide visiting card interaction on narrow screens */
+  .vcard-peek {
+    display: none;
+  }
   
   .hero-inner {
     padding-top: 5.5rem;
@@ -1746,24 +1832,14 @@ footer span {
     font-size: clamp(0.9rem, 3.8vw, 1.6rem) !important;
   }
   
-  /* Stack project cards on mobile */
+  /* Stack project cards on mobile (handled at 960px above) */
   .project-card {
-    grid-template-columns: 1fr;
-    display: flex;
-    flex-direction: column;
     border-radius: 16px;
   }
   
   .project-card .card-image {
-    width: 100%;
-    aspect-ratio: 1.6 / 1;
-    max-height: 250px;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-  }
-  
-  .project-card .card-image img {
-    object-fit: cover;
+    max-height: 220px;
+    aspect-ratio: 1.8 / 1;
   }
   
   .card-body {

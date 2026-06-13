@@ -44,14 +44,27 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
-  // 2. HERO PARALLAX & BLUR-ON-SCROLL
+  // 2. HERO PARALLAX & CURSOR EYE/HEAD TRACKING
   const emojiLayer = document.getElementById('hero-emoji-layer');
   const avatarBtn = document.getElementById('hero-avatar-btn');
   const heroSection = document.getElementById('hero-section');
+  const avatarBob = emojiLayer ? emojiLayer.querySelector('.avatar-bob') : null;
 
   if (emojiLayer && heroSection) {
     const MAX_BLUR = 12;
     const emojis = emojiLayer.querySelectorAll('.fe, .hero-face');
+
+    // Track mouse coordinates
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let curRotX = 0;
+    let curRotY = 0;
+    let isHovered = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
 
     const updateHeroParallax = () => {
       const scrollY = window.scrollY;
@@ -97,16 +110,57 @@
       });
     };
 
+    // 3D head-tracking frame tick
+    const tickTracking = () => {
+      if (avatarBob) {
+        const rect = avatarBob.getBoundingClientRect();
+        const avatarCenterX = rect.left + rect.width / 2;
+        const avatarCenterY = rect.top + rect.height / 2;
+
+        const dx = mouseX - avatarCenterX;
+        const dy = mouseY - avatarCenterY;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = Math.max(window.innerWidth, window.innerHeight);
+        const intensity = Math.min(distance / (maxDist * 0.35), 1.0); // full tilt at 35% distance
+
+        // Calculate pitch (rotX) and yaw (rotY) angles
+        const targetX = -(dy / Math.max(distance, 1)) * intensity * 14; // max 14deg tilt
+        const targetY = (dx / Math.max(distance, 1)) * intensity * 16;  // max 16deg rotate
+
+        // Smooth ease interpolation
+        const easeFactor = 0.12;
+        curRotX += (targetX - curRotX) * easeFactor;
+        curRotY += (targetY - curRotY) * easeFactor;
+
+        // Leaning drift offset
+        const driftX = curRotY * 0.32;
+        const driftY = -curRotX * 0.32;
+        
+        const scaleVal = isHovered ? 1.05 : 1.0;
+
+        avatarBob.style.transform = `perspective(800px) rotateX(${curRotX.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) translate3d(${driftX.toFixed(1)}px, ${driftY.toFixed(1)}px, 0) scale(${scaleVal})`;
+      }
+      requestAnimationFrame(tickTracking);
+    };
+
     window.addEventListener('scroll', updateHeroParallax, { passive: true });
     window.addEventListener('resize', updateHeroParallax);
 
-    // Brighten background radiance on avatar hover
+    // Hover listeners
     if (avatarBtn) {
-      avatarBtn.addEventListener('mouseenter', () => emojiLayer.classList.add('face-hover'));
-      avatarBtn.addEventListener('mouseleave', () => emojiLayer.classList.remove('face-hover'));
+      avatarBtn.addEventListener('mouseenter', () => {
+        emojiLayer.classList.add('face-hover');
+        isHovered = true;
+      });
+      avatarBtn.addEventListener('mouseleave', () => {
+        emojiLayer.classList.remove('face-hover');
+        isHovered = false;
+      });
     }
 
     updateHeroParallax();
+    tickTracking();
   }
 
   // 3. UNDULATING CANVAS GROW LINE
@@ -425,32 +479,32 @@
     revealElements.forEach(el => el.classList.add('in'));
   }
 
-  // 8. THEME TOGGLER (DARK / LIGHT MODE)
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
-  const activeTheme = localStorage.getItem('theme');
-
-  const setTheme = (theme) => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  };
-
-  // Initial check
-  if (activeTheme) {
-    setTheme(activeTheme);
-  } else {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark ? 'dark' : 'light');
-  }
-
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      setTheme(newTheme);
+  // 7b. PEEKING AVATARS REVEAL
+  // Watch the .peeking-stage wrapper (it's not clipped by IntersectionObserver)
+  // and trigger .visible on the inner .peeking-avatar
+  const peekStages = document.querySelectorAll('.peeking-stage');
+  if ('IntersectionObserver' in window && peekStages.length > 0) {
+    const peekObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate the inner peeking avatar
+          const avatar = entry.target.querySelector('.reveal-peek');
+          if (avatar) avatar.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -60px 0px'
     });
+
+    peekStages.forEach(el => peekObserver.observe(el));
+  } else {
+    // Fallback
+    document.querySelectorAll('.reveal-peek').forEach(el => el.classList.add('visible'));
   }
 
-  // 9. ACCENT COLOR PICKER
+  // 8. ACCENT COLOR PICKER
   const pickers = document.querySelectorAll('.accent-picker');
   const storedAccent = localStorage.getItem('accent') || 'blue';
 

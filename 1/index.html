@@ -48,11 +48,6 @@
           <a href="#contact" class="open-contact-trigger" id="nav-contact-link">Contact</a>
         </div>
         
-        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
-          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"></line></svg>
-          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        </button>
-        
         <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
           <span></span><span></span><span></span>
         </button>
@@ -361,6 +356,13 @@
             <a href="assets/mahima_gupta_resume.pdf" target="_blank" download class="about-link" id="link-resume">Resume →</a>
           </div>
         </div>
+
+        <!-- Waving Avatar — inline in grid, next to cards -->
+        <div class="about-peek reveal" id="peek-about" style="transition-delay: 0.3s;">
+          <span class="about-peek-bubble">Hi there! 👋</span>
+          <img src="assets/images/me-peeking-hi.png" alt="Mahima Gupta waving" draggable="false">
+        </div>
+
       </div>
     </div>
   </section>
@@ -391,6 +393,20 @@
 
   <!-- Contact/CTA Section -->
   <section class="sec-contact" id="contact">
+    <!-- Curious Avatar with Visiting Card -->
+    <div class="vcard-peek reveal" id="peek-contact">
+      <img src="assets/images/me-peeking-curious.png" alt="Mahima Gupta" class="vcard-avatar" draggable="false">
+      <div class="vcard">
+        <div class="vcard-accent-bar"></div>
+        <p class="vcard-name">Mahima Gupta</p>
+        <p class="vcard-role">Senior UI/UX Designer</p>
+        <div class="vcard-divider"></div>
+        <p class="vcard-line"><span>✉️</span> mahimagupta015@gmail.com</p>
+        <p class="vcard-line"><span>🔗</span> linkedin.com/in/mahima003</p>
+        <p class="vcard-line"><span>🎨</span> behance.net/mahima-gupta</p>
+      </div>
+    </div>
+
     <div class="section-wrap">
       <div class="cta-inner">
         <h2 class="cta-headline reveal" id="cta-title">Let's build something <em>impactful.</em></h2>
