@@ -122,24 +122,68 @@
   const heroVideo = document.querySelector('.hero-avatar-video');
 
   if (soundToggleBtn && heroVideo) {
-    soundToggleBtn.addEventListener('click', (e) => {
-      e.preventDefault(); // Prevent navigating to #work link
-      e.stopPropagation();
+    const offIcon = soundToggleBtn.querySelector('.sound-off');
+    const onIcon = soundToggleBtn.querySelector('.sound-on');
+    let autoMuteTimer;
 
-      heroVideo.muted = !heroVideo.muted;
-
-      const offIcon = soundToggleBtn.querySelector('.sound-off');
-      const onIcon = soundToggleBtn.querySelector('.sound-on');
-
+    const updateSoundUI = () => {
       if (heroVideo.muted) {
         offIcon.style.display = 'inline';
         onIcon.style.display = 'none';
       } else {
         offIcon.style.display = 'none';
         onIcon.style.display = 'inline';
-        // Ensure the video plays if paused
+      }
+    };
+
+    soundToggleBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent navigating to #work link
+      e.stopPropagation();
+
+      // Cancel auto-mute if user manually interacts
+      if (autoMuteTimer) clearTimeout(autoMuteTimer);
+
+      heroVideo.muted = !heroVideo.muted;
+      updateSoundUI();
+
+      if (!heroVideo.muted) {
         heroVideo.play().catch(() => {});
       }
+    });
+
+    // Auto-play sound on first interaction, then turn off after 5 seconds
+    let hasRunAutoAudio = false;
+    const triggerAutoAudio = () => {
+      if (hasRunAutoAudio) return;
+      hasRunAutoAudio = true;
+
+      heroVideo.muted = false;
+      const playPromise = heroVideo.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          updateSoundUI();
+          // Auto turn-off after 5 seconds
+          autoMuteTimer = setTimeout(() => {
+            heroVideo.muted = true;
+            updateSoundUI();
+          }, 5000);
+        }).catch(() => {
+          // Fallback if browser still blocks it
+          heroVideo.muted = true;
+          updateSoundUI();
+        });
+      }
+
+      // Remove listeners once triggered
+      ['click', 'scroll', 'touchstart'].forEach(evt => {
+        window.removeEventListener(evt, triggerAutoAudio);
+      });
+    };
+
+    // Listen for the first natural user interaction to bypass autoplay block
+    ['click', 'scroll', 'touchstart'].forEach(evt => {
+      window.addEventListener(evt, triggerAutoAudio, { once: true, passive: true });
     });
   }
 
