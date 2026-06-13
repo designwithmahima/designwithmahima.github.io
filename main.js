@@ -44,33 +44,18 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
-  // 2. HERO PARALLAX & CURSOR EYE/HEAD TRACKING
+  // 2. HERO DECORATIVE ICON PARALLAX
   const emojiLayer = document.getElementById('hero-emoji-layer');
-  const avatarBtn = document.getElementById('hero-avatar-btn');
   const heroSection = document.getElementById('hero-section');
-  const avatarBob = emojiLayer ? emojiLayer.querySelector('.avatar-bob') : null;
 
   if (emojiLayer && heroSection) {
     const MAX_BLUR = 12;
-    const emojis = emojiLayer.querySelectorAll('.fe, .hero-face');
-
-    // Track mouse coordinates
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let curRotX = 0;
-    let curRotY = 0;
-    let isHovered = false;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    }, { passive: true });
+    const emojis = emojiLayer.querySelectorAll('.fe');
 
     const updateHeroParallax = () => {
       const scrollY = window.scrollY;
       const heroHeight = heroSection.offsetHeight;
       const windowHeight = window.innerHeight;
-      const isMobile = window.innerWidth <= 768;
       const workEl = document.getElementById('work');
 
       // Gradual blur and opacity fade
@@ -92,81 +77,19 @@
           speed = 0.55;
         } else if (el.classList.contains('far')) {
           speed = 0.18;
-        } else if (el.classList.contains('hero-face')) {
-          speed = isMobile ? 0.08 : 0.25;
         }
 
         const translateVal = -(scrollY * speed);
-
-        // Apply translations
-        if (el.classList.contains('hero-face')) {
-          el.style.transform = `translate3d(-50%, ${translateVal.toFixed(1)}px, 0)`;
-        } else {
-          el.style.transform = `translate3d(0, ${translateVal.toFixed(1)}px, 0)`;
-        }
-
-        // Keep the main avatar crisp while the decorative emojis soften on scroll.
-        if (el.classList.contains('hero-face')) {
-          el.style.removeProperty('filter');
-          el.style.opacity = (1 - progress * (isMobile ? 0.12 : 0.35)).toFixed(3);
-        } else {
-          el.style.filter = blurVal > 0.4 ? `blur(${blurVal.toFixed(1)}px)` : '';
-          el.style.opacity = opacityVal.toFixed(3);
-        }
+        el.style.transform = `translate3d(0, ${translateVal.toFixed(1)}px, 0)`;
+        el.style.filter = blurVal > 0.4 ? `blur(${blurVal.toFixed(1)}px)` : '';
+        el.style.opacity = opacityVal.toFixed(3);
       });
-    };
-
-    // 3D head-tracking frame tick
-    const tickTracking = () => {
-      if (avatarBob) {
-        const rect = avatarBob.getBoundingClientRect();
-        const avatarCenterX = rect.left + rect.width / 2;
-        const avatarCenterY = rect.top + rect.height / 2;
-
-        const dx = mouseX - avatarCenterX;
-        const dy = mouseY - avatarCenterY;
-
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = Math.max(window.innerWidth, window.innerHeight);
-        const intensity = Math.min(distance / (maxDist * 0.35), 1.0); // full tilt at 35% distance
-
-        // Calculate pitch (rotX) and yaw (rotY) angles
-        const targetX = -(dy / Math.max(distance, 1)) * intensity * 14; // max 14deg tilt
-        const targetY = (dx / Math.max(distance, 1)) * intensity * 16;  // max 16deg rotate
-
-        // Smooth ease interpolation
-        const easeFactor = 0.12;
-        curRotX += (targetX - curRotX) * easeFactor;
-        curRotY += (targetY - curRotY) * easeFactor;
-
-        // Leaning drift offset
-        const driftX = curRotY * 0.32;
-        const driftY = -curRotX * 0.32;
-        
-        const scaleVal = isHovered ? 1.05 : 1.0;
-
-        avatarBob.style.transform = `perspective(800px) rotateX(${curRotX.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) translate3d(${driftX.toFixed(1)}px, ${driftY.toFixed(1)}px, 0) scale(${scaleVal})`;
-      }
-      requestAnimationFrame(tickTracking);
     };
 
     window.addEventListener('scroll', updateHeroParallax, { passive: true });
     window.addEventListener('resize', updateHeroParallax);
 
-    // Hover listeners
-    if (avatarBtn) {
-      avatarBtn.addEventListener('mouseenter', () => {
-        emojiLayer.classList.add('face-hover');
-        isHovered = true;
-      });
-      avatarBtn.addEventListener('mouseleave', () => {
-        emojiLayer.classList.remove('face-hover');
-        isHovered = false;
-      });
-    }
-
     updateHeroParallax();
-    tickTracking();
   }
 
   // 3. SCROLL-DRAWN SIGNATURE

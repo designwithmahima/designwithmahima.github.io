@@ -733,17 +733,6 @@ nav {
   width: 100%;
   aspect-ratio: 720 / 1280;
   display: block;
-  transform-style: preserve-3d;
-  will-change: transform;
-  overflow: hidden;
-  mask-image: url('assets/images/me-clean.png');
-  -webkit-mask-image: url('assets/images/me-clean.png');
-  mask-size: 100% 100%;
-  -webkit-mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-position: center;
 }
 
 .hero-avatar-video {
@@ -754,14 +743,6 @@ nav {
 
 .hero-face:hover {
   filter: drop-shadow(0 22px 45px rgba(26, 111, 255, 0.35));
-}
-
-.hero-emoji-layer.face-hover .hero-radiance {
-  opacity: 1.35;
-}
-
-.hero-emoji-layer.face-hover .hero-face {
-  filter: drop-shadow(0 15px 35px rgba(158, 95, 230, 0.45));
 }
 
 .fe {
