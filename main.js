@@ -70,6 +70,7 @@
       const scrollY = window.scrollY;
       const heroHeight = heroSection.offsetHeight;
       const windowHeight = window.innerHeight;
+      const isMobile = window.innerWidth <= 768;
       const workEl = document.getElementById('work');
 
       // Gradual blur and opacity fade
@@ -92,7 +93,7 @@
         } else if (el.classList.contains('far')) {
           speed = 0.18;
         } else if (el.classList.contains('hero-face')) {
-          speed = 0.25;
+          speed = isMobile ? 0.08 : 0.25;
         }
 
         const translateVal = -(scrollY * speed);
@@ -104,9 +105,14 @@
           el.style.transform = `translate3d(0, ${translateVal.toFixed(1)}px, 0)`;
         }
 
-        // Apply filters
-        el.style.filter = blurVal > 0.4 ? `blur(${blurVal.toFixed(1)}px)` : '';
-        el.style.opacity = opacityVal.toFixed(3);
+        // Keep the main avatar crisp while the decorative emojis soften on scroll.
+        if (el.classList.contains('hero-face')) {
+          el.style.removeProperty('filter');
+          el.style.opacity = (1 - progress * (isMobile ? 0.12 : 0.35)).toFixed(3);
+        } else {
+          el.style.filter = blurVal > 0.4 ? `blur(${blurVal.toFixed(1)}px)` : '';
+          el.style.opacity = opacityVal.toFixed(3);
+        }
       });
     };
 
@@ -233,31 +239,47 @@
 
       ctx.save();
       
-      // Pass 1: Wide neon bloom
-      ctx.filter = 'blur(28px)';
-      ctx.globalAlpha = 0.22;
+      // Soft UI signal rail rather than a heavy decorative wave.
+      ctx.filter = 'blur(16px)';
+      ctx.globalAlpha = 0.14;
       traceWave();
       ctx.strokeStyle = grad;
-      ctx.lineWidth = 78;
+      ctx.lineWidth = 30;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.stroke();
 
-      // Pass 2: Middle glow
-      ctx.filter = 'blur(10px)';
-      ctx.globalAlpha = 0.42;
-      traceWave();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 42;
-      ctx.stroke();
+      [-14, 0, 14].forEach((offset, index) => {
+        ctx.save();
+        ctx.translate(0, offset);
+        ctx.filter = 'none';
+        ctx.globalAlpha = index === 1 ? 0.62 : 0.25;
+        traceWave();
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = index === 1 ? 3 : 1;
+        ctx.stroke();
+        ctx.restore();
+      });
 
-      // Pass 3: Bright core
-      ctx.filter = 'none';
-      ctx.globalAlpha = 0.72;
-      traceWave();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 12;
-      ctx.stroke();
+      // Interface nodes make the animated rail feel like a product-system map.
+      const nodeIndexes = [18, 42, 68, 88];
+      nodeIndexes.forEach((pointIndex, index) => {
+        const point = points[pointIndex];
+        if (!point || point.x < tailX || point.x > headX) return;
+
+        ctx.beginPath();
+        ctx.globalAlpha = 0.9;
+        ctx.fillStyle = index % 2 === 0 ? accentColor1 : accentColor2;
+        ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.globalAlpha = 0.28;
+        ctx.strokeStyle = index % 2 === 0 ? accentColor1 : accentColor2;
+        ctx.lineWidth = 1;
+        ctx.arc(point.x, point.y, 12, 0, Math.PI * 2);
+        ctx.stroke();
+      });
 
       ctx.restore();
     };
