@@ -8,20 +8,37 @@
   const interactives = 'a, button, .hero-face, .project-card, .insight-card, .hamburger, .pw-close, .contact-close';
 
   if (cursor) {
-    let mouseX = 0, mouseY = 0;
-    let cursorX = 0, cursorY = 0;
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let cursorX = mouseX, cursorY = mouseY;
+    let currentAngle = 0;
+    let currentScaleX = 1;
+    let currentScaleY = 1;
 
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     });
 
-    // Smooth cursor interpolation
+    // Smooth cursor interpolation with velocity squish (Jelly effect)
     const tickCursor = () => {
-      const ease = 0.15;
-      cursorX += (mouseX - cursorX) * ease;
-      cursorY += (mouseY - cursorY) * ease;
-      cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
+      const ease = 0.22;
+      const dx = mouseX - cursorX;
+      const dy = mouseY - cursorY;
+
+      cursorX += dx * ease;
+      cursorY += dy * ease;
+
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist > 0.5) {
+        currentAngle = Math.atan2(dy, dx);
+      }
+
+      // Squeeze effect based on movement speed
+      const speed = Math.min(dist * 0.02, 0.4);
+      currentScaleX += ((1 + speed) - currentScaleX) * 0.2;
+      currentScaleY += ((1 - speed) - currentScaleY) * 0.2;
+
+      cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%) rotate(${currentAngle}rad) scale(${currentScaleX}, ${currentScaleY})`;
       requestAnimationFrame(tickCursor);
     };
     tickCursor();
@@ -61,14 +78,15 @@
       // Gradual blur and opacity fade
       const blurStart = heroHeight * 0.1;
       const blurEnd = workEl ? workEl.offsetTop - windowHeight * 0.05 : heroHeight;
-      
+
       let progress = 0;
       if (scrollY > blurStart) {
         progress = Math.min((scrollY - blurStart) / Math.max(blurEnd - blurStart, 1), 1);
       }
 
-      const blurVal = progress * MAX_BLUR;
+      const scrollBlurVal = progress * MAX_BLUR;
       const opacityVal = 1 - progress * 0.65;
+      const isMobile = window.innerWidth <= 768;
 
       emojis.forEach(el => {
         // Individual Parallax factor calculation based on depth classes
@@ -81,8 +99,15 @@
 
         const translateVal = -(scrollY * speed);
         el.style.transform = `translate3d(0, ${translateVal.toFixed(1)}px, 0)`;
-        el.style.filter = blurVal > 0.4 ? `blur(${blurVal.toFixed(1)}px)` : '';
-        el.style.opacity = opacityVal.toFixed(3);
+
+        // Base blur for mobile to prevent distracting overlaps, overlaid with scroll blur
+        let baseBlur = isMobile ? 5 : 0;
+        let finalBlur = Math.max(baseBlur, scrollBlurVal);
+        el.style.filter = finalBlur > 0 ? `blur(${finalBlur.toFixed(1)}px)` : '';
+
+        // Slightly lower base opacity on mobile to recede further
+        let finalOpacity = isMobile ? opacityVal * 0.55 : opacityVal;
+        el.style.opacity = finalOpacity.toFixed(3);
       });
     };
 
@@ -92,15 +117,37 @@
     updateHeroParallax();
   }
 
-  // 3. SCROLL-DRAWN SIGNATURE
+  // 3. SCROLL-DRAWN WAVEY LINE
   const canvas = document.getElementById('grow-line-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let W = 0, H = 0;
+    let particles = [];
+
+    // Pre-generate scattered galaxy stars
+    const generateParticles = () => {
+      particles = [];
+      const count = Math.floor(W * 0.7); // More stars for full screen effect
+      const spreadAmp = H * 0.6; // Huge spread for creeper effect
+
+      for (let i = 0; i < count; i++) {
+        const x = Math.random() * W;
+        // Gaussian distribution for cluster effect (dense in middle, sparse at edges)
+        const u = Math.max(Math.random(), 0.0001);
+        const v = Math.random();
+        const spreadNormal = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+
+        const yOffset = spreadNormal * spreadAmp; // Much larger spread height
+        const size = Math.random() * 1.5 + 0.4; // Star size
+        const alpha = Math.random() * 0.7 + 0.3; // Base opacity
+        particles.push({ x, yOffset, size, alpha });
+      }
+    };
 
     const resizeCanvas = () => {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
+      generateParticles();
       drawGrowLine();
     };
     window.addEventListener('resize', resizeCanvas);
@@ -112,49 +159,102 @@
       ctx.clearRect(0, 0, W, H);
       if (headProgress <= 0 && tailProgress <= 0) return;
 
-      const fontSize = Math.min(W * 0.34, H * 0.52, 360);
-      const signature = 'Mahima';
-      const font = `italic ${fontSize}px "Brush Script MT", "Segoe Script", cursive`;
-      ctx.font = font;
-      const textWidth = ctx.measureText(signature).width;
-      const startX = (W - textWidth) / 2;
-      const baselineY = H * 0.61;
-      const revealPadding = fontSize * 0.16;
-      const revealWidth = textWidth + revealPadding * 2;
-      const headX = startX - revealPadding + headProgress * revealWidth;
-      const tailX = startX - revealPadding + tailProgress * revealWidth;
+      const totalWidth = W;
+      const headX = totalWidth * headProgress;
+      const tailX = totalWidth * tailProgress;
 
       if (headX - tailX < 2) return;
 
       const rootStyles = getComputedStyle(document.documentElement);
       const accentColor1 = rootStyles.getPropertyValue('--accent').trim() || '#1a6fff';
       const accentColor2 = rootStyles.getPropertyValue('--accent2').trim() || '#4f3fd9';
-      const grad = ctx.createLinearGradient(startX, 0, startX + textWidth, 0);
+      const grad = ctx.createLinearGradient(0, 0, W, 0);
       grad.addColorStop(0, accentColor1);
-      grad.addColorStop(0.52, accentColor2);
+      grad.addColorStop(0.5, accentColor2);
       grad.addColorStop(1, accentColor1);
 
       ctx.save();
-      ctx.beginPath();
-      ctx.rect(tailX, 0, headX - tailX, H);
-      ctx.clip();
 
-      ctx.font = font;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'alphabetic';
-      ctx.lineJoin = 'round';
+      const baselineY = H * 0.5;
+      const baseAmplitude = Math.min(H * 0.4, 400); // Much larger base wave height for creeper effect
+      const baseFrequency = (Math.PI * 3) / W; // Spread out frequency
 
-      ctx.filter = 'blur(12px)';
-      ctx.globalAlpha = 0.16;
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = Math.max(7, fontSize * 0.035);
-      ctx.strokeText(signature, startX, baselineY);
+      // Define multiple intertwining lines spreading like creepers/vines across the screen
+      const lines = [
+        { yOffset: 0, ampMult: 0.1, freqMult: 1.5, phase: 0, widthMult: 1.5, alpha: 0.8 },
+        { yOffset: -H * 0.2, ampMult: 0.8, freqMult: 0.8, phase: 0, widthMult: 1.0, alpha: 0.6 },
+        { yOffset: H * 0.2, ampMult: -0.7, freqMult: 1.1, phase: Math.PI / 4, widthMult: 0.8, alpha: 0.5 },
+        { yOffset: -H * 0.35, ampMult: 0.9, freqMult: 0.6, phase: Math.PI / 2, widthMult: 0.5, alpha: 0.4 },
+        { yOffset: H * 0.35, ampMult: 0.5, freqMult: 2.2, phase: Math.PI, widthMult: 0.4, alpha: 0.6 },
+        { yOffset: -H * 0.1, ampMult: 1.2, freqMult: 0.9, phase: Math.PI * 1.5, widthMult: 0.6, alpha: 0.5 },
+        { yOffset: H * 0.1, ampMult: -1.1, freqMult: 0.7, phase: Math.PI * 0.7, widthMult: 0.7, alpha: 0.4 }
+      ];
 
-      ctx.filter = 'none';
-      ctx.globalAlpha = 0.46;
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = Math.max(2, fontSize * 0.012);
-      ctx.strokeText(signature, startX, baselineY);
+      lines.forEach(line => {
+        ctx.beginPath();
+        const amp = baseAmplitude * line.ampMult;
+        const freq = baseFrequency * line.freqMult;
+        const phase = line.phase;
+
+        for (let x = tailX; x <= headX; x += 3) {
+          const y = baselineY + line.yOffset + Math.sin(x * freq + phase) * amp;
+          if (x === tailX) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+
+        // Glowing aura for this thread
+        ctx.filter = 'blur(12px)';
+        ctx.globalAlpha = line.alpha * 0.3; // Softer glow multiplier
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = Math.max(10, H * 0.02) * line.widthMult;
+        ctx.stroke();
+
+        // Bright core for this thread
+        ctx.filter = 'none';
+        ctx.globalAlpha = line.alpha;
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = Math.max(2, H * 0.004) * line.widthMult;
+        ctx.stroke();
+      });
+
+      // Draw Galaxy / Fractal Stars around the timeline
+      ctx.save();
+      const coreFreq = baseFrequency * 1.5; // Matches the core energy thread
+
+      particles.forEach(p => {
+        if (p.x >= tailX && p.x <= headX) {
+          // Broadly follow the waves but scattered across the screen
+          const coreY = baselineY + Math.sin(p.x * coreFreq) * (baseAmplitude * 0.3);
+          const y = coreY + p.yOffset;
+
+          // Sparkle flare effect at the leading edge
+          const distToHead = headX - p.x;
+          const scale = distToHead < 50 ? 1 + (50 - distToHead) / 12 : 1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, y, p.size * scale, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+
+          if (p.size > 1.2) {
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = accentColor1;
+          }
+
+          // Smooth fade out at the tail
+          let pAlpha = p.alpha;
+          if (p.x - tailX < 60) pAlpha *= (p.x - tailX) / 60;
+
+          ctx.globalAlpha = pAlpha * 0.9;
+          ctx.fill();
+        }
+      });
+      ctx.restore();
 
       ctx.restore();
     };
@@ -241,7 +341,7 @@
 
   const triggerVerification = () => {
     const code = pwInputField.value.trim().toLowerCase();
-    
+
     // Check password 'mgupta'
     if (code === 'mgupta') {
       sessionStorage.setItem(SESSION_KEY, '1');
@@ -251,7 +351,7 @@
       pwErrorMsg.style.display = 'block';
       pwInputField.style.borderColor = '#d93838';
       pwInputField.style.boxShadow = '0 0 0 3px rgba(217, 56, 56, 0.15)';
-      
+
       // Quick shake effect
       pwInputField.animate([
         { transform: 'translateX(0px)' },
@@ -272,7 +372,7 @@
     card.addEventListener('click', (e) => {
       e.preventDefault();
       const url = card.getAttribute('href');
-      
+
       // If already unlocked, open direct URL
       if (sessionStorage.getItem(SESSION_KEY) === '1') {
         window.open(url, '_blank');
