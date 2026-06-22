@@ -782,10 +782,10 @@ nav {
 
 .hero-face {
   position: absolute;
-  bottom: 1.5rem;
-  left: 72%;
+  bottom: 2.5rem;
+  left: 77%;
   transform: translateX(-50%);
-  width: clamp(310px, 31vw, 430px);
+  width: clamp(290px, 26vw, 380px);
   z-index: 10; /* Make it float above all emojis and logos */;
   -webkit-user-select: none;
   user-select: none;
@@ -1087,7 +1087,9 @@ nav {
   opacity: 0;
   animation: fadeUp 0.7s 0.75s var(--ease) forwards;
   width: 100%;
-  grid-column: 1 / -1;
+  max-width: 620px;
+  grid-column: 1;
+  justify-self: start;
   align-self: end;
   padding-top: 1rem;
 }
