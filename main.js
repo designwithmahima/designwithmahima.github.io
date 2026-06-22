@@ -567,4 +567,66 @@
     });
   });
 
+  // Mobile avatar peeks respond to phone tilt, with tap/keyboard as a fallback.
+  const mobilePeeks = [
+    { element: document.getElementById('peek-about'), direction: -1 },
+    { element: document.getElementById('peek-insights'), direction: 1 },
+    { element: document.getElementById('peek-contact'), direction: 0.35 }
+  ].filter(item => item.element);
+  const mobileQuery = window.matchMedia('(max-width: 768px)');
+  let orientationListening = false;
+  let orientationFrame = null;
+
+  const handleOrientation = (event) => {
+    if (!mobileQuery.matches || typeof event.gamma !== 'number') return;
+    const tilt = Math.max(-18, Math.min(18, event.gamma));
+    if (orientationFrame) cancelAnimationFrame(orientationFrame);
+    orientationFrame = requestAnimationFrame(() => {
+      mobilePeeks.forEach(({ element, direction }) => {
+        element.style.setProperty('--mobile-peek-shift', `${tilt * direction * 1.15}px`);
+      });
+    });
+  };
+
+  const startOrientation = () => {
+    if (orientationListening || !('DeviceOrientationEvent' in window)) return;
+    window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+    orientationListening = true;
+  };
+
+  const requestOrientation = async () => {
+    if (!('DeviceOrientationEvent' in window)) return;
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      try {
+        if (await DeviceOrientationEvent.requestPermission() === 'granted') startOrientation();
+      } catch (_) {
+        // Tap remains available when motion permission is declined or unavailable.
+      }
+    } else {
+      startOrientation();
+    }
+  };
+
+  const toggleMobilePeek = (activeElement) => {
+    if (!mobileQuery.matches) return;
+    mobilePeeks.forEach(({ element }) => {
+      element.classList.toggle('mobile-peek-open', element === activeElement && !element.classList.contains('mobile-peek-open'));
+    });
+    requestOrientation();
+  };
+
+  mobilePeeks.forEach(({ element }) => {
+    element.addEventListener('click', () => toggleMobilePeek(element));
+    element.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleMobilePeek(element);
+      }
+    });
+  });
+
+  if (mobileQuery.matches && !('requestPermission' in (window.DeviceOrientationEvent || {}))) {
+    startOrientation();
+  }
+
 })();
