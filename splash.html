@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahima's Design Quest</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=Press+Start+2P&display=swap');
+
+        :root {
+            --ink: #0d1421;
+            --ink2: #3f4e66;
+            --panel: rgba(13, 20, 33, 0.9);
+            --portfolio-bg: #f3f6fc;
+            --glass: rgba(255, 255, 255, 0.68);
+            --purple: #4f3fd9;
+            --cyan: #55dbff;
+            --blue: #1a6fff;
+            --violet: #8b5cf6;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --gold: #f59e0b;
+            --green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: "Nunito", system-ui, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(ellipse 65% 60% at 72% 44%, rgba(139, 92, 246, 0.16), transparent 56%),
+                radial-gradient(ellipse 48% 52% at 22% 28%, rgba(85, 219, 255, 0.14), transparent 62%),
+                var(--portfolio-bg);
+            image-rendering: pixelated;
+        }
+
+        body.entering-site {
+            background: #07101d;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .game-shell {
+            position: relative;
+            min-height: 100vh;
+            isolation: isolate;
+        }
+
+        body.entering-site .game-shell {
+            animation: crtSwitchOff 0.78s steps(10, end) forwards;
+            transform-origin: center;
+        }
+
+        body.entering-site::before {
+            content: "";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            z-index: 999;
+            width: 0;
+            height: 3px;
+            background: #f8fbff;
+            box-shadow: 0 0 18px rgba(85, 219, 255, 0.9), 0 0 42px rgba(139, 92, 246, 0.55);
+            transform: translate(-50%, -50%);
+            animation: crtLightLine 0.78s steps(10, end) forwards;
+            pointer-events: none;
+        }
+
+        .game-shell::before,
+        .game-shell::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .game-shell::before {
+            z-index: -8;
+            background-image: url("assets/images/delhi-ncr-pixel-portfolio-bg-crisp.png");
+            background-size: cover;
+            background-position: center;
+            image-rendering: pixelated;
+            transform: scale(1.04);
+            opacity: 0.5;
+            animation:
+                bgPan 14s steps(9, end) infinite alternate,
+                pixelDayCycle 18s linear infinite;
+        }
+
+        .game-shell::after {
+            z-index: -7;
+            background:
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px),
+                repeating-linear-gradient(90deg, rgba(13, 20, 33, 0.06) 0 1px, transparent 1px 5px),
+                linear-gradient(180deg, rgba(243, 246, 252, 0.7), rgba(238, 241, 255, 0.78) 42%, rgba(79, 63, 217, 0.12));
+            mix-blend-mode: normal;
+            animation: lightWash 18s linear infinite;
+        }
+
+        .crt-monitor-frame {
+            position: fixed;
+            inset: clamp(10px, 2vw, 22px);
+            z-index: 8;
+            pointer-events: none;
+            border: clamp(8px, 1.5vw, 16px) solid rgba(13, 20, 33, 0.9);
+            border-radius: clamp(18px, 3vw, 34px);
+            box-shadow:
+                inset 0 0 0 3px rgba(255, 255, 255, 0.9),
+                inset 0 0 80px rgba(26, 111, 255, 0.12),
+                0 18px 60px rgba(13, 20, 33, 0.18);
+        }
+
+        .crt-monitor-frame::before,
+        .crt-monitor-frame::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .crt-monitor-frame::before {
+            background:
+                repeating-linear-gradient(180deg, rgba(13, 20, 33, 0.07) 0 1px, transparent 1px 5px),
+                radial-gradient(ellipse at center, transparent 52%, rgba(13, 20, 33, 0.16) 100%);
+            mix-blend-mode: multiply;
+        }
+
+        .crt-monitor-frame::after {
+            inset: auto 22px 14px auto;
+            width: 14px;
+            height: 14px;
+            border: 3px solid rgba(255, 255, 255, 0.76);
+            background: var(--blue);
+            box-shadow: 0 0 16px rgba(26, 111, 255, 0.65);
+        }
+
+        .crt-brand {
+            position: absolute;
+            left: clamp(18px, 3vw, 34px);
+            bottom: 12px;
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+            font-size: clamp(0.48rem, 1.2vw, 0.62rem);
+            color: rgba(255, 255, 255, 0.82);
+            text-shadow: 2px 2px 0 rgba(13, 20, 33, 0.75);
+        }
+
+        .map-grid,
+        .scanline,
+        .arena-glow,
+        .speed-lines,
+        .battle-flash,
+        .capture-rings {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .map-grid {
+            opacity: 0.22;
+            background-image:
+                linear-gradient(rgba(26, 111, 255, 0.1) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.1) 2px, transparent 2px);
+            background-size: 48px 48px;
+            transform: perspective(720px) rotateX(58deg) translateY(13vh) scale(1.45);
+            transform-origin: center bottom;
+            animation: mapDrift 3.8s steps(8, end) infinite;
+            z-index: -5;
+        }
+
+        .scanline {
+            inset: 0;
+            height: auto;
+            opacity: 0.42;
+            background:
+                repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 6px),
+                linear-gradient(180deg, transparent 0 30%, rgba(99, 244, 223, 0.16) 44%, transparent 58%);
+            background-size: 100% 6px, 100% 210%;
+            animation: scan 4s steps(10, end) infinite;
+            z-index: -4;
+        }
+
+        .arena-glow {
+            background:
+                radial-gradient(circle at 50% 55%, rgba(99, 244, 223, 0.12), transparent 18%),
+                radial-gradient(circle at 50% 55%, transparent 0 17%, rgba(255, 255, 255, 0.16) 17.4% 18.2%, transparent 18.8%),
+                radial-gradient(circle at 50% 55%, transparent 0 31%, rgba(83, 166, 232, 0.22) 31.4% 32.2%, transparent 32.8%),
+                radial-gradient(circle at 50% 55%, transparent 0 45%, rgba(255, 123, 156, 0.18) 45.4% 46.2%, transparent 46.8%);
+            animation: pulseField 3.2s steps(5, end) infinite;
+            z-index: -3;
+        }
+
+        .capture-rings {
+            display: grid;
+            place-items: center;
+            z-index: -2;
+        }
+
+        .capture-rings span {
+            position: absolute;
+            width: min(74vw, 550px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 3px solid rgba(99, 244, 223, 0.28);
+            box-shadow: 0 0 0 3px rgba(33, 27, 53, 0.08), 0 0 22px rgba(99, 244, 223, 0.1);
+            animation: ringPulse 2.2s steps(5, end) infinite;
+        }
+
+        .capture-rings span:nth-child(2) {
+            width: min(55vw, 410px);
+            border-style: dashed;
+            border-color: rgba(255, 209, 102, 0.44);
+            animation-delay: -0.7s;
+        }
+
+        .capture-rings span:nth-child(3) {
+            width: min(35vw, 260px);
+            border-color: rgba(255, 79, 136, 0.38);
+            animation-delay: -1.35s;
+        }
+
+        .speed-lines {
+            opacity: 0;
+            background:
+                linear-gradient(92deg, transparent 0 16%, rgba(255, 255, 255, 0.58) 16.2% 17.2%, transparent 17.4%),
+                linear-gradient(88deg, transparent 0 36%, rgba(99, 244, 223, 0.5) 36.2% 37%, transparent 37.2%),
+                linear-gradient(96deg, transparent 0 69%, rgba(246, 211, 106, 0.5) 69.2% 70%, transparent 70.2%);
+            transform: skewY(-8deg);
+            z-index: 5;
+        }
+
+        .battle-flash {
+            opacity: 0;
+            background: #fff;
+            z-index: 10;
+        }
+
+        .hud {
+            position: fixed;
+            top: clamp(36px, 5vw, 48px);
+            left: 50%;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: min(1080px, calc(100vw - 60px));
+            transform: translateX(-50%);
+            gap: 16px;
+        }
+
+        .eyebrow {
+            font-family: "Plus Jakarta Sans", "Nunito", system-ui, sans-serif;
+            font-size: clamp(0.62rem, 1.6vw, 0.78rem);
+            letter-spacing: 0;
+            text-transform: uppercase;
+            color: var(--ink2);
+            text-shadow: none;
+            font-weight: 900;
+        }
+
+        .logo {
+            font-family: "Plus Jakarta Sans", "Nunito", system-ui, sans-serif;
+            font-size: clamp(1.25rem, 3vw, 1.72rem);
+            line-height: 1.25;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.9), 5px 5px 0 rgba(79, 63, 217, 0.2);
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: var(--blue);
+        }
+
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-chip,
+        .sound-btn {
+            border: 3px solid rgba(255, 255, 255, 0.82);
+            border-radius: 0;
+            padding: 10px 14px;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: 5px 5px 0 rgba(79, 63, 217, 0.2);
+            backdrop-filter: none;
+        }
+
+        .status-chip {
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        .sound-btn {
+            min-width: 48px;
+            cursor: pointer;
+            color: var(--ink);
+        }
+
+        .accent-dots {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accent-dots span {
+            width: 14px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(13, 20, 33, 0.12);
+        }
+
+        .accent-dots span:nth-child(1) { background: var(--blue); }
+        .accent-dots span:nth-child(2) { background: var(--violet); }
+        .accent-dots span:nth-child(3) { background: var(--emerald); }
+        .accent-dots span:nth-child(4) { background: var(--rose); }
+        .accent-dots span:nth-child(5) { background: var(--gold); }
+
+        .arena {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 100%;
+            min-height: 100vh;
+            padding: 104px 20px 132px;
+        }
+
+        .stage {
+            position: relative;
+            width: min(74vw, 500px);
+            height: min(56vh, 500px);
+            display: grid;
+            place-items: center;
+        }
+
+        .portfolio-preview {
+            position: absolute;
+            inset: 4% -10% auto;
+            min-height: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            background:
+                radial-gradient(circle at 78% 28%, rgba(139, 92, 246, 0.18), transparent 30%),
+                radial-gradient(circle at 16% 38%, rgba(26, 111, 255, 0.12), transparent 34%),
+                rgba(243, 246, 252, 0.72);
+            box-shadow: 0 18px 50px rgba(79, 63, 217, 0.1);
+            opacity: 0.66;
+            overflow: hidden;
+        }
+
+        .portfolio-preview::before {
+            content: "Senior Product & UI/UX Designer.";
+            position: absolute;
+            left: 7%;
+            top: 19%;
+            width: 48%;
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+            font-size: clamp(0.5rem, 1.25vw, 0.82rem);
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .portfolio-preview::after {
+            content: "";
+            position: absolute;
+            right: 9%;
+            top: 20%;
+            width: 26%;
+            aspect-ratio: 1;
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            border-radius: 28% 28% 42% 42%;
+            background:
+                radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.9) 0 22%, transparent 23%),
+                linear-gradient(135deg, rgba(26, 111, 255, 0.2), rgba(139, 92, 246, 0.18));
+            box-shadow: 5px 5px 0 rgba(79, 63, 217, 0.16);
+        }
+
+        .stage::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 11%;
+            width: min(58vw, 390px);
+            height: 86px;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse, rgba(33, 27, 53, 0.5), transparent 68%);
+            filter: blur(0);
+        }
+
+        .avatar-wrap {
+            position: relative;
+            width: min(42vw, 250px);
+            aspect-ratio: 1;
+            transform: translateY(-1vh);
+            animation: introDrop 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .avatar-sprite {
+            width: 100%;
+            height: 100%;
+            background-image: url("assets/images/mahima-40frame-loader-spritesheet-pixel.png");
+            background-repeat: no-repeat;
+            background-size: 800% 500%;
+            background-position: 0% 0%;
+            image-rendering: pixelated;
+            filter: drop-shadow(8px 18px 0 rgba(33, 27, 53, 0.36));
+            transform-origin: center bottom;
+            animation: trainerBounce 1.15s steps(4, end) infinite;
+        }
+
+        .combo-stack {
+            position: absolute;
+            right: min(6vw, 68px);
+            top: 50%;
+            display: grid;
+            gap: 10px;
+            transform: translateY(-50%);
+        }
+
+        .combo {
+            width: 68px;
+            border: 3px solid rgba(255, 255, 255, 0.62);
+            border-radius: 0;
+            padding: 9px 6px;
+            text-align: center;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.74);
+            box-shadow: 5px 5px 0 rgba(79, 63, 217, 0.2);
+            backdrop-filter: none;
+        }
+
+        .combo strong {
+            display: block;
+            font-size: 1.15rem;
+            color: var(--blue);
+        }
+
+        .combo span {
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink2);
+        }
+
+        .battle-card {
+            position: fixed;
+            left: 50%;
+            bottom: clamp(16px, 4vw, 34px);
+            z-index: 4;
+            width: min(660px, calc(100vw - 60px));
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            border-radius: 0;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 20px 60px rgba(31, 45, 80, 0.12), inset 0 0 0 4px rgba(26, 111, 255, 0.08);
+            backdrop-filter: none;
+            transform: translateX(-50%);
+        }
+
+        .battle-text {
+            min-height: 3.1em;
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+            font-size: clamp(0.72rem, 2.1vw, 1rem);
+            line-height: 1.65;
+            font-weight: 900;
+            color: var(--ink);
+        }
+
+        .meter {
+            position: relative;
+            width: 100%;
+            height: 18px;
+            margin-top: 16px;
+            overflow: hidden;
+            border: 3px solid rgba(13, 20, 33, 0.76);
+            border-radius: 0;
+            background: rgba(255, 255, 255, 0.8);
+            image-rendering: pixelated;
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+        }
+
+        .meter-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: 0;
+            background:
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.38) 0 8px, transparent 8px 16px),
+                linear-gradient(90deg, var(--blue), var(--violet), var(--emerald), var(--rose), var(--gold));
+            box-shadow: 0 0 0 2px rgba(26, 111, 255, 0.18);
+            transition: width 0.18s steps(5, end);
+            image-rendering: pixelated;
+        }
+
+        .meter-fill::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, 0.05) 4px, rgba(0, 0, 0, 0.05) 8px);
+            pointer-events: none;
+        }
+
+        .fight-btn {
+            display: none;
+            width: 100%;
+            margin-top: 16px;
+            border: 4px solid rgba(13, 20, 33, 0.78);
+            border-radius: 0;
+            padding: 16px 20px;
+            cursor: pointer;
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+            font-size: clamp(0.76rem, 2.5vw, 1.12rem);
+            font-weight: 900;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            color: var(--ink);
+            background:
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.34) 0 10px, transparent 10px 20px),
+                linear-gradient(135deg, var(--blue), var(--violet) 48%, #ffffff);
+            box-shadow: 6px 6px 0 rgba(79, 63, 217, 0.26);
+            animation: buttonReady 1.1s steps(4, end) infinite;
+        }
+
+        .fight-btn:focus-visible,
+        .sound-btn:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 4px;
+        }
+
+        .game-shell.is-ready .meter {
+            display: none;
+        }
+
+        .game-shell.is-ready .fight-btn {
+            display: block;
+        }
+
+        .game-shell.is-entering-portfolio .speed-lines {
+            animation: speedRush 0.5s ease-out both;
+        }
+
+        .game-shell.is-entering-portfolio .battle-flash {
+            animation: battleFlash 0.42s ease-in-out both;
+        }
+
+        .game-shell.is-entering-portfolio .avatar-wrap {
+            animation: walkOutToRight 1.25s linear both;
+        }
+
+        @keyframes mapDrift {
+            to { background-position: 48px 48px; }
+        }
+
+        @keyframes bgPan {
+            from { transform: scale(1.04) translate3d(-1.2%, -0.6%, 0); }
+            to { transform: scale(1.08) translate3d(1.2%, 0.6%, 0); }
+        }
+
+        @keyframes pixelDayCycle {
+            0%, 100% { filter: saturate(0.78) brightness(1.2) hue-rotate(8deg); }
+            36% { filter: saturate(0.95) brightness(1.26) hue-rotate(0deg); }
+            68% { filter: saturate(1.08) brightness(0.98) hue-rotate(-18deg); }
+        }
+
+        @keyframes lightWash {
+            0%, 100% { opacity: 0.72; }
+            36% { opacity: 0.58; }
+            68% { opacity: 0.82; }
+        }
+
+        @keyframes scan {
+            0% { background-position: 0 0, 0 -120%; }
+            100% { background-position: 0 6px, 0 120%; }
+        }
+
+        @keyframes pulseField {
+            0%, 100% { transform: scale(0.96); opacity: 0.86; }
+            50% { transform: scale(1.04); opacity: 1; }
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(0.94) rotate(0deg); opacity: 0.72; }
+            50% { transform: scale(1.05) rotate(10deg); opacity: 1; }
+        }
+
+        @keyframes introDrop {
+            from { transform: translateY(-26vh) scale(0.7); opacity: 0; }
+            to { transform: translateY(-1vh) scale(1); opacity: 1; }
+        }
+
+        @keyframes trainerBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.03); }
+        }
+
+        @keyframes buttonReady {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.02); }
+        }
+
+        @keyframes speedRush {
+            0% { opacity: 0; transform: translateX(-12vw) skewY(-8deg); }
+            20%, 72% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(18vw) skewY(-8deg); }
+        }
+
+        @keyframes battleFlash {
+            0%, 38% { opacity: 0; }
+            58% { opacity: 0.36; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes walkOutToRight {
+            0% { transform: translate(0, -1vh) scaleX(-1); }
+            100% { transform: translate(110vw, -1vh) scaleX(-1); }
+        }
+
+        @keyframes crtSwitchOff {
+            0% {
+                opacity: 1;
+                filter: brightness(1) saturate(1);
+                transform: scale(1);
+            }
+            48% {
+                opacity: 1;
+                filter: brightness(1.35) saturate(0.8);
+                transform: scale(1.01, 0.82);
+            }
+            72% {
+                opacity: 1;
+                filter: brightness(1.8) saturate(0.4);
+                transform: scale(0.98, 0.035);
+            }
+            100% {
+                opacity: 0;
+                filter: brightness(2) saturate(0);
+                transform: scale(0.06, 0.002);
+            }
+        }
+
+        @keyframes crtLightLine {
+            0%, 38% { width: 0; opacity: 0; }
+            52% { width: min(74vw, 860px); opacity: 1; }
+            84% { width: min(64vw, 620px); opacity: 0.86; }
+            100% { width: 0; opacity: 0; }
+        }
+
+        @keyframes exitFlash {
+            to { background: var(--portfolio-bg); }
+        }
+
+        @media (max-width: 760px) {
+            .crt-monitor-frame {
+                inset: 10px;
+                border-width: 8px;
+                border-radius: 18px;
+            }
+
+            .crt-brand {
+                left: 16px;
+                bottom: 8px;
+                font-size: 0.44rem;
+            }
+
+            .crt-monitor-frame::after {
+                display: none;
+            }
+
+            .hud {
+                align-items: flex-start;
+                top: 24px;
+                width: calc(100vw - 42px);
+                gap: 10px;
+            }
+
+            .logo {
+                max-width: 48vw;
+                white-space: normal;
+                font-size: clamp(1rem, 5.2vw, 1.28rem);
+            }
+
+            .eyebrow {
+                max-width: 48vw;
+                font-size: 0.42rem;
+                line-height: 1.4;
+            }
+
+            .hud-actions {
+                gap: 8px;
+                justify-content: flex-end;
+            }
+
+            .accent-dots {
+                display: none;
+            }
+
+            .status-chip,
+            .sound-btn {
+                padding: 8px 10px;
+                font-size: 0.48rem;
+            }
+
+            .status-chip {
+                max-width: 80px;
+                overflow: hidden;
+                text-overflow: clip;
+            }
+
+            .arena {
+                padding: 96px 22px 132px;
+            }
+
+            .stage {
+                width: min(82vw, 430px);
+                height: min(55vh, 430px);
+            }
+
+            .portfolio-preview {
+                inset: 8% 0 auto;
+                min-height: 46%;
+            }
+
+            .portfolio-preview::before {
+                left: 6%;
+                top: 18%;
+                width: 54%;
+                font-size: 0.42rem;
+            }
+
+            .portfolio-preview::after {
+                right: 7%;
+                top: 22%;
+                width: 25%;
+            }
+
+            .avatar-wrap {
+                width: min(48vw, 210px);
+            }
+
+            .combo-stack {
+                right: 14px;
+                gap: 8px;
+            }
+
+            .combo {
+                width: 58px;
+                padding: 7px 4px;
+            }
+
+            .combo strong {
+                font-size: 0.95rem;
+            }
+
+            .combo span {
+                font-size: 0.56rem;
+            }
+
+            .battle-card {
+                padding: 15px;
+                width: min(720px, calc(100vw - 50px));
+            }
+
+            .battle-text {
+                font-size: clamp(0.62rem, 2.6vw, 0.82rem);
+            }
+
+            .fight-btn {
+                padding: 14px 12px;
+            }
+        }
+
+        @media (max-height: 680px) {
+            .avatar-wrap {
+                width: min(42vw, 220px);
+            }
+
+            .battle-text {
+                min-height: 2.4em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Retro UI Editor Styles */
+        body {
+            background-color: #e2e8f0;
+        }
+
+        .game-shell::before {
+            z-index: -8;
+            background-color: #f0f3f6;
+            background-image: url("assets/images/designer_pattern_tile.png");
+            background-size: 256px 256px;
+            opacity: 0.18;
+            transform: none !important;
+            animation: none !important;
+        }
+
+        .game-shell::after {
+            display: none; /* disable lightWash */
+        }
+
+        /* Set press start 2p font universally to match pixel/sprite look */
+        .hud, .eyebrow, .logo, .combo, .battle-card, .battle-text, .fight-btn, .status-chip, .sound-btn {
+            font-family: "Press Start 2P", system-ui, sans-serif !important;
+        }
+
+        .logo {
+            text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(79, 63, 217, 0.25) !important;
+        }
+
+        /* 3D Retro double border sprites/tiles look */
+        .battle-card,
+        .combo,
+        .status-chip,
+        .sound-btn,
+        .portfolio-preview {
+            border: 4px solid #1c1a24 !important;
+            border-radius: 0 !important;
+            background: #fff !important;
+            box-shadow:
+                inset 3px 3px 0 #fff,
+                inset -3px -3px 0 #8b9bb4,
+                6px 6px 0 rgba(13, 20, 33, 0.15) !important;
+        }
+
+        .fight-btn {
+            border: 4px solid #1c1a24 !important;
+            border-radius: 0 !important;
+            background: #18a0fb !important;
+            color: #fff !important;
+            text-shadow: 1px 1px 0 #1c1a24;
+            box-shadow:
+                inset 3px 3px 0 #3cb2ff,
+                inset -3px -3px 0 #0d75c2,
+                6px 6px 0 rgba(13, 20, 33, 0.15) !important;
+        }
+        
+        .fight-btn:hover {
+            background: #2cb2ff !important;
+            transform: translate(1px, 1px);
+            box-shadow:
+                inset 3px 3px 0 #5cd2ff,
+                inset -3px -3px 0 #1c85d2,
+                4px 4px 0 rgba(13, 20, 33, 0.15) !important;
+        }
+
+        .fight-btn:active {
+            transform: translate(3px, 3px);
+            box-shadow:
+                inset 1px 1px 0 #5cd2ff,
+                inset -1px -1px 0 #1c85d2,
+                2px 2px 0 rgba(13, 20, 33, 0.15) !important;
+        }
+
+
+
+        /* Vector artwork in canvas */
+        .vector-path {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Selection Box around avatar */
+        .avatar-selection-frame {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            width: min(44vw, 260px);
+            height: min(44vw, 260px);
+            transform: translateX(-50%);
+            border: 2px solid #18a0fb;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .frame-label {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            background: #18a0fb;
+            color: #fff;
+            font-size: 0.5rem;
+            padding: 2px 6px;
+        }
+        .handle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border: 2px solid #18a0fb;
+        }
+        .top-left { top: -5px; left: -5px; }
+        .top-right { top: -5px; right: -5px; }
+        .bottom-left { bottom: -5px; left: -5px; }
+        .bottom-right { bottom: -5px; right: -5px; }
+        
+        .spacing-guide {
+            position: absolute;
+            color: #ff007f;
+            font-size: 0.42rem;
+            white-space: nowrap;
+        }
+        .top-guide {
+            top: -38px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 2px dashed #ff007f;
+            border-right: 2px dashed #ff007f;
+            padding: 0 4px;
+        }
+        .left-guide {
+            left: -85px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 2px dashed #ff007f;
+            border-bottom: 2px dashed #ff007f;
+            padding: 4px 0;
+        }
+
+        /* Floating cursors */
+        .editor-cursor {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .cursor-tag {
+            color: #fff;
+            font-size: 0.45rem;
+            padding: 2px 4px;
+            margin-top: 4px;
+            border: 1px solid #1c1a24;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+        }
+
+        /* Hide Figma UI on smaller screens to ensure responsive design */
+        @media (max-width: 1023px) {
+            .vector-path,
+            .editor-cursor,
+            .avatar-selection-frame {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="game-shell" id="gameShell">
+        <div class="crt-monitor-frame" aria-hidden="true">
+            <div class="crt-brand">MAHIMA.G BOOT</div>
+        </div>
+        <div class="map-grid"></div>
+        <div class="scanline"></div>
+        <div class="arena-glow"></div>
+        <div class="capture-rings" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="speed-lines"></div>
+        <div class="battle-flash"></div>
+
+
+
+        <header class="hud" aria-label="Game status">
+            <div class="brand-lockup">
+                <div class="eyebrow">DESIGN SYSTEM BOOT</div>
+                <h1 class="logo">MAHIMA<span>.G</span></h1>
+            </div>
+            <div class="hud-actions">
+                <div class="accent-dots" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <button class="sound-btn" id="soundBtn" type="button" aria-label="Toggle sound effects">SFX</button>
+                <div class="status-chip" id="statusChip">BOOTING</div>
+            </div>
+        </header>
+
+        <section class="arena" aria-label="Animated portfolio game loader">
+            <div class="stage">
+                <!-- Vector nodes & line inside the canvas -->
+                <div class="vector-path" aria-hidden="true">
+                    <svg width="100%" height="100%" viewBox="0 0 500 500" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
+                        <path d="M 100 150 Q 250 80 400 150" fill="none" stroke="rgba(24, 160, 251, 0.4)" stroke-width="3" stroke-dasharray="6 6"/>
+                        <circle cx="100" cy="150" r="5" fill="#fff" stroke="#18a0fb" stroke-width="3"/>
+                        <circle cx="400" cy="150" r="5" fill="#fff" stroke="#18a0fb" stroke-width="3"/>
+                        <circle cx="250" cy="115" r="4" fill="#18a0fb"/>
+                        <line x1="250" y1="115" x2="250" y2="80" stroke="#18a0fb" stroke-width="1.5"/>
+                    </svg>
+                </div>
+
+                <!-- Cursors -->
+                <div class="editor-cursor cursor-1" style="top: 22%; left: 78%;" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="none" style="transform: rotate(-15deg);"><path d="M0 0l16 4.5-7.5 3-3 7.5L0 0z" fill="#ff007f"/></svg>
+                    <span class="cursor-tag" style="background: #ff007f;">User</span>
+                </div>
+                <div class="editor-cursor cursor-2" style="top: 68%; left: 12%;" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="none" style="transform: rotate(-15deg);"><path d="M0 0l16 4.5-7.5 3-3 7.5L0 0z" fill="#18a0fb"/></svg>
+                    <span class="cursor-tag" style="background: #18a0fb;">Client</span>
+                </div>
+
+                <!-- Figma Selection Frame for the avatar -->
+                <div class="avatar-selection-frame" aria-hidden="true">
+                    <span class="frame-label">Frame: Mahima</span>
+                    <span class="handle top-left"></span>
+                    <span class="handle top-right"></span>
+                    <span class="handle bottom-left"></span>
+                    <span class="handle bottom-right"></span>
+                    <span class="spacing-guide top-guide">Y: 120px</span>
+                    <span class="spacing-guide left-guide">X: 80px</span>
+                </div>
+
+                <div class="portfolio-preview" aria-hidden="true"></div>
+                <div class="avatar-wrap" aria-hidden="true">
+                    <div class="avatar-sprite" id="avatarSprite"></div>
+                </div>
+            </div>
+            <div class="combo-stack" aria-hidden="true">
+                <div class="combo"><strong id="pxValue">0</strong><span>PX</span></div>
+                <div class="combo"><strong id="gridValue">8px</strong><span>Grid</span></div>
+                <div class="combo"><strong id="layersValue">0</strong><span>Layers</span></div>
+            </div>
+        </section>
+
+        <section class="battle-card" aria-live="polite">
+            <p class="battle-text" id="battleText">Booting design canvas...</p>
+            <div class="meter" aria-hidden="true">
+                <div class="meter-fill" id="meterFill"></div>
+            </div>
+            <button class="fight-btn" id="fightBtn" type="button">GO!</button>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const COLS = 8;
+            const ROWS = 5;
+            const gameShell = document.getElementById("gameShell");
+            const statusChip = document.getElementById("statusChip");
+            const battleText = document.getElementById("battleText");
+            const meterFill = document.getElementById("meterFill");
+            const fightBtn = document.getElementById("fightBtn");
+            const soundBtn = document.getElementById("soundBtn");
+            const avatarSprite = document.getElementById("avatarSprite");
+            const pxValue = document.getElementById("pxValue");
+            const gridValue = document.getElementById("gridValue");
+            const layersValue = document.getElementById("layersValue");
+
+            const sequences = {
+                // Dance sequence from Row 4 of the spritesheet (columns 0 to 7)
+                dance: [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4]],
+                // Walk sequence from Row 1 of the spritesheet (columns 0 to 7)
+                walk: [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1]],
+                // Say Hi / wave sequence from Row 0 of the spritesheet
+                sayHi: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [6, 0], [5, 0], [4, 0], [3, 0], [2, 0], [1, 0]],
+                // Happy pookie jump sequence from Row 3 of the spritesheet
+                pookieJump: [[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3]]
+            };
+
+            const loaderBeats = [
+                { at: 0, text: "Booting design canvas...", status: "Booting", seq: "dance", xp: 0, level: "8px", combo: "0" },
+                { at: 14, text: "Grids calibrated, vector engine initialized.", status: "Grids", seq: "dance", xp: 240, level: "8px", combo: "12" },
+                { at: 24, text: "Importing design library & color variables...", status: "Library", seq: "dance", xp: 480, level: "16px", combo: "34" },
+                { at: 38, text: "Stitching pixel mockups & text styling...", status: "Layout", seq: "dance", xp: 800, level: "16px", combo: "67" },
+                { at: 48, text: "Syncing auto-layout frames & component states...", status: "Layout", seq: "dance", xp: 1024, level: "32px", combo: "98" },
+                { at: 62, text: "Injecting hover micro-animations & click SFX...", status: "SFX", seq: "dance", xp: 1280, level: "32px", combo: "145" },
+                { at: 74, text: "Verifying contrast ratio & accessibility tags...", status: "Verify", seq: "dance", xp: 1440, level: "64px", combo: "210" },
+                { at: 86, text: "Final render complete. Canvas is ready.", status: "Ready", seq: "dance", xp: 1680, level: "64px", combo: "280" },
+                { at: 100, text: "Tap GO to load the final design build!", status: "Ready", seq: "dance", xp: 1920, level: "8px", combo: "312" }
+            ];
+
+            let progress = 0;
+            let beatIndex = 0;
+            let activeSequence = "dance";
+            let frameIndex = 0;
+            let sfxEnabled = true;  // Enable SFX by default
+            let audioContext;
+            let overrideActive = false;
+            let overrideTimeout = null;
+
+            function playOverrideSequence(seqName, durationMs) {
+                if (overrideTimeout) {
+                    clearTimeout(overrideTimeout);
+                }
+                overrideActive = true;
+                setSequence(seqName);
+                
+                if (durationMs) {
+                    overrideTimeout = setTimeout(() => {
+                        overrideActive = false;
+                        setSequence(progress === 100 ? "dance" : loaderBeats[beatIndex].seq);
+                    }, durationMs);
+                }
+            }
+
+            function setFrame(col, row) {
+                const x = (col / (COLS - 1)) * 100;
+                const y = (row / (ROWS - 1)) * 100;
+                avatarSprite.style.backgroundPosition = `${x}% ${y}%`;
+            }
+
+            function setSequence(name) {
+                if (activeSequence !== name) {
+                    activeSequence = name;
+                    frameIndex = 0;
+                }
+            }
+
+            function tickSprite() {
+                const frames = sequences[activeSequence];
+                const frame = frames[frameIndex % frames.length];
+                setFrame(frame[0], frame[1]);
+                frameIndex += 1;
+            }
+
+            function ensureAudio() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === "suspended") {
+                    audioContext.resume();
+                }
+            }
+
+            function playTone(freq, duration, type = "sine", gain = 0.045, delay = 0) {
+                if (!sfxEnabled) return;
+                ensureAudio();
+                const now = audioContext.currentTime + delay;
+                const osc = audioContext.createOscillator();
+                const amp = audioContext.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, now);
+                amp.gain.setValueAtTime(0.0001, now);
+                amp.gain.exponentialRampToValueAtTime(gain, now + 0.015);
+                amp.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                osc.connect(amp);
+                amp.connect(audioContext.destination);
+                osc.start(now);
+                osc.stop(now + duration + 0.04);
+            }
+
+            function playNoise(duration = 0.12, gain = 0.035) {
+                if (!sfxEnabled) return;
+                ensureAudio();
+                const bufferSize = Math.max(1, Math.floor(audioContext.sampleRate * duration));
+                const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i += 1) {
+                    data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+                }
+                const source = audioContext.createBufferSource();
+                const amp = audioContext.createGain();
+                amp.gain.value = gain;
+                source.buffer = buffer;
+                source.connect(amp);
+                amp.connect(audioContext.destination);
+                source.start();
+            }
+
+            function playStep() {
+                // Game Boy-style step sound
+                playTone(200, 0.04, "square", 0.018);
+            }
+
+            function playBeat(index) {
+                // Game Boy-style beat sound
+                const base = 360 + index * 34;
+                playTone(base, 0.1, "triangle", 0.04);
+                playTone(base * 1.4, 0.13, "square", 0.028, 0.06);
+            }
+
+            function playReady() {
+                // Game Boy-style ready sound
+                playTone(587.33, 0.13, "triangle", 0.045);
+                playTone(740, 0.13, "triangle", 0.045, 0.13);
+                playTone(850, 0.18, "triangle", 0.05, 0.25);
+            }
+
+            function playBoot() {
+                // Game Boy-style boot sound
+                playTone(262, 0.06, "square", 0.025);
+                playTone(392, 0.07, "square", 0.028, 0.07);
+                playTone(523, 0.08, "triangle", 0.03, 0.15);
+                playTone(784, 0.12, "sine", 0.028, 0.25);
+            }
+
+            function playHover() {
+                playTone(987, 0.04, "triangle", 0.02);
+                playTone(1175, 0.045, "sine", 0.016, 0.035);
+            }
+
+            function playLaunch() {
+                playNoise(0.13, 0.03);
+                playTone(262, 0.1, "square", 0.038);
+                playTone(392, 0.12, "triangle", 0.04, 0.09);
+                playTone(523, 0.14, "triangle", 0.042, 0.2);
+                playTone(659, 0.18, "sine", 0.035, 0.3);
+                playTone(784, 0.2, "sine", 0.03, 0.4);
+            }
+
+            function playGameBoyLoadingSound() {
+                if (!sfxEnabled) return;
+                ensureAudio();
+                const now = audioContext.currentTime;
+                const baseFreq = 200;
+                const step = 20;
+                
+                for (let i = 0; i < 4; i++) {
+                    const freq = baseFreq + (i * step);
+                    const osc = audioContext.createOscillator();
+                    const amp = audioContext.createGain();
+                    osc.type = "square";
+                    osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                    amp.gain.setValueAtTime(0.0001, now + i * 0.08);
+                    amp.gain.exponentialRampToValueAtTime(0.02, now + i * 0.08 + 0.01);
+                    amp.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.08 + 0.04);
+                    osc.connect(amp);
+                    amp.connect(audioContext.destination);
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 0.06);
+                }
+            }
+
+            function playHiSound() {
+                if (!sfxEnabled) return;
+                ensureAudio();
+                playTone(660, 0.06, "sine", 0.02);
+                playTone(880, 0.1, "sine", 0.02, 0.06);
+            }
+
+            function playJumpSound() {
+                if (!sfxEnabled) return;
+                ensureAudio();
+                playTone(523.25, 0.05, "square", 0.015);
+                playTone(659.25, 0.05, "square", 0.015, 0.05);
+                playTone(783.99, 0.05, "square", 0.015, 0.1);
+                playTone(1046.5, 0.12, "triangle", 0.025, 0.15);
+            }
+
+            soundBtn.addEventListener("click", () => {
+                sfxEnabled = !sfxEnabled;
+                if (sfxEnabled) {
+                    ensureAudio();
+                    soundBtn.textContent = "SFX On";
+                    playBoot();
+                } else {
+                    soundBtn.textContent = "SFX";
+                }
+            });
+            
+            soundBtn.textContent = "SFX On";
+
+            fightBtn.addEventListener("pointerenter", playHover);
+
+            setFrame(0, 4);
+            setInterval(tickSprite, 115);
+
+            // Click/Hover events on the avatar area for retro fun!
+            const avatarWrap = document.querySelector(".avatar-wrap");
+            if (avatarWrap) {
+                avatarWrap.style.cursor = "pointer";
+                avatarWrap.addEventListener("mouseenter", () => {
+                    if (activeSequence === "walk") return;
+                    playHiSound();
+                    playOverrideSequence("sayHi", 1610); // 14 frames * 115ms
+                });
+
+                avatarWrap.addEventListener("click", () => {
+                    if (activeSequence === "walk") return;
+                    playJumpSound();
+                    playOverrideSequence("pookieJump", 920); // 8 frames * 115ms
+                });
+            }
+
+            // Slower loading progress for retro feel & micro-interactions window
+            const loader = setInterval(() => {
+                progress = Math.min(progress + Math.floor(Math.random() * 2) + 1, 100);
+                meterFill.style.width = `${progress}%`;
+
+                const nextBeat = loaderBeats.reduce((latest, beat, index) => {
+                    return progress >= beat.at ? index : latest;
+                }, beatIndex);
+
+                if (nextBeat !== beatIndex) {
+                    beatIndex = nextBeat;
+                    const beat = loaderBeats[beatIndex];
+                    battleText.textContent = beat.text;
+                    statusChip.textContent = beat.status;
+                    pxValue.textContent = beat.xp;
+                    gridValue.textContent = beat.level;
+                    layersValue.textContent = beat.combo;
+                    
+                    if (!overrideActive && activeSequence !== "walk") {
+                        setSequence(beat.seq);
+                    }
+                    playBeat(beatIndex);
+                    playGameBoyLoadingSound();
+                }
+
+                if ((activeSequence === "walk" || activeSequence === "run") && progress % 2 === 0) {
+                    playStep();
+                }
+
+                if (progress === 100) {
+                    clearInterval(loader);
+                    const finalBeat = loaderBeats[loaderBeats.length - 1];
+                    battleText.textContent = finalBeat.text;
+                    statusChip.textContent = finalBeat.status;
+                    pxValue.textContent = finalBeat.xp;
+                    gridValue.textContent = finalBeat.level;
+                    layersValue.textContent = finalBeat.combo;
+                    
+                    if (!overrideActive) {
+                        setSequence("dance");
+                    }
+                    gameShell.classList.add("is-ready");
+                    fightBtn.focus({ preventScroll: true });
+                    playReady();
+                }
+            }, 180);
+
+            fightBtn.addEventListener("click", () => {
+                ensureAudio();
+                sfxEnabled = true;
+                soundBtn.textContent = "SFX On";
+                statusChip.textContent = "Opening";
+                battleText.textContent = "Opening Mahima's portfolio...";
+                fightBtn.disabled = true;
+                
+                if (overrideTimeout) {
+                    clearTimeout(overrideTimeout);
+                }
+                overrideActive = true;
+                setSequence("walk");
+                gameShell.classList.add("is-entering-portfolio");
+                playLaunch();
+                playGameBoyLoadingSound();
+                sessionStorage.setItem("fromPortfolioLoader", "true");
+
+                setTimeout(() => {
+                    document.body.classList.add("entering-site");
+                }, 260);
+
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1320);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -517,6 +517,55 @@ nav {
   animation: paintSplash 1.2s forwards ease-in-out;
 }
 
+body.from-portfolio-loader {
+  overflow-x: hidden;
+}
+
+body.from-portfolio-loader #color-splash-overlay {
+  width: 100vmax;
+  height: 100vmax;
+  top: 50%;
+  left: 50%;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(94, 103, 230, 0.1) 0%, rgba(158, 95, 230, 0.07) 50%, transparent 100%),
+    #f3f6fc;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: loaderReveal 0.95s var(--ease) forwards;
+}
+
+body.from-portfolio-loader .hero-copy,
+body.from-portfolio-loader .hero-face,
+body.from-portfolio-loader .hero-emoji-layer {
+  animation: loaderHeroSettle 0.9s 0.08s var(--ease) both;
+}
+
+@keyframes loaderReveal {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  70% {
+    opacity: 0.18;
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+
+@keyframes loaderHeroSettle {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes paintSplash {
   0% {
     transform: translate(-50%, -50%) scale(0) rotate(var(--splash-rot, 0deg));
@@ -781,12 +830,13 @@ nav {
 }
 
 .hero-face {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 77%;
-  transform: translateX(-50%);
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+  position: relative;
   width: clamp(290px, 26vw, 380px);
-  z-index: 10; /* Make it float above all emojis and logos */;
+  z-index: 10; /* Make it float above all emojis and logos */
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;

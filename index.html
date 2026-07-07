@@ -25,6 +25,14 @@
   </script>
 </head>
 <body>
+  <script>
+    if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
+      window.location.replace('splash.html');
+    } else {
+      document.body.classList.add('from-portfolio-loader');
+      sessionStorage.removeItem('fromPortfolioLoader');
+    }
+  </script>
 
   <!-- Paint Splash Transition Overlay -->
   <div id="color-splash-overlay" aria-hidden="true"></div>
@@ -125,19 +133,6 @@
         </h1>
         <p class="hero-sub" id="hero-sub-text">I turn complex AI, robotics, SaaS, and voice-product workflows into clear digital experiences that people understand and enjoy using.</p>
 
-        <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
-          <div class="avatar-bob">
-            <video class="hero-avatar-video" autoplay muted loop poster="assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
-              <source src="assets/images/avatar-hero-Picsart-BackgroundRemover.webm" type="video/webm">
-            </video>
-          </div>
-          <!-- Sound Toggle outside avatar-bob so it's not cropped by the blob mask -->
-          <div role="button" class="sound-toggle" id="hero-sound-toggle" aria-label="Toggle audio" title="Unmute video">
-            <span class="sound-off"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></span>
-            <span class="sound-on"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></span>
-          </div>
-        </a>
-
         <div class="hero-actions" id="hero-actions-container">
           <a href="#work" class="btn-primary" id="hero-cta-primary">Explore My Work <span aria-hidden="true">→</span></a>
           <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" download class="btn-secondary" id="hero-cta-secondary">Download Resume</a>
@@ -149,6 +144,19 @@
           <span>5+ years across product ecosystems</span>
         </div>
       </div>
+
+      <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
+        <div class="avatar-bob">
+          <video class="hero-avatar-video" autoplay muted loop poster="assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
+            <source src="assets/images/avatar-hero-Picsart-BackgroundRemover.webm" type="video/webm">
+          </video>
+        </div>
+        <!-- Sound Toggle outside avatar-bob so it's not cropped by the blob mask -->
+        <div role="button" class="sound-toggle" id="hero-sound-toggle" aria-label="Toggle audio" title="Unmute video">
+          <span class="sound-off"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></span>
+          <span class="sound-on"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></span>
+        </div>
+      </a>
 
       <!-- Brands Strip -->
       <div class="hero-logos" id="hero-logos-strip">
