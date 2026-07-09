@@ -119,10 +119,22 @@ YOUR BEHAVIOR:
 
     const data = await response.json();
     const rawAssistantMessage = data.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
-    const assistantMessage = rawAssistantMessage
+    let assistantMessage = rawAssistantMessage
       .replace(/<think>[\s\S]*?<\/think>/gi, '')
       .replace(/^[\s\S]*?<\/think>/i, '')
-      .trim() || 'Sorry, I could not generate a response.';
+      .trim();
+
+    if (/^(okay|let me|i need to|the user|from the|so,)/i.test(assistantMessage)) {
+      const quotedAnswers = [...assistantMessage.matchAll(/["“]([^"”]{35,500})["”]/g)]
+        .map((match) => match[1].trim())
+        .filter((text) => !/^in one sentence/i.test(text) && !/^what does/i.test(text));
+
+      if (quotedAnswers.length) {
+        assistantMessage = quotedAnswers[quotedAnswers.length - 1];
+      }
+    }
+
+    assistantMessage = assistantMessage || 'Sorry, I could not generate a response.';
 
     return res.status(200).json({ reply: assistantMessage });
   } catch (err) {
