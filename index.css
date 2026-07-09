@@ -2565,6 +2565,31 @@ footer span {
   color: rgba(240,240,245,0.5);
   margin-top: 2px;
 }
+.cb-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cb-sound-toggle {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
+  color: rgba(240,240,245,0.78);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, color 0.2s;
+}
+.cb-sound-toggle:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,0.18);
+  color: #fff;
+}
+.cb-sound-off { display: none; }
+.cb-sound-toggle--muted .cb-sound-on { display: none; }
+.cb-sound-toggle--muted .cb-sound-off { display: inline; }
 .cb-header-close {
   background: none;
   border: none;
@@ -2604,6 +2629,17 @@ footer span {
   line-height: 1.55;
   word-break: break-word;
 }
+.cb-msg-bubble--typing::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 1em;
+  margin-left: 3px;
+  border-radius: 8px;
+  background: var(--accent, #1a6fff);
+  transform: translateY(2px);
+  animation: cb-caret-blink 0.85s steps(1, end) infinite;
+}
 .cb-msg--user .cb-msg-bubble {
   background: linear-gradient(135deg, var(--accent, #1a6fff), var(--accent2, #4f3fd9));
   color: #fff;
@@ -2623,6 +2659,13 @@ footer span {
   gap: 5px;
   padding: 12px 18px !important;
 }
+.cb-typing em {
+  margin-left: 6px;
+  color: rgba(224,224,236,0.62);
+  font-size: 0.72rem;
+  font-style: normal;
+  white-space: nowrap;
+}
 .cb-typing span {
   display: inline-block;
   width: 8px;
@@ -2638,6 +2681,45 @@ footer span {
 @keyframes cb-dot-bounce {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.35; }
   40%           { transform: scale(1);   opacity: 1; }
+}
+@keyframes cb-caret-blink {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
+
+/* ── Recruiter Prompt Chips ─────────────────────────────────────── */
+.cb-suggestions {
+  display: flex;
+  gap: 8px;
+  padding: 0 14px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  background: rgba(12, 12, 20, 0.46);
+}
+.cb-suggestions::-webkit-scrollbar { display: none; }
+.cb-suggestions--disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+.cb-chip {
+  flex: 0 0 auto;
+  min-height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.055);
+  color: rgba(240,240,245,0.76);
+  padding: 0 12px;
+  font-size: 0.73rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+.cb-chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent, #1a6fff) 46%, rgba(255,255,255,0.18));
+  background: rgba(255,255,255,0.09);
+  color: #fff;
 }
 
 /* ── Input Bar ──────────────────────────────────────────────────── */
@@ -2700,5 +2782,8 @@ footer span {
     height: calc(100vh - 120px);
     max-height: none;
     border-radius: 18px;
+  }
+  .cb-typing em {
+    white-space: normal;
   }
 }
