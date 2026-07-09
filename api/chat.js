@@ -102,6 +102,33 @@ STYLE:
   };
 
   const fullMessages = [systemMessage, ...messages];
+  const latestUserMessage = [...messages].reverse().find((message) => message?.role === 'user')?.content || '';
+
+  const recruiterFallback = (question) => {
+    const normalized = question.toLowerCase();
+
+    if (normalized.includes('hire') || normalized.includes('fit')) {
+      return 'Mahima would be a strong fit for teams building AI, SaaS, kiosk, robotics, or voice-led products because she combines product thinking with polished UI execution. Her work shows practical impact across adoption, satisfaction, conversion, and handoff efficiency, with strong Figma systems, prototyping, and cross-functional collaboration behind it.';
+    }
+
+    if (normalized.includes('ai') || normalized.includes('voice') || normalized.includes('robot')) {
+      return 'Mahima has hands-on experience designing AI-powered kiosks, robotics interfaces, enterprise dashboards, and multimodal voice/chat experiences. Her edge is making technically complex workflows feel clear, approachable, and usable for real customers in hospitality, healthcare, retail, and enterprise contexts.';
+    }
+
+    if (normalized.includes('impact') || normalized.includes('project') || normalized.includes('business')) {
+      return 'Her portfolio connects design decisions to measurable outcomes: 78% adoption and faster ordering for HeyAlpha Food Voice, 92% usability and reduced check-in time for Patient Voice Helper, and a 45% conversion uplift for an Agentic AI landing page. That makes her work useful for recruiters looking for both visual craft and product impact.';
+    }
+
+    if (normalized.includes('skill') || normalized.includes('figma') || normalized.includes('tool')) {
+      return 'Mahima brings strong UI/UX fundamentals across research, flows, wireframes, high-fidelity UI, prototyping, accessibility, and design systems. She is especially strong in Figma, responsive components, developer handoff, and designing for AI, VUI, kiosks, SaaS dashboards, and enterprise workflows.';
+    }
+
+    if (normalized.includes('contact') || normalized.includes('email') || normalized.includes('reach')) {
+      return 'The fastest way to reach Mahima is through the portfolio contact form or by emailing mahimagupta015@gmail.com. For hiring conversations, sharing the role, product domain, and timeline will help her respond with the most relevant context.';
+    }
+
+    return 'Mahima is a senior UI/UX and product designer focused on AI interfaces, robotics workflows, SaaS dashboards, voice experiences, and self-service kiosks. She combines user research, polished visual design, prototyping, and scalable Figma systems to turn complex product ideas into clear, recruiter-ready digital experiences.';
+  };
 
   try {
     const response = await fetch(`${apiBase}/v1/chat/completions`, {
@@ -131,7 +158,9 @@ STYLE:
       .replace(/^[\s\S]*?<\/think>/i, '')
       .trim();
 
-    if (/^(okay|let me|i need to|the user|from the|so,)/i.test(assistantMessage)) {
+    const hasReasoningLead = /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage);
+
+    if (hasReasoningLead) {
       const quotedAnswers = [...assistantMessage.matchAll(/["“]([^"”]{35,500})["”]/g)]
         .map((match) => match[1].trim())
         .filter((text) => !/^in one sentence/i.test(text) && !/^what does/i.test(text));
@@ -145,6 +174,14 @@ STYLE:
           .filter(Boolean);
         assistantMessage = paragraphs[paragraphs.length - 1] || assistantMessage;
       }
+    }
+
+    if (
+      /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
+      /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
+      assistantMessage.length < 45
+    ) {
+      assistantMessage = recruiterFallback(latestUserMessage);
     }
 
     assistantMessage = assistantMessage || 'Sorry, I could not generate a response.';
