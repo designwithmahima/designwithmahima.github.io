@@ -29,7 +29,7 @@
 <body>
   <script>
     if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
-      window.location.replace(new URL('splash/', window.location.href));
+      window.location.replace(new URL('splash', window.location.href));
     } else {
       document.body.classList.add('from-portfolio-loader');
       sessionStorage.removeItem('fromPortfolioLoader');
