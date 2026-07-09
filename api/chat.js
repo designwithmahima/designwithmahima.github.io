@@ -285,7 +285,7 @@ STYLE:
       body: JSON.stringify({
         model: model,
         messages: fullMessages,
-        max_tokens: 420,
+        max_tokens: 560,
         temperature: 0.55
       })
     });
@@ -323,6 +323,7 @@ STYLE:
       /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
       /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
       assistantMessage.length < 90 ||
+      (hasAttachedDocumentContext && !/[.!?]$/.test(assistantMessage)) ||
       /[:*-]\s*$/.test(assistantMessage);
     const shouldCleanWithFallback = !hasAttachedDocumentContext && hasBadAnswerShape;
 
