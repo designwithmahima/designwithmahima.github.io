@@ -130,6 +130,27 @@ STYLE:
     return 'Mahima is a senior UI/UX and product designer focused on AI interfaces, robotics workflows, SaaS dashboards, voice experiences, and self-service kiosks. She combines user research, polished visual design, prototyping, and scalable Figma systems to turn complex product ideas into clear, recruiter-ready digital experiences.';
   };
 
+  const shouldUseRecruiterFallback = (question) => {
+    const normalized = question.toLowerCase();
+    return (
+      normalized.includes('hire') ||
+      normalized.includes('fit') ||
+      normalized.includes('ai') ||
+      normalized.includes('voice') ||
+      normalized.includes('robot') ||
+      normalized.includes('impact') ||
+      normalized.includes('business') ||
+      normalized.includes('skill') ||
+      normalized.includes('figma') ||
+      normalized.includes('contact') ||
+      normalized.includes('email')
+    );
+  };
+
+  if (shouldUseRecruiterFallback(latestUserMessage)) {
+    return res.status(200).json({ reply: recruiterFallback(latestUserMessage) });
+  }
+
   try {
     const response = await fetch(`${apiBase}/v1/chat/completions`, {
       method: 'POST',
@@ -179,7 +200,8 @@ STYLE:
     if (
       /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
       /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
-      assistantMessage.length < 45
+      assistantMessage.length < 90 ||
+      /[:*-]\s*$/.test(assistantMessage)
     ) {
       assistantMessage = recruiterFallback(latestUserMessage);
     }
