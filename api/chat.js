@@ -1,5 +1,6 @@
 // Vercel Serverless Function: Proxies chat requests to LiteLLM
 // This keeps the API key hidden from the client.
+import mahimaKnowledge from '../data/mahima-knowledge.json' with { type: 'json' };
 
 export default async function handler(req, res) {
   // Only allow POST
@@ -31,10 +32,15 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing or invalid "messages" array in request body.' });
   }
 
+  const knowledgeJson = JSON.stringify(mahimaKnowledge, null, 2);
+
   // System prompt providing context about Mahima's portfolio (includes resume content)
   const systemMessage = {
     role: 'system',
     content: `You are Mahima's Portfolio Assistant — a friendly, knowledgeable AI helper embedded in Mahima Gupta's design portfolio website.
+
+Use this structured knowledge base as the source of truth. Do not invent details outside it:
+${knowledgeJson}
 
 ABOUT MAHIMA GUPTA (from resume):
 - Name: Mahima Gupta
@@ -97,12 +103,28 @@ STYLE:
 - Professional, polished, warm, and recruiter-friendly.
 - 2-4 crisp sentences by default. Use bullets only if the user asks for a list or comparison.
 - Make answers specific and attractive, but do not invent employers, metrics, dates, tools, or awards beyond the provided context.
+- Return plain text only. Do not use Markdown formatting such as **bold**, headings, tables, or bullet symbols unless the user explicitly asks.
 - Answer directly. Do not include hidden reasoning, analysis notes, chain-of-thought, "Okay", "Let me", or <think> blocks in your response.
 - End hiring/collaboration answers with a soft next step when natural: "The fastest next step is to contact her through the form or email."`
   };
 
   const fullMessages = [systemMessage, ...messages];
   const latestUserMessage = [...messages].reverse().find((message) => message?.role === 'user')?.content || '';
+
+  const cleanAssistantText = (text) => {
+    return String(text || '')
+      .replace(/<think>[\s\S]*?<\/think>/gi, '')
+      .replace(/^[\s\S]*?<\/think>/i, '')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*\n]+)\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/^\s*[-*•]\s+/gm, '')
+      .replace(/^\s*\d+\.\s+/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  };
 
   const recruiterFallback = (question) => {
     const normalized = question.toLowerCase();
@@ -174,10 +196,7 @@ STYLE:
 
     const data = await response.json();
     const rawAssistantMessage = data.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
-    let assistantMessage = rawAssistantMessage
-      .replace(/<think>[\s\S]*?<\/think>/gi, '')
-      .replace(/^[\s\S]*?<\/think>/i, '')
-      .trim();
+    let assistantMessage = cleanAssistantText(rawAssistantMessage);
 
     const hasReasoningLead = /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage);
 
@@ -187,13 +206,13 @@ STYLE:
         .filter((text) => !/^in one sentence/i.test(text) && !/^what does/i.test(text));
 
       if (quotedAnswers.length) {
-        assistantMessage = quotedAnswers[quotedAnswers.length - 1];
+        assistantMessage = cleanAssistantText(quotedAnswers[quotedAnswers.length - 1]);
       } else {
         const paragraphs = assistantMessage
           .split(/\n{2,}/)
           .map((text) => text.trim())
           .filter(Boolean);
-        assistantMessage = paragraphs[paragraphs.length - 1] || assistantMessage;
+        assistantMessage = cleanAssistantText(paragraphs[paragraphs.length - 1] || assistantMessage);
       }
     }
 

@@ -2768,20 +2768,64 @@ footer span {
 /* ── Mobile responsive ──────────────────────────────────────────── */
 @media (max-width: 480px) {
   .cb-fab {
-    bottom: 18px;
-    right: 18px;
-    width: 54px;
-    height: 54px;
+    bottom: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
   }
   .cb-window {
-    bottom: 82px;
+    bottom: 76px;
     right: 10px;
-    left: 10px;
-    width: auto;
-    max-width: none;
-    height: calc(100vh - 120px);
-    max-height: none;
-    border-radius: 18px;
+    left: auto;
+    width: min(350px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
+    height: min(560px, calc(100dvh - 112px));
+    max-height: calc(100dvh - 112px);
+    border-radius: 16px;
+  }
+  .cb-header {
+    padding: 12px 13px;
+  }
+  .cb-header-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.86rem;
+  }
+  .cb-header-title {
+    font-size: 0.82rem;
+  }
+  .cb-header-sub {
+    font-size: 0.62rem;
+  }
+  .cb-messages {
+    padding: 12px 10px;
+    gap: 8px;
+  }
+  .cb-msg-bubble {
+    max-width: 88%;
+    padding: 9px 11px;
+    font-size: 0.8rem;
+    line-height: 1.48;
+  }
+  .cb-suggestions {
+    padding: 0 10px 9px;
+  }
+  .cb-chip {
+    min-height: 30px;
+    padding: 0 10px;
+    font-size: 0.66rem;
+  }
+  .cb-input-bar {
+    padding: 9px 10px;
+  }
+  .cb-input {
+    min-width: 0;
+    padding: 9px 10px;
+    font-size: 0.8rem;
+  }
+  .cb-send {
+    width: 36px;
+    height: 36px;
   }
   .cb-typing em {
     white-space: normal;

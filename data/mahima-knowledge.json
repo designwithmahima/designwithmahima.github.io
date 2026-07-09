@@ -1,0 +1,161 @@
+{
+  "profile": {
+    "name": "Mahima Gupta",
+    "title": "Senior UI/UX Designer | Product Designer | Visual Designer",
+    "location": "Noida, India",
+    "email": "mahimagupta015@gmail.com",
+    "phone": "+91-7982908054",
+    "links": {
+      "portfolio": "https://designwithmahima.vercel.app",
+      "githubPages": "https://designwithmahima.github.io/",
+      "linkedin": "https://linkedin.com/in/mahima003",
+      "behance": "https://behance.net/mahima-gupta",
+      "resume": "/assets/mahima_gupta_resume.pdf"
+    }
+  },
+  "summary": "Senior UI/UX and product designer designing user-centered digital products for AI-driven platforms, robotics interfaces, enterprise SaaS, dashboards, voice UI, self-service kiosks, and hospitality/healthcare workflows.",
+  "positioning": [
+    "Translates complex AI, robotics, kiosk, SaaS, and voice workflows into clear user experiences.",
+    "Combines research, interaction design, visual craft, prototyping, accessibility, and scalable Figma systems.",
+    "Useful for teams that need designer-led product clarity across emerging technology, operational tools, and customer-facing experiences."
+  ],
+  "industries": [
+    "Healthcare",
+    "Robotics",
+    "Hospitality",
+    "Food and restaurant ordering",
+    "Enterprise SaaS",
+    "Retail IoT",
+    "Gaming and community platforms"
+  ],
+  "skills": {
+    "designTools": [
+      "Figma",
+      "Framer",
+      "Adobe XD",
+      "Sketch",
+      "Miro",
+      "FigJam",
+      "Zeplin",
+      "Adobe Illustrator",
+      "Adobe Photoshop",
+      "Canva"
+    ],
+    "core": [
+      "User research",
+      "User personas",
+      "User flows",
+      "Wireframing",
+      "Rapid prototyping",
+      "Interaction design",
+      "Usability testing",
+      "Information architecture",
+      "Visual design",
+      "Design systems",
+      "Responsive design",
+      "Accessibility"
+    ],
+    "domains": [
+      "Conversational AI",
+      "Voice user interfaces",
+      "Self-service kiosk design",
+      "SaaS dashboards",
+      "AI-driven products",
+      "Robotics interfaces",
+      "Gamification",
+      "B2B enterprise applications"
+    ]
+  },
+  "experience": [
+    {
+      "company": "Alphadroid",
+      "role": "Senior UI/UX Designer",
+      "period": "Jun 2024 - Present",
+      "location": "Noida, India",
+      "highlights": [
+        "Leads UI/UX design for AI-powered kiosks, robotics platforms, and enterprise dashboards.",
+        "Architected HeyAlpha, a multimodal conversational AI interface for voice/chat and touchless experiences.",
+        "Developed a scalable Figma design system that reduced handoff time by 25%.",
+        "Designed customer-facing experiences for Bikanervala, Green Park Hotels, Moxy Hotels by Marriott, Dabur, and India Gate Basmati."
+      ]
+    },
+    {
+      "company": "Gamemano",
+      "role": "UI/UX Designer",
+      "period": "Nov 2022 - May 2024",
+      "location": "Noida, India",
+      "highlights": [
+        "Designed slot game interfaces, HUD elements, reels, in-game menus, and interactive feedback systems.",
+        "Created prototypes and user journey maps for gaming experiences.",
+        "Collaborated with Unity developers for pixel-perfect asset integration."
+      ]
+    },
+    {
+      "company": "5bix.ca",
+      "role": "UI/UX Designer",
+      "period": "Sep 2022 - Nov 2022",
+      "location": "Remote / Hybrid",
+      "highlights": [
+        "Created wireframes, low-fidelity prototypes, custom icon sets, and visual assets."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "In-Room Companion",
+      "category": "Hospitality AI / 3D Conversational VUI",
+      "clientOrContext": "Aliste Hotel",
+      "impact": "95% guest satisfaction",
+      "link": "https://www.behance.net/gallery/235512843/Voice-User-Interface-with-3D-talking-avatar",
+      "summary": "QR concierge experience with a 3D talking avatar for hotel guests."
+    },
+    {
+      "name": "HeyAlpha Food Voice",
+      "category": "Hospitality AI Voice UI",
+      "clientOrContext": "Marriott Moxy and Bikanervala",
+      "impact": "78% guest adoption and 3x faster orders",
+      "link": "https://www.behance.net/gallery/244217839/food-order-through-voice",
+      "summary": "Touchless restaurant ordering through a QR-code voice web app."
+    },
+    {
+      "name": "Agentic AI Landing Page",
+      "category": "Robotics / AI marketing web",
+      "clientOrContext": "Alphadroid",
+      "impact": "45% conversion uplift",
+      "link": "https://www.behance.net/gallery/237938909/Agentic-AI-Landing-page",
+      "summary": "High-converting landing page for agentic AI and robotics solutions."
+    },
+    {
+      "name": "Patient Voice Helper",
+      "category": "Healthcare SaaS kiosk",
+      "clientOrContext": "Novacare Hospital",
+      "impact": "92% usability rating and 40% check-in time reduction",
+      "link": "https://www.behance.net/gallery/242225823/Voice-Assisted-Patient-Appointments-Wayfinding",
+      "summary": "Voice-assisted patient appointments and wayfinding kiosk system."
+    },
+    {
+      "name": "Get Ready in 3 Seconds",
+      "category": "Retail IoT / self-checkout kiosk",
+      "clientOrContext": "Retail self-checkout",
+      "impact": "85% satisfaction and 3-second checkout",
+      "link": "https://designwithmahima.github.io/tryme/",
+      "summary": "Rapid self-checkout kiosk flow for retail IoT contexts."
+    },
+    {
+      "name": "AlphaDiz",
+      "category": "Gaming platform / community UX",
+      "clientOrContext": "Gamemano",
+      "impact": "28% retention uplift",
+      "link": "https://www.behance.net/gallery/213906955/AlphaDiz-Online-Gaming-Platform",
+      "summary": "Online gaming and community platform with HUD and onboarding experience."
+    }
+  ],
+  "certifications": [
+    "Google UX Design Professional Certificate, Coursera, Mar 2022",
+    "Microsoft Fundamentals UI/UX Design Certificate, 2025",
+    "UX Design Job Simulation, Lloyds Banking Group / Forage, Jan 2026"
+  ],
+  "education": [
+    "Bachelor of Arts, Uttar Pradesh Rajarshi Tandon Open University, 2018-2021"
+  ]
+}

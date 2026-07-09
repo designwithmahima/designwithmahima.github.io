@@ -85,6 +85,19 @@
     msgContainer.scrollTop = msgContainer.scrollHeight;
   };
 
+  const cleanDisplayText = (text) => {
+    return String(text || '')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*\n]+)\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/^\s*[-*•]\s+/gm, '')
+      .replace(/^\s*\d+\.\s+/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  };
+
   const ensureAudio = () => {
     if (!soundEnabled) return null;
     if (!audioCtx) {
@@ -127,7 +140,7 @@
     if (options.typing) {
       bubble.classList.add('cb-msg-bubble--typing');
     } else {
-      bubble.textContent = text;
+      bubble.textContent = cleanDisplayText(text);
     }
     wrapper.appendChild(bubble);
     msgContainer.appendChild(wrapper);
@@ -136,35 +149,41 @@
   };
 
   const typeAssistantMessage = (text) => {
+    const cleanText = cleanDisplayText(text);
+
     if (activeTypeTimer) {
       clearTimeout(activeTypeTimer);
       activeTypeTimer = null;
     }
 
     const bubble = appendMessage('assistant', '', { typing: true });
-    const chars = [...text];
+    const chars = [...cleanText];
     let index = 0;
 
-    const typeNext = () => {
-      const chunkSize = chars[index] === ' ' ? 2 : 1;
-      bubble.textContent += chars.slice(index, index + chunkSize).join('');
-      index += chunkSize;
-      scrollToBottom();
+    return new Promise((resolve) => {
+      const typeNext = () => {
+        const remaining = chars.length - index;
+        const chunkSize = chars.length > 360 ? 4 : chars[index] === ' ' ? 2 : 1;
+        bubble.textContent += chars.slice(index, index + Math.min(chunkSize, remaining)).join('');
+        index += chunkSize;
+        scrollToBottom();
 
-      if (index % 14 === 0) playTone('type');
+        if (index % 28 === 0) playTone('type');
 
-      if (index < chars.length) {
-        const currentChar = chars[index - 1] || '';
-        const delay = /[.!?]/.test(currentChar) ? 90 : /[,;:]/.test(currentChar) ? 55 : 16;
-        activeTypeTimer = setTimeout(typeNext, delay);
-      } else {
-        bubble.classList.remove('cb-msg-bubble--typing');
-        activeTypeTimer = null;
-        playTone('reply');
-      }
-    };
+        if (index < chars.length) {
+          const currentChar = chars[index - 1] || '';
+          const delay = chars.length > 360 ? 8 : /[.!?]/.test(currentChar) ? 65 : /[,;:]/.test(currentChar) ? 38 : 13;
+          activeTypeTimer = setTimeout(typeNext, delay);
+        } else {
+          bubble.classList.remove('cb-msg-bubble--typing');
+          activeTypeTimer = null;
+          playTone('reply');
+          resolve();
+        }
+      };
 
-    typeNext();
+      typeNext();
+    });
   };
 
   const showTypingIndicator = () => {
@@ -243,16 +262,17 @@
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        typeAssistantMessage(errData.error || 'Sorry, something went wrong. Please try again.');
+        await typeAssistantMessage(errData.error || 'Sorry, something went wrong. Please try again.');
       } else {
         const data = await res.json();
         const reply = data.reply || 'Sorry, I could not generate a response.';
-        typeAssistantMessage(reply);
-        chatHistory.push({ role: 'assistant', content: reply });
+        const cleanReply = cleanDisplayText(reply);
+        await typeAssistantMessage(cleanReply);
+        chatHistory.push({ role: 'assistant', content: cleanReply });
       }
     } catch (err) {
       removeTypingIndicator();
-      typeAssistantMessage('Network error. Please check your connection and try again.');
+      await typeAssistantMessage('Network error. Please check your connection and try again.');
     }
 
     isLoading = false;

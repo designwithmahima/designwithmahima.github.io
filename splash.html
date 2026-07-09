@@ -34,10 +34,12 @@
         html,
         body {
             height: 100%;
+            height: 100dvh;
         }
 
         body {
             min-height: 100vh;
+            min-height: 100dvh;
             overflow: hidden;
             font-family: "Nunito", system-ui, sans-serif;
             color: var(--ink);
@@ -407,6 +409,7 @@
             place-items: center;
             width: 100%;
             min-height: 100vh;
+            min-height: 100dvh;
             padding: 104px 20px 132px;
         }
 
@@ -503,7 +506,7 @@
         }
 
         .combo {
-            width: 68px;
+            width: 82px;
             border: 3px solid rgba(255, 255, 255, 0.62);
             border-radius: 0;
             padding: 9px 6px;
@@ -516,7 +519,8 @@
 
         .combo strong {
             display: block;
-            font-size: 1.15rem;
+            font-size: 0.82rem;
+            line-height: 1.45;
             color: var(--blue);
         }
 
@@ -606,6 +610,28 @@
                 linear-gradient(135deg, var(--blue), var(--violet) 48%, #ffffff);
             box-shadow: 6px 6px 0 rgba(79, 63, 217, 0.26);
             animation: buttonReady 1.1s steps(4, end) infinite;
+        }
+
+        .skip-btn {
+            width: 100%;
+            margin-top: 10px;
+            border: 3px solid rgba(13, 20, 33, 0.74);
+            border-radius: 0;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-family: "Press Start 2P", "Nunito", system-ui, sans-serif;
+            font-size: clamp(0.56rem, 1.8vw, 0.74rem);
+            font-weight: 900;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: 4px 4px 0 rgba(13, 20, 33, 0.12);
+        }
+
+        .skip-btn:hover {
+            background: #fff;
+            transform: translate(1px, 1px);
         }
 
         .fight-btn:focus-visible,
@@ -835,12 +861,12 @@
             }
 
             .arena {
-                padding: 96px 22px 132px;
+                padding: 92px 18px 116px;
             }
 
             .stage {
                 width: min(82vw, 430px);
-                height: min(55vh, 430px);
+                height: min(46dvh, 380px);
             }
 
             .portfolio-preview {
@@ -871,29 +897,37 @@
             }
 
             .combo {
-                width: 58px;
-                padding: 7px 4px;
+                width: 68px;
+                padding: 6px 4px;
             }
 
             .combo strong {
-                font-size: 0.95rem;
+                font-size: 0.58rem;
             }
 
             .combo span {
-                font-size: 0.56rem;
+                font-size: 0.46rem;
             }
 
             .battle-card {
-                padding: 15px;
-                width: min(720px, calc(100vw - 50px));
+                bottom: max(12px, env(safe-area-inset-bottom));
+                padding: 12px;
+                width: min(720px, calc(100vw - 34px));
             }
 
             .battle-text {
                 font-size: clamp(0.62rem, 2.6vw, 0.82rem);
+                min-height: 2.45em;
             }
 
             .fight-btn {
-                padding: 14px 12px;
+                margin-top: 10px;
+                padding: 11px 10px;
+            }
+
+            .skip-btn {
+                padding: 8px 10px;
+                font-size: 0.52rem;
             }
         }
 
@@ -1160,9 +1194,9 @@
                 </div>
             </div>
             <div class="combo-stack" aria-hidden="true">
-                <div class="combo"><strong id="pxValue">0</strong><span>PX</span></div>
-                <div class="combo"><strong id="gridValue">8px</strong><span>Grid</span></div>
-                <div class="combo"><strong id="layersValue">0</strong><span>Layers</span></div>
+                <div class="combo"><strong id="pxValue">AI</strong><span>Voice</span></div>
+                <div class="combo"><strong id="gridValue">Robots</strong><span>Kiosks</span></div>
+                <div class="combo"><strong id="layersValue">Health</strong><span>SaaS</span></div>
             </div>
         </section>
 
@@ -1172,6 +1206,7 @@
                 <div class="meter-fill" id="meterFill"></div>
             </div>
             <button class="fight-btn" id="fightBtn" type="button">GO!</button>
+            <button class="skip-btn" id="skipBtn" type="button">Skip Intro</button>
         </section>
     </main>
 
@@ -1184,6 +1219,7 @@
             const battleText = document.getElementById("battleText");
             const meterFill = document.getElementById("meterFill");
             const fightBtn = document.getElementById("fightBtn");
+            const skipBtn = document.getElementById("skipBtn");
             const soundBtn = document.getElementById("soundBtn");
             const avatarSprite = document.getElementById("avatarSprite");
             const pxValue = document.getElementById("pxValue");
@@ -1202,15 +1238,15 @@
             };
 
             const loaderBeats = [
-                { at: 0, text: "Booting design canvas...", status: "Booting", seq: "dance", xp: 0, level: "8px", combo: "0" },
-                { at: 14, text: "Grids calibrated, vector engine initialized.", status: "Grids", seq: "dance", xp: 240, level: "8px", combo: "12" },
-                { at: 24, text: "Importing design library & color variables...", status: "Library", seq: "dance", xp: 480, level: "16px", combo: "34" },
-                { at: 38, text: "Stitching pixel mockups & text styling...", status: "Layout", seq: "dance", xp: 800, level: "16px", combo: "67" },
-                { at: 48, text: "Syncing auto-layout frames & component states...", status: "Layout", seq: "dance", xp: 1024, level: "32px", combo: "98" },
-                { at: 62, text: "Injecting hover micro-animations & click SFX...", status: "SFX", seq: "dance", xp: 1280, level: "32px", combo: "145" },
-                { at: 74, text: "Verifying contrast ratio & accessibility tags...", status: "Verify", seq: "dance", xp: 1440, level: "64px", combo: "210" },
-                { at: 86, text: "Final render complete. Canvas is ready.", status: "Ready", seq: "dance", xp: 1680, level: "64px", combo: "280" },
-                { at: 100, text: "Tap GO to load the final design build!", status: "Ready", seq: "dance", xp: 1920, level: "8px", combo: "312" }
+                { at: 0, text: "Booting design canvas...", status: "Booting", seq: "dance", xp: "AI", level: "Robots", combo: "Health" },
+                { at: 14, text: "Loading AI voice, robotics, and kiosk workflows...", status: "AI UX", seq: "dance", xp: "Voice", level: "Kiosk", combo: "SaaS" },
+                { at: 24, text: "Importing healthcare and hospitality product journeys...", status: "Domains", seq: "dance", xp: "Health", level: "Hotels", combo: "Food" },
+                { at: 38, text: "Mapping enterprise dashboards and self-service flows...", status: "Systems", seq: "dance", xp: "SaaS", level: "IoT", combo: "Ops" },
+                { at: 48, text: "Syncing design systems, prototypes, and handoff assets...", status: "Figma", seq: "dance", xp: "Figma", level: "Proto", combo: "Dev" },
+                { at: 62, text: "Adding playful micro-interactions and accessible states...", status: "Polish", seq: "dance", xp: "Motion", level: "A11y", combo: "SFX" },
+                { at: 74, text: "Checking recruiter-ready proof points and outcomes...", status: "Impact", seq: "dance", xp: "78%", level: "92%", combo: "45%" },
+                { at: 86, text: "Final render complete. Portfolio systems are ready.", status: "Ready", seq: "dance", xp: "AI", level: "Robot", combo: "SaaS" },
+                { at: 100, text: "Explore Mahima's work across healthcare, robotics, hospitality, SaaS, and AI voice.", status: "Ready", seq: "dance", xp: "Health", level: "Robot", combo: "SaaS" }
             ];
 
             let progress = 0;
@@ -1409,6 +1445,7 @@
 
             const previewBtn = document.getElementById("gamePreviewBtn");
             const downloadBtn = document.getElementById("gameDownloadBtn");
+            skipBtn.addEventListener("pointerenter", playHover);
             if (previewBtn) {
                 previewBtn.addEventListener("pointerenter", playHover);
                 previewBtn.addEventListener("click", () => playJumpSound());
@@ -1472,9 +1509,9 @@
                     const finalBeat = loaderBeats[loaderBeats.length - 1];
                     battleText.textContent = finalBeat.text;
                     statusChip.textContent = finalBeat.status;
-                    pxValue.textContent = "MOVE MOUSE";
-                    gridValue.textContent = "TO MEASURE";
-                    layersValue.textContent = "0";
+                    pxValue.textContent = finalBeat.xp;
+                    gridValue.textContent = finalBeat.level;
+                    layersValue.textContent = finalBeat.combo;
                     
                     if (!overrideActive) {
                         setSequence("dance");
@@ -1482,33 +1519,10 @@
                     gameShell.classList.add("is-ready");
                     fightBtn.focus({ preventScroll: true });
                     playReady();
-
-                    // Activate interactive canvas measurement tools
-                    const arenaElement = document.querySelector(".arena");
-                    let clickScore = 0;
-                    if (arenaElement) {
-                        arenaElement.addEventListener("pointermove", (e) => {
-                            const rect = arenaElement.getBoundingClientRect();
-                            const x = Math.max(0, Math.floor(e.clientX - rect.left));
-                            const y = Math.max(0, Math.floor(e.clientY - rect.top));
-                            pxValue.textContent = `${x},${y}`;
-                            
-                            // Snapping coordinates to retro 8px grid
-                            const snapX = Math.round(x / 8) * 8;
-                            const snapY = Math.round(y / 8) * 8;
-                            gridValue.textContent = `${snapX},${snapY}`;
-                        });
-
-                        arenaElement.addEventListener("pointerdown", () => {
-                            clickScore += 1;
-                            layersValue.textContent = clickScore;
-                            playStep(); // play click audio feedback
-                        });
-                    }
                 }
             }, 180);
 
-            fightBtn.addEventListener("click", () => {
+            function openPortfolio() {
                 ensureAudio();
                 sfxEnabled = true;
                 soundBtn.textContent = "SFX On";
@@ -1533,7 +1547,10 @@
                 setTimeout(() => {
                     window.location.href = new URL('../', window.location.href);
                 }, 1320);
-            });
+            }
+
+            fightBtn.addEventListener("click", openPortfolio);
+            skipBtn.addEventListener("click", openPortfolio);
 
             // Register Service Worker for PWA
             if ('serviceWorker' in navigator) {
