@@ -545,7 +545,7 @@
   </div>
 
   <!-- JavaScript Logics -->
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -555,5 +555,9 @@
       });
     }
   </script>
+
+  <!-- Chatbot Widget (Vercel / Local Dev only — auto-hidden on GitHub Pages) -->
+  <div id="chatbot-root"></div>
+  <script type="module" src="chatbot.js"></script>
 </body>
 </html>

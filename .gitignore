@@ -1,2 +1,8 @@
 assets/127.0.0.1_5500_(iPhone XR).png
 .vercel
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+.DS_Store
