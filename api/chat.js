@@ -217,6 +217,17 @@ STYLE:
     return 'Mahima is a senior UI/UX and product designer focused on AI interfaces, robotics workflows, SaaS dashboards, voice experiences, and self-service kiosks. She combines user research, polished visual design, prototyping, and scalable Figma systems to turn complex product ideas into clear, recruiter-ready digital experiences.';
   };
 
+  const attachedDocumentFallback = (question) => {
+    const documentText = String(question || '').split('Attached document context for answering this question:')[1] || '';
+    const compactText = documentText.replace(/\s+/g, ' ').trim();
+    const roleMatch =
+      compactText.match(/\b(?:for|about)\s+(?:a|an|the)?\s*([^.!?]{3,90}?\brole\b)/i) ||
+      compactText.match(/\b([^.!?]{3,90}?\b(?:designer|developer|manager|researcher|strategist)\b[^.!?]{0,40})/i);
+    const role = roleMatch?.[1]?.trim() || 'the opportunity described in the attached document';
+
+    return `The attached document is about ${role}. Based on the document, the focus is on the requirements and context in that brief; Mahima's portfolio is especially relevant where the role needs AI interface design, kiosk UX, robotics workflows, SaaS dashboards, or clear product experiences for complex systems.`;
+  };
+
   const shouldUseRecruiterFallback = (question) => {
     const normalized = question.toLowerCase();
     const hasAttachedDocumentContext = normalized.includes('attached document context');
@@ -307,16 +318,17 @@ STYLE:
       }
     }
 
-    const shouldCleanWithFallback =
-      !latestUserMessage.toLowerCase().includes('attached document context') &&
-      (
-        /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
-        /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
-        assistantMessage.length < 90 ||
-        /[:*-]\s*$/.test(assistantMessage)
-      );
+    const hasAttachedDocumentContext = latestUserMessage.toLowerCase().includes('attached document context');
+    const hasBadAnswerShape =
+      /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
+      /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
+      assistantMessage.length < 90 ||
+      /[:*-]\s*$/.test(assistantMessage);
+    const shouldCleanWithFallback = !hasAttachedDocumentContext && hasBadAnswerShape;
 
-    if (shouldCleanWithFallback) {
+    if (hasAttachedDocumentContext && hasBadAnswerShape) {
+      assistantMessage = attachedDocumentFallback(latestUserMessage);
+    } else if (shouldCleanWithFallback) {
       assistantMessage = recruiterFallback(latestUserMessage);
     }
 
