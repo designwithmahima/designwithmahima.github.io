@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mahima Gupta — Senior UI/UX Designer & Product Designer Portfolio</title>
   <meta name="description" content="Senior UI/UX Designer crafting intuitive, human-centered digital experiences for AI, robotics, and enterprise SaaS platforms.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="favicon.png">
 
   <!-- Preconnect and Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +67,13 @@
           <a href="#work" id="nav-work-link">Work</a>
           <a href="#about" id="nav-about-link">About</a>
           <a href="#insights" id="nav-insights-link">Insights</a>
-          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" download id="nav-resume-link">Resume</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-trigger" id="nav-resume-trigger">Resume <span class="arrow">▼</span></button>
+            <div class="nav-dropdown-content">
+              <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" id="nav-resume-preview">Preview</a>
+              <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" id="nav-resume-download">Download</a>
+            </div>
+          </div>
           <a href="#contact" class="open-contact-trigger" id="nav-contact-link">Contact</a>
         </div>
 
@@ -81,7 +89,8 @@
     <a href="#work" class="mobile-menu-item" id="mob-work-link">Work</a>
     <a href="#about" class="mobile-menu-item" id="mob-about-link">About</a>
     <a href="#insights" class="mobile-menu-item" id="mob-insights-link">Insights</a>
-    <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" download id="mob-resume-link">Resume</a>
+    <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="mobile-menu-item" id="mob-resume-preview">Preview Resume</a>
+    <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="mobile-menu-item" id="mob-resume-download">Download Resume</a>
     <a href="#contact" class="mobile-menu-item open-contact-trigger" id="mob-contact-link">Contact</a>
 
     <div class="mobile-picker-wrap">
@@ -132,12 +141,11 @@
           <em>UI/UX Designer.</em>
         </h1>
         <p class="hero-sub" id="hero-sub-text">I turn complex AI, robotics, SaaS, and voice-product workflows into clear digital experiences that people understand and enjoy using.</p>
-
         <div class="hero-actions" id="hero-actions-container">
           <a href="#work" class="btn-primary" id="hero-cta-primary">Explore My Work <span aria-hidden="true">→</span></a>
-          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" download class="btn-secondary" id="hero-cta-secondary">Download Resume</a>
+          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-secondary" id="hero-cta-preview">Preview Resume</a>
+          <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-secondary" id="hero-cta-download">Download Resume</a>
         </div>
-
         <div class="hero-proof">
           <div class="hero-proof-mark" aria-hidden="true">“</div>
           <p>Designing thoughtful products where business goals, technology, and human needs meet.</p>
@@ -405,7 +413,7 @@
             <a href="https://linkedin.com/in/mahima003" target="_blank" rel="noopener noreferrer" class="about-link" id="link-linkedin">LinkedIn →</a>
             <a href="https://behance.net/mahima-gupta" target="_blank" rel="noopener noreferrer" class="about-link" id="link-behance">Behance →</a>
             <a href="mailto:mahimagupta015@gmail.com" class="about-link" id="link-email">Email →</a>
-            <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" download class="about-link" id="link-resume">Resume →</a>
+            <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="about-link" id="link-resume">Resume →</a>
           </div>
         </div>
 
@@ -465,7 +473,8 @@
         <p class="cta-sub reveal" id="cta-subhead">Whether you are building AI platforms, complex enterprise software, or creative consumer applications, reach out to work together.</p>
         <div class="cta-actions reveal" id="cta-actions-buttons">
           <button class="btn-primary open-contact-trigger" id="cta-btn-contact">Get In Touch →</button>
-          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" download class="btn-secondary" id="cta-btn-resume">View Resume</a>
+          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-secondary" id="cta-btn-resume-preview">Preview Resume</a>
+          <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-secondary" id="cta-btn-resume-download">Download Resume</a>
         </div>
       </div>
     </div>
@@ -533,5 +542,14 @@
 
   <!-- JavaScript Logics -->
   <script src="main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered', reg))
+          .catch(err => console.error('Service Worker registration failed', err));
+      });
+    }
+  </script>
 </body>
 </html>

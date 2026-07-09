@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahima's Design Quest</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=Press+Start+2P&display=swap');
 
@@ -688,27 +690,37 @@
             }
 
             .hud {
-                align-items: flex-start;
-                top: 24px;
-                width: calc(100vw - 42px);
-                gap: 10px;
+                flex-direction: column;
+                align-items: center;
+                top: 20px;
+                width: calc(100vw - 36px);
+                gap: 8px;
+            }
+
+            .brand-lockup {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
 
             .logo {
-                max-width: 48vw;
-                white-space: normal;
-                font-size: clamp(1rem, 5.2vw, 1.28rem);
+                max-width: 100%;
+                white-space: nowrap;
+                font-size: clamp(1rem, 5.5vw, 1.25rem);
             }
 
             .eyebrow {
-                max-width: 48vw;
+                max-width: 100%;
                 font-size: 0.42rem;
                 line-height: 1.4;
             }
 
             .hud-actions {
-                gap: 8px;
-                justify-content: flex-end;
+                gap: 5px;
+                justify-content: center;
+                flex-wrap: nowrap;
+                width: 100%;
             }
 
             .accent-dots {
@@ -717,8 +729,9 @@
 
             .status-chip,
             .sound-btn {
-                padding: 8px 10px;
-                font-size: 0.48rem;
+                padding: 6px 8px;
+                font-size: 0.45rem;
+                min-width: auto;
             }
 
             .status-chip {
@@ -1004,6 +1017,8 @@
                     <span></span><span></span><span></span><span></span><span></span>
                 </div>
                 <button class="sound-btn" id="soundBtn" type="button" aria-label="Toggle sound effects">SFX</button>
+                <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="sound-btn" id="gamePreviewBtn" aria-label="Preview Resume" title="Preview Resume" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.62rem; color: inherit;">VIEW</a>
+                <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="sound-btn" id="gameDownloadBtn" aria-label="Download Resume" title="Download Resume" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.62rem; color: inherit;">GET</a>
                 <div class="status-chip" id="statusChip">BOOTING</div>
             </div>
         </header>
@@ -1377,6 +1392,15 @@
                     window.location.href = "index.html";
                 }, 1320);
             });
+
+            // Register Service Worker for PWA
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js')
+                        .then(reg => console.log('Service Worker registered', reg))
+                        .catch(err => console.error('Service Worker registration failed', err));
+                });
+            }
         });
     </script>
 </body>
