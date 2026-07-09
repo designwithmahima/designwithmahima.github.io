@@ -110,6 +110,23 @@ STYLE:
 
   const fullMessages = [systemMessage, ...messages];
   const latestUserMessage = [...messages].reverse().find((message) => message?.role === 'user')?.content || '';
+  const contactActions = [
+    {
+      type: 'email',
+      label: 'Email Mahima',
+      href: 'mailto:mahimagupta015@gmail.com?subject=Portfolio%20Inquiry%20for%20Mahima%20Gupta'
+    },
+    {
+      type: 'call',
+      label: 'Call Mahima',
+      href: 'tel:+917982908054'
+    },
+    {
+      type: 'linkedin',
+      label: 'Open LinkedIn',
+      href: 'https://linkedin.com/in/mahima003'
+    }
+  ];
 
   const cleanAssistantText = (text) => {
     return String(text || '')
@@ -128,12 +145,18 @@ STYLE:
 
   const recruiterFallback = (question) => {
     const normalized = question.toLowerCase();
+    const hasContactIntent = /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized);
+    const hasAiIntent = /\b(ai|voice|robot|robotics|vui)\b/.test(normalized);
+
+    if (hasContactIntent) {
+      return 'You can contact Mahima directly for hiring or interview conversations. Use email for role details and timelines, call for quick coordination, or open LinkedIn to review her profile first.';
+    }
 
     if (normalized.includes('hire') || normalized.includes('fit')) {
       return 'Mahima would be a strong fit for teams building AI, SaaS, kiosk, robotics, or voice-led products because she combines product thinking with polished UI execution. Her work shows practical impact across adoption, satisfaction, conversion, and handoff efficiency, with strong Figma systems, prototyping, and cross-functional collaboration behind it.';
     }
 
-    if (normalized.includes('ai') || normalized.includes('voice') || normalized.includes('robot')) {
+    if (hasAiIntent) {
       return 'Mahima has hands-on experience designing AI-powered kiosks, robotics interfaces, enterprise dashboards, and multimodal voice/chat experiences. Her edge is making technically complex workflows feel clear, approachable, and usable for real customers in hospitality, healthcare, retail, and enterprise contexts.';
     }
 
@@ -144,11 +167,6 @@ STYLE:
     if (normalized.includes('skill') || normalized.includes('figma') || normalized.includes('tool')) {
       return 'Mahima brings strong UI/UX fundamentals across research, flows, wireframes, high-fidelity UI, prototyping, accessibility, and design systems. She is especially strong in Figma, responsive components, developer handoff, and designing for AI, VUI, kiosks, SaaS dashboards, and enterprise workflows.';
     }
-
-    if (normalized.includes('contact') || normalized.includes('email') || normalized.includes('reach')) {
-      return 'The fastest way to reach Mahima is through the portfolio contact form or by emailing mahimagupta015@gmail.com. For hiring conversations, sharing the role, product domain, and timeline will help her respond with the most relevant context.';
-    }
-
     return 'Mahima is a senior UI/UX and product designer focused on AI interfaces, robotics workflows, SaaS dashboards, voice experiences, and self-service kiosks. She combines user research, polished visual design, prototyping, and scalable Figma systems to turn complex product ideas into clear, recruiter-ready digital experiences.';
   };
 
@@ -157,20 +175,25 @@ STYLE:
     return (
       normalized.includes('hire') ||
       normalized.includes('fit') ||
-      normalized.includes('ai') ||
-      normalized.includes('voice') ||
-      normalized.includes('robot') ||
+      /\b(ai|voice|robot|robotics|vui)\b/.test(normalized) ||
       normalized.includes('impact') ||
       normalized.includes('business') ||
       normalized.includes('skill') ||
       normalized.includes('figma') ||
-      normalized.includes('contact') ||
-      normalized.includes('email')
+      /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized)
     );
   };
 
+  const shouldOfferContactActions = (question) => {
+    const normalized = question.toLowerCase();
+    return /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized);
+  };
+
   if (shouldUseRecruiterFallback(latestUserMessage)) {
-    return res.status(200).json({ reply: recruiterFallback(latestUserMessage) });
+    return res.status(200).json({
+      reply: recruiterFallback(latestUserMessage),
+      actions: shouldOfferContactActions(latestUserMessage) ? contactActions : []
+    });
   }
 
   try {
@@ -227,7 +250,10 @@ STYLE:
 
     assistantMessage = assistantMessage || 'Sorry, I could not generate a response.';
 
-    return res.status(200).json({ reply: assistantMessage });
+    return res.status(200).json({
+      reply: assistantMessage,
+      actions: shouldOfferContactActions(latestUserMessage) ? contactActions : []
+    });
   } catch (err) {
     console.error('Proxy error:', err);
     return res.status(500).json({ error: 'Internal server error while contacting AI service.' });

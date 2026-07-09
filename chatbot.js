@@ -199,6 +199,57 @@
     });
   };
 
+  const appendActions = (actions = []) => {
+    if (!Array.isArray(actions) || actions.length === 0) return;
+
+    const row = document.createElement('div');
+    row.className = 'cb-action-row';
+
+    actions.forEach((action) => {
+      if (!action?.href || !action?.label) return;
+
+      const link = document.createElement('a');
+      link.className = `cb-action cb-action--${action.type || 'link'}`;
+      link.href = action.href;
+      link.textContent = action.label;
+
+      if (!action.href.startsWith('mailto:') && !action.href.startsWith('tel:')) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+
+      link.addEventListener('click', () => playTone('send'));
+      row.appendChild(link);
+    });
+
+    if (row.children.length) {
+      msgContainer.appendChild(row);
+      scrollToBottom();
+    }
+  };
+
+  const appendConfirmation = () => {
+    const row = document.createElement('div');
+    row.className = 'cb-confirm';
+    row.innerHTML = `
+      <span>Was this helpful?</span>
+      <button type="button" data-confirm="yes">Yes</button>
+      <button type="button" data-confirm="no">Improve</button>
+    `;
+
+    row.addEventListener('click', (e) => {
+      const button = e.target.closest('button');
+      if (!button) return;
+      const isYes = button.dataset.confirm === 'yes';
+      row.classList.add('cb-confirm--answered');
+      row.innerHTML = `<span>${isYes ? 'Glad it helped.' : 'Try asking for role fit, project impact, or contact details.'}</span>`;
+      playTone(isYes ? 'reply' : 'open');
+    }, { once: true });
+
+    msgContainer.appendChild(row);
+    scrollToBottom();
+  };
+
   const showTypingIndicator = () => {
     const wrapper = document.createElement('div');
     wrapper.className = 'cb-msg cb-msg--assistant cb-typing-wrap';
@@ -289,6 +340,8 @@
         const reply = data.reply || 'Sorry, I could not generate a response.';
         const cleanReply = cleanDisplayText(reply);
         await typeAssistantMessage(cleanReply);
+        appendActions(data.actions);
+        appendConfirmation();
         chatHistory.push({ role: 'assistant', content: cleanReply });
       }
     } catch (err) {
