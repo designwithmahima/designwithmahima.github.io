@@ -28,8 +28,12 @@
 </head>
 <body>
   <script>
-    if (!window.location.hostname.includes('vercel') && sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
-      window.location.replace('splash.html');
+    if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
+      if (window.location.hostname.includes('vercel')) {
+        window.location.replace('/splash');
+      } else {
+        window.location.replace('splash.html');
+      }
     } else {
       document.body.classList.add('from-portfolio-loader');
       sessionStorage.removeItem('fromPortfolioLoader');
@@ -214,29 +218,25 @@
       <div class="section-label">Featured Work</div>
       <div class="projects-list">
 
-        <!-- Project 1: Get ready in 3 second -->
-        <a href="https://designwithmahima.github.io/tryme/" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-getready">
+        <!-- Project 1: Voice User Interface with 3D talking avatar -->
+        <a href="https://www.behance.net/gallery/235512843/Voice-User-Interface-with-3D-talking-avatar" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-avatarvui">
           <div class="card-arrow"></div>
           <div class="card-image">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/674a28248535429.69f35e7e7ecdd.png" alt="Get ready in 3 second - Self-Checkout Kiosk" loading="lazy">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/caa8c9235512843.Y3JvcCw1NzczLDQ1MTYsMzU3LDA.png" alt="Voice User Interface with 3D talking avatar concierge" loading="lazy">
           </div>
           <div class="card-body">
-            <div class="card-company">Retail IoT &bull; Smart Cart System</div>
+            <div class="card-company">Aliste Hotel &bull; 3D Conversational VUI</div>
             <div class="card-tags">
-              <span class="tag">IoT Screen</span>
-              <span class="tag">Self-Checkout</span>
-              <span class="tag">Figma</span>
+              <span class="tag">3D Avatar</span>
+              <span class="tag">Concierge App</span>
+              <span class="tag">Interaction Design</span>
             </div>
-            <h3 class="card-title">Get Ready in 3 Seconds: Rapid Self-Checkout Kiosk</h3>
-            <p class="card-desc">Designed a modern supermarket checkout concept that trims payment and scanning cycles down to 3 seconds using real-time cart lists, visual budget rings, and immediate checkout gates.</p>
+            <h3 class="card-title">In-Room Companion: QR Concierge with 3D Talking Avatar</h3>
+            <p class="card-desc">Created a multimodal room companion system featuring a 3D avatar that helps hotel guests order services, check amenities, and schedule requests hands-free using voice interactions.</p>
             <div class="card-metrics">
               <div class="metric">
-                <span class="metric-num">85%</span>
-                <span class="metric-label">Satisfaction Score</span>
-              </div>
-              <div class="metric">
-                <span class="metric-num">3s</span>
-                <span class="metric-label">Checkout Time</span>
+                <span class="metric-num">95%</span>
+                <span class="metric-label">Guest Satisfaction</span>
               </div>
             </div>
           </div>
@@ -270,7 +270,31 @@
           </div>
         </a>
 
-        <!-- Project 3: Voice-Assisted Patient Appointments & Wayfinding -->
+        <!-- Project 3: Agentic AI Landing page -->
+        <a href="https://www.behance.net/gallery/237938909/Agentic-AI-Landing-page" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-agenticlanding">
+          <div class="card-arrow"></div>
+          <div class="card-image">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e14c6e237938909.690ae2e66753b.png" alt="Agentic AI Landing page mockup" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-company">Alphadroid &bull; Robotics Marketing Web</div>
+            <div class="card-tags">
+              <span class="tag">Web Design</span>
+              <span class="tag">Agentic AI</span>
+              <span class="tag">Branding</span>
+            </div>
+            <h3 class="card-title">Agentic AI: Futuristic Corporate Landing Page</h3>
+            <p class="card-desc">Designed and prototyped a high-converting web landing page for Alphadroid's agentic AI solutions, balancing complex technical explanations with interactive 3D elements and details.</p>
+            <div class="card-metrics">
+              <div class="metric">
+                <span class="metric-num">45%</span>
+                <span class="metric-label">Conversion Uplift</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 4: Voice-Assisted Patient Appointments & Wayfinding -->
         <a href="https://www.behance.net/gallery/242225823/Voice-Assisted-Patient-Appointments-Wayfinding" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-patientvoice">
           <div class="card-arrow"></div>
           <div class="card-image">
@@ -298,49 +322,29 @@
           </div>
         </a>
 
-        <!-- Project 4: Agentic AI Landing page -->
-        <a href="https://www.behance.net/gallery/237938909/Agentic-AI-Landing-page" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-agenticlanding">
+        <!-- Project 5: Get ready in 3 second -->
+        <a href="https://designwithmahima.github.io/tryme/" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-getready">
           <div class="card-arrow"></div>
           <div class="card-image">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e14c6e237938909.690ae2e66753b.png" alt="Agentic AI Landing page mockup" loading="lazy">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/674a28248535429.69f35e7e7ecdd.png" alt="Get ready in 3 second - Self-Checkout Kiosk" loading="lazy">
           </div>
           <div class="card-body">
-            <div class="card-company">Alphadroid &bull; Robotics Marketing Web</div>
+            <div class="card-company">Retail IoT &bull; Smart Cart System</div>
             <div class="card-tags">
-              <span class="tag">Web Design</span>
-              <span class="tag">Agentic AI</span>
-              <span class="tag">Branding</span>
+              <span class="tag">IoT Screen</span>
+              <span class="tag">Self-Checkout</span>
+              <span class="tag">Figma</span>
             </div>
-            <h3 class="card-title">Agentic AI: Futuristic Corporate Landing Page</h3>
-            <p class="card-desc">Designed and prototyped a high-converting web landing page for Alphadroid's agentic AI solutions, balancing complex technical explanations with interactive 3D elements and details.</p>
+            <h3 class="card-title">Get Ready in 3 Seconds: Rapid Self-Checkout Kiosk</h3>
+            <p class="card-desc">Designed a modern supermarket checkout concept that trims payment and scanning cycles down to 3 seconds using real-time cart lists, visual budget rings, and immediate checkout gates.</p>
             <div class="card-metrics">
               <div class="metric">
-                <span class="metric-num">45%</span>
-                <span class="metric-label">Conversion Uplift</span>
+                <span class="metric-num">85%</span>
+                <span class="metric-label">Satisfaction Score</span>
               </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Project 5: Voice User Interface with 3D talking avatar -->
-        <a href="https://www.behance.net/gallery/235512843/Voice-User-Interface-with-3D-talking-avatar" target="_blank" rel="noopener noreferrer" class="project-card reveal" id="proj-card-avatarvui">
-          <div class="card-arrow"></div>
-          <div class="card-image">
-            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/caa8c9235512843.Y3JvcCw1NzczLDQ1MTYsMzU3LDA.png" alt="Voice User Interface with 3D talking avatar concierge" loading="lazy">
-          </div>
-          <div class="card-body">
-            <div class="card-company">Aliste Hotel &bull; 3D Conversational VUI</div>
-            <div class="card-tags">
-              <span class="tag">3D Avatar</span>
-              <span class="tag">Concierge App</span>
-              <span class="tag">Interaction Design</span>
-            </div>
-            <h3 class="card-title">In-Room Companion: QR Concierge with 3D Talking Avatar</h3>
-            <p class="card-desc">Created a multimodal room companion system featuring a 3D avatar that helps hotel guests order services, check amenities, and schedule requests hands-free using voice interactions.</p>
-            <div class="card-metrics">
               <div class="metric">
-                <span class="metric-num">95%</span>
-                <span class="metric-label">Guest Satisfaction</span>
+                <span class="metric-num">3s</span>
+                <span class="metric-label">Checkout Time</span>
               </div>
             </div>
           </div>
