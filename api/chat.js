@@ -128,6 +128,47 @@ STYLE:
     }
   ];
 
+  const getEmailDraftContext = (question) => {
+    const normalized = String(question || '').trim();
+    const match =
+      normalized.match(/\b(?:recruiting|hiring)\s+for\s+(?:a|an|the)?\s*([^.!?\n]{3,90})/i) ||
+      normalized.match(/\b(?:for|role|position)\s+(?:a|an|the)?\s*([^.!?\n]{3,90})/i) ||
+      normalized.match(/\b(?:about|regarding)\s+([^.!?\n]{3,90})/i);
+    const rawRole = match?.[1]
+      ?.replace(/\b(email|mail|draft|format|subject|body|to|mahima)\b/gi, '')
+      .replace(/^(?:for|a|an|the)\s+/i, '')
+      .trim();
+    const role = rawRole || 'a product/UI/UX design opportunity';
+    const bodyRole = /\b(role|position|opportunity)\b/i.test(role) ? `the ${role}` : `the ${role} opportunity`;
+    const subject = `Opportunity for Mahima Gupta - ${role}`;
+    const body = [
+      'Hi Mahima,',
+      '',
+      `I came across your portfolio and would like to connect regarding ${bodyRole}. Your experience across AI interfaces, robotics workflows, kiosks, SaaS dashboards, and voice-led product design looks relevant to what we are hiring for.`,
+      '',
+      'Could we schedule a short conversation to discuss the role, timeline, and fit?',
+      '',
+      'Best,',
+      '[Your Name]'
+    ].join('\n');
+
+    return { role, subject, body };
+  };
+
+  const buildEmailDraftReply = (question) => {
+    const { subject, body } = getEmailDraftContext(question);
+    return `Subject: ${subject}\n\nBody:\n${body}`;
+  };
+
+  const buildEmailDraftAction = (question) => {
+    const { subject, body } = getEmailDraftContext(question);
+    return {
+      type: 'email',
+      label: 'Open Email Draft',
+      href: `mailto:mahimagupta015@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    };
+  };
+
   const cleanAssistantText = (text) => {
     return String(text || '')
       .replace(/<think>[\s\S]*?<\/think>/gi, '')
@@ -146,7 +187,12 @@ STYLE:
   const recruiterFallback = (question) => {
     const normalized = question.toLowerCase();
     const hasContactIntent = /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized);
+    const hasEmailDraftIntent = /\b(write|draft|generate|create|format|compose)\b/.test(normalized) && /\b(email|mail|subject|body)\b/.test(normalized);
     const hasAiIntent = /\b(ai|voice|robot|robotics|vui)\b/.test(normalized);
+
+    if (hasEmailDraftIntent) {
+      return buildEmailDraftReply(question);
+    }
 
     if (hasContactIntent) {
       return 'You can contact Mahima directly for hiring or interview conversations. Use email for role details and timelines, call for quick coordination, or open LinkedIn to review her profile first.';
@@ -173,6 +219,7 @@ STYLE:
   const shouldUseRecruiterFallback = (question) => {
     const normalized = question.toLowerCase();
     return (
+      (/\b(write|draft|generate|create|format|compose)\b/.test(normalized) && /\b(email|mail|subject|body)\b/.test(normalized)) ||
       normalized.includes('hire') ||
       normalized.includes('fit') ||
       /\b(ai|voice|robot|robotics|vui)\b/.test(normalized) ||
@@ -189,10 +236,22 @@ STYLE:
     return /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized);
   };
 
+  const shouldOfferEmailDraft = (question) => {
+    const normalized = question.toLowerCase();
+    return /\b(write|draft|generate|create|format|compose)\b/.test(normalized) && /\b(email|mail|subject|body)\b/.test(normalized);
+  };
+
+  const getActions = (question) => {
+    if (shouldOfferEmailDraft(question)) {
+      return [buildEmailDraftAction(question), ...contactActions.filter((action) => action.type !== 'email')];
+    }
+    return shouldOfferContactActions(question) ? contactActions : [];
+  };
+
   if (shouldUseRecruiterFallback(latestUserMessage)) {
     return res.status(200).json({
       reply: recruiterFallback(latestUserMessage),
-      actions: shouldOfferContactActions(latestUserMessage) ? contactActions : []
+      actions: getActions(latestUserMessage)
     });
   }
 
@@ -252,7 +311,7 @@ STYLE:
 
     return res.status(200).json({
       reply: assistantMessage,
-      actions: shouldOfferContactActions(latestUserMessage) ? contactActions : []
+      actions: getActions(latestUserMessage)
     });
   } catch (err) {
     console.error('Proxy error:', err);

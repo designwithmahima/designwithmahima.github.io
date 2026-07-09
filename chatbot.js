@@ -19,8 +19,11 @@
   let isLoading = false;
   let audioCtx = null;
   let soundEnabled = true;
+  let voiceReplyEnabled = localStorage.getItem('cbVoiceReply') === 'on';
   let liquidGlassEnabled = localStorage.getItem('cbLiquidGlass') !== 'off';
   let activeTypeTimer = null;
+  let recognition = null;
+  let isListening = false;
   const chatHistory = []; // { role, content }
   const recruiterPrompts = [
     'Why should we hire Mahima?',
@@ -53,6 +56,9 @@
               <path d="M9.2 13.2c.2 1.7 1.3 2.7 3.1 2.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
           </button>
+          <button class="cb-voice-toggle" id="cb-voice" type="button" aria-label="Toggle spoken replies" title="Toggle spoken replies">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"></path><path d="M16 8.5a5 5 0 0 1 0 7"></path><path d="M19 5a9 9 0 0 1 0 14"></path></svg>
+          </button>
           <button class="cb-sound-toggle" id="cb-sound" type="button" aria-label="Toggle chat sounds" title="Toggle sounds">
             <span class="cb-sound-on">♪</span>
             <span class="cb-sound-off">×</span>
@@ -70,6 +76,9 @@
       </div>
       <form class="cb-input-bar" id="cb-form" autocomplete="off">
         <input class="cb-input" id="cb-input" type="text" placeholder="Ask a hiring question..." maxlength="500" required />
+        <button class="cb-mic" id="cb-mic" type="button" aria-label="Speak your question" title="Speak your question">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+        </button>
         <button class="cb-send" id="cb-send" type="submit" aria-label="Send message">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
         </button>
@@ -82,11 +91,13 @@
   const win = document.getElementById('cb-window');
   const closeBtn = document.getElementById('cb-close');
   const liquidBtn = document.getElementById('cb-liquid');
+  const voiceBtn = document.getElementById('cb-voice');
   const soundBtn = document.getElementById('cb-sound');
   const msgContainer = document.getElementById('cb-messages');
   const suggestions = document.getElementById('cb-suggestions');
   const form = document.getElementById('cb-form');
   const input = document.getElementById('cb-input');
+  const micBtn = document.getElementById('cb-mic');
 
   // ── Helpers ────────────────────────────────────────────────────────
   const scrollToBottom = () => {
@@ -96,6 +107,10 @@
   const applyLiquidGlass = () => {
     win.classList.toggle('cb-window--liquid', liquidGlassEnabled);
     liquidBtn.classList.toggle('cb-liquid-toggle--active', liquidGlassEnabled);
+  };
+
+  const applyVoiceReply = () => {
+    voiceBtn.classList.toggle('cb-voice-toggle--active', voiceReplyEnabled);
   };
 
   const cleanDisplayText = (text) => {
@@ -145,6 +160,60 @@
     oscillator.stop(now + duration + 0.02);
   };
 
+  const speakText = (text) => {
+    if (!voiceReplyEnabled || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(cleanDisplayText(text));
+    utterance.rate = 0.98;
+    utterance.pitch = 1.04;
+    utterance.volume = 0.88;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const supportsSpeechRecognition = Boolean(SpeechRecognition);
+
+  if (supportsSpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-IN';
+
+    recognition.addEventListener('start', () => {
+      isListening = true;
+      micBtn.classList.add('cb-mic--listening');
+      input.placeholder = 'Listening...';
+      playTone('open');
+    });
+
+    recognition.addEventListener('result', (event) => {
+      const transcript = [...event.results]
+        .map((result) => result[0]?.transcript || '')
+        .join('')
+        .trim();
+      if (transcript) input.value = transcript;
+    });
+
+    recognition.addEventListener('end', () => {
+      isListening = false;
+      micBtn.classList.remove('cb-mic--listening');
+      input.placeholder = 'Ask a hiring question...';
+      input.focus();
+    });
+
+    recognition.addEventListener('error', () => {
+      isListening = false;
+      micBtn.classList.remove('cb-mic--listening');
+      input.placeholder = 'Voice input unavailable';
+      setTimeout(() => {
+        input.placeholder = 'Ask a hiring question...';
+      }, 1600);
+    });
+  } else {
+    micBtn.disabled = true;
+    micBtn.title = 'Voice input is not supported in this browser';
+  }
+
   const appendMessage = (role, text, options = {}) => {
     const wrapper = document.createElement('div');
     wrapper.className = `cb-msg cb-msg--${role}`;
@@ -176,16 +245,16 @@
     return new Promise((resolve) => {
       const typeNext = () => {
         const remaining = chars.length - index;
-        const chunkSize = chars.length > 360 ? 4 : chars[index] === ' ' ? 2 : 1;
+        const chunkSize = chars.length > 620 ? 2 : 1;
         bubble.textContent += chars.slice(index, index + Math.min(chunkSize, remaining)).join('');
         index += chunkSize;
         scrollToBottom();
 
-        if (index % 28 === 0) playTone('type');
+        if (index % 18 === 0) playTone('type');
 
         if (index < chars.length) {
           const currentChar = chars[index - 1] || '';
-          const delay = chars.length > 360 ? 8 : /[.!?]/.test(currentChar) ? 65 : /[,;:]/.test(currentChar) ? 38 : 13;
+          const delay = chars.length > 620 ? 8 : /[.!?]/.test(currentChar) ? 85 : /[,;:]/.test(currentChar) ? 48 : currentChar === ' ' ? 18 : 22;
           activeTypeTimer = setTimeout(typeNext, delay);
         } else {
           bubble.classList.remove('cb-msg-bubble--typing');
@@ -284,10 +353,30 @@
     applyLiquidGlass();
     playTone('open');
   });
+  voiceBtn.addEventListener('click', () => {
+    voiceReplyEnabled = !voiceReplyEnabled;
+    localStorage.setItem('cbVoiceReply', voiceReplyEnabled ? 'on' : 'off');
+    applyVoiceReply();
+    playTone('open');
+    if (!voiceReplyEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+  });
   soundBtn.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     soundBtn.classList.toggle('cb-sound-toggle--muted', !soundEnabled);
     if (soundEnabled) playTone('open');
+  });
+
+  micBtn.addEventListener('click', () => {
+    if (!recognition || isLoading) return;
+    if (isListening) {
+      recognition.stop();
+      return;
+    }
+    try {
+      recognition.start();
+    } catch (err) {
+      recognition.stop();
+    }
   });
 
   suggestions.addEventListener('click', (e) => {
@@ -304,6 +393,7 @@
   });
 
   applyLiquidGlass();
+  applyVoiceReply();
 
   // ── Send message ───────────────────────────────────────────────────
   form.addEventListener('submit', async (e) => {
@@ -340,6 +430,7 @@
         const reply = data.reply || 'Sorry, I could not generate a response.';
         const cleanReply = cleanDisplayText(reply);
         await typeAssistantMessage(cleanReply);
+        speakText(cleanReply);
         appendActions(data.actions);
         appendConfirmation();
         chatHistory.push({ role: 'assistant', content: cleanReply });
