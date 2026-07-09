@@ -318,6 +318,44 @@
             color: var(--ink);
         }
 
+        .resume-group-chip {
+            display: inline-flex;
+            align-items: center;
+            border: 4px solid #1c1a24 !important;
+            border-radius: 0 !important;
+            background: #fff !important;
+            box-shadow:
+                inset 3px 3px 0 #fff,
+                inset -3px -3px 0 #8b9bb4,
+                6px 6px 0 rgba(13, 20, 33, 0.15) !important;
+            padding: 4px 8px;
+            gap: 6px;
+        }
+
+        .resume-group-label {
+            font-family: "Press Start 2P", system-ui, sans-serif !important;
+            font-size: 0.52rem;
+            color: var(--ink2);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .resume-group-btn {
+            border: 2px solid #1c1a24 !important;
+            background: #f1f5f9 !important;
+            padding: 6px 8px;
+            font-size: 0.52rem !important;
+            color: var(--ink) !important;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 0 #fff;
+            transition: background 0.15s;
+        }
+
+        .resume-group-btn:hover {
+            background: #e2e8f0 !important;
+        }
+
         .accent-dots {
             display: flex;
             align-items: center;
@@ -740,6 +778,26 @@
                 text-overflow: clip;
             }
 
+            .resume-group-chip {
+                padding: 2px 4px;
+                gap: 4px;
+                border-width: 3px !important;
+                box-shadow:
+                    inset 2px 2px 0 #fff,
+                    inset -2px -2px 0 #8b9bb4,
+                    4px 4px 0 rgba(13, 20, 33, 0.15) !important;
+            }
+
+            .resume-group-label {
+                font-size: 0.44rem;
+            }
+
+            .resume-group-btn {
+                padding: 4px 5px;
+                font-size: 0.44rem !important;
+                border-width: 1.5px !important;
+            }
+
             .arena {
                 padding: 96px 22px 132px;
             }
@@ -1017,8 +1075,11 @@
                     <span></span><span></span><span></span><span></span><span></span>
                 </div>
                 <button class="sound-btn" id="soundBtn" type="button" aria-label="Toggle sound effects">SFX</button>
-                <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="sound-btn" id="gamePreviewBtn" aria-label="Preview Resume" title="Preview Resume" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.62rem; color: inherit;">VIEW</a>
-                <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="sound-btn" id="gameDownloadBtn" aria-label="Download Resume" title="Download Resume" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.62rem; color: inherit;">GET</a>
+                <div class="resume-group-chip">
+                    <span class="resume-group-label">RESUME:</span>
+                    <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="resume-group-btn" id="gamePreviewBtn" aria-label="Preview Resume" title="Preview Resume">VIEW</a>
+                    <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="resume-group-btn" id="gameDownloadBtn" aria-label="Download Resume" title="Download Resume">GET</a>
+                </div>
                 <div class="status-chip" id="statusChip">BOOTING</div>
             </div>
         </header>
@@ -1411,7 +1472,7 @@
                 }, 260);
 
                 setTimeout(() => {
-                    window.location.href = "index.html";
+                    window.location.href = window.location.hostname.includes('vercel') ? "/" : "index.html";
                 }, 1320);
             });
 

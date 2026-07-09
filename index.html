@@ -28,7 +28,7 @@
 </head>
 <body>
   <script>
-    if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
+    if (!window.location.hostname.includes('vercel') && sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
       window.location.replace('splash.html');
     } else {
       document.body.classList.add('from-portfolio-loader');
