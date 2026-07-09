@@ -19,6 +19,7 @@
   let isLoading = false;
   let audioCtx = null;
   let soundEnabled = true;
+  let liquidGlassEnabled = localStorage.getItem('cbLiquidGlass') !== 'off';
   let activeTypeTimer = null;
   const chatHistory = []; // { role, content }
   const recruiterPrompts = [
@@ -46,6 +47,12 @@
           </div>
         </div>
         <div class="cb-header-actions">
+          <button class="cb-liquid-toggle" id="cb-liquid" type="button" aria-label="Toggle liquid glass background" title="Toggle liquid glass">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+              <path d="M12 3.2c3.9 3.8 6.2 7 6.2 10.1a6.2 6.2 0 1 1-12.4 0C5.8 10.2 8.1 7 12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M9.2 13.2c.2 1.7 1.3 2.7 3.1 2.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
           <button class="cb-sound-toggle" id="cb-sound" type="button" aria-label="Toggle chat sounds" title="Toggle sounds">
             <span class="cb-sound-on">♪</span>
             <span class="cb-sound-off">×</span>
@@ -74,6 +81,7 @@
   const fab = document.getElementById('cb-fab');
   const win = document.getElementById('cb-window');
   const closeBtn = document.getElementById('cb-close');
+  const liquidBtn = document.getElementById('cb-liquid');
   const soundBtn = document.getElementById('cb-sound');
   const msgContainer = document.getElementById('cb-messages');
   const suggestions = document.getElementById('cb-suggestions');
@@ -83,6 +91,11 @@
   // ── Helpers ────────────────────────────────────────────────────────
   const scrollToBottom = () => {
     msgContainer.scrollTop = msgContainer.scrollHeight;
+  };
+
+  const applyLiquidGlass = () => {
+    win.classList.toggle('cb-window--liquid', liquidGlassEnabled);
+    liquidBtn.classList.toggle('cb-liquid-toggle--active', liquidGlassEnabled);
   };
 
   const cleanDisplayText = (text) => {
@@ -214,6 +227,12 @@
 
   fab.addEventListener('click', toggle);
   closeBtn.addEventListener('click', toggle);
+  liquidBtn.addEventListener('click', () => {
+    liquidGlassEnabled = !liquidGlassEnabled;
+    localStorage.setItem('cbLiquidGlass', liquidGlassEnabled ? 'on' : 'off');
+    applyLiquidGlass();
+    playTone('open');
+  });
   soundBtn.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     soundBtn.classList.toggle('cb-sound-toggle--muted', !soundEnabled);
@@ -232,6 +251,8 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen) toggle();
   });
+
+  applyLiquidGlass();
 
   // ── Send message ───────────────────────────────────────────────────
   form.addEventListener('submit', async (e) => {
