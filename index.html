@@ -29,14 +29,16 @@
 <body>
   <script>
     if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
-      if (window.location.hostname.includes('vercel')) {
-        window.location.replace('/splash');
-      } else {
-        window.location.replace('splash.html');
-      }
+      window.location.replace(new URL('splash/', window.location.href));
     } else {
       document.body.classList.add('from-portfolio-loader');
       sessionStorage.removeItem('fromPortfolioLoader');
+      // Enable scroll after page is ready
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.body.classList.add('loaded');
+        }, 100);
+      });
     }
   </script>
 
@@ -74,8 +76,8 @@
           <div class="nav-dropdown">
             <button class="nav-dropdown-trigger" id="nav-resume-trigger">Resume <span class="arrow">▼</span></button>
             <div class="nav-dropdown-content">
-              <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" id="nav-resume-preview">Preview</a>
-              <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" id="nav-resume-download">Download</a>
+              <a href="/assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" id="nav-resume-preview">Preview</a>
+              <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" id="nav-resume-download">Download</a>
             </div>
           </div>
           <a href="#contact" class="open-contact-trigger" id="nav-contact-link">Contact</a>
@@ -93,8 +95,8 @@
     <a href="#work" class="mobile-menu-item" id="mob-work-link">Work</a>
     <a href="#about" class="mobile-menu-item" id="mob-about-link">About</a>
     <a href="#insights" class="mobile-menu-item" id="mob-insights-link">Insights</a>
-    <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="mobile-menu-item" id="mob-resume-preview">Preview Resume</a>
-    <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="mobile-menu-item" id="mob-resume-download">Download Resume</a>
+    <a href="#" class="mobile-menu-item" id="mob-resume-preview">Preview Resume</a>
+    <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="mobile-menu-item" id="mob-resume-download">Download Resume</a>
     <a href="#contact" class="mobile-menu-item open-contact-trigger" id="mob-contact-link">Contact</a>
 
     <div class="mobile-picker-wrap">
@@ -124,16 +126,16 @@
     </div>
 
     <div class="hero-emoji-layer" id="hero-emoji-layer" aria-hidden="true">
-      <img class="fe fe-1 far" src="assets/images/hero-icons/cursor.png" alt="">
-      <img class="fe fe-2 near" src="assets/images/hero-icons/wireframe.png" alt="">
-      <img class="fe fe-3 mid" src="assets/images/hero-icons/layers.png" alt="">
-      <img class="fe fe-4 near" src="assets/images/hero-icons/sparkle.png" alt="">
-      <img class="fe fe-5 far" src="assets/images/hero-icons/voice.png" alt="">
-      <img class="fe fe-6 mid" src="assets/images/hero-icons/robot.png" alt="">
-      <img class="fe fe-7 near" src="assets/images/hero-icons/analytics.png" alt="">
-      <img class="fe fe-8 mid" src="assets/images/hero-icons/prototype.png" alt="">
-      <img class="fe fe-9 far" src="assets/images/hero-icons/accessibility.png" alt="">
-      <img class="fe fe-10 near" src="assets/images/hero-icons/research.png" alt="">
+      <img class="fe fe-1 far" src="/assets/images/hero-icons/cursor.png" alt="">
+      <img class="fe fe-2 near" src="/assets/images/hero-icons/wireframe.png" alt="">
+      <img class="fe fe-3 mid" src="/assets/images/hero-icons/layers.png" alt="">
+      <img class="fe fe-4 near" src="/assets/images/hero-icons/sparkle.png" alt="">
+      <img class="fe fe-5 far" src="/assets/images/hero-icons/voice.png" alt="">
+      <img class="fe fe-6 mid" src="/assets/images/hero-icons/robot.png" alt="">
+      <img class="fe fe-7 near" src="/assets/images/hero-icons/analytics.png" alt="">
+      <img class="fe fe-8 mid" src="/assets/images/hero-icons/prototype.png" alt="">
+      <img class="fe fe-9 far" src="/assets/images/hero-icons/accessibility.png" alt="">
+      <img class="fe fe-10 near" src="/assets/images/hero-icons/research.png" alt="">
     </div>
 
     <!-- Normal Scroll Layer B: Content -->
@@ -147,8 +149,8 @@
         <p class="hero-sub" id="hero-sub-text">I turn complex AI, robotics, SaaS, and voice-product workflows into clear digital experiences that people understand and enjoy using.</p>
         <div class="hero-actions" id="hero-actions-container">
           <a href="#work" class="btn-primary" id="hero-cta-primary">Explore My Work <span aria-hidden="true">→</span></a>
-          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-secondary" id="hero-cta-preview">Preview Resume</a>
-          <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-secondary" id="hero-cta-download">Download Resume</a>
+          <a href="#" class="btn-secondary" id="hero-cta-preview">Preview Resume</a>
+          <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-secondary" id="hero-cta-download">Download Resume</a>
         </div>
         <div class="hero-proof">
           <div class="hero-proof-mark" aria-hidden="true">“</div>
@@ -159,8 +161,8 @@
 
       <a href="#work" class="hero-face" id="hero-avatar-btn" aria-label="View featured work">
         <div class="avatar-bob">
-          <video class="hero-avatar-video" autoplay muted loop poster="assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
-            <source src="assets/images/avatar-hero-Picsart-BackgroundRemover.webm" type="video/webm">
+          <video class="hero-avatar-video" autoplay muted loop poster="/assets/images/me-clean.png" aria-label="Animated avatar of Mahima Gupta saying hello">
+            <source src="/assets/images/avatar-hero-Picsart-BackgroundRemover.webm" type="video/webm">
           </video>
         </div>
         <!-- Sound Toggle outside avatar-bob so it's not cropped by the blob mask -->
@@ -176,35 +178,35 @@
         <div class="logo-strip">
           <div class="logo-track">
             <div class="logo-item" title="Bikanervala">
-              <img src="assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
+              <img src="/assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
             </div>
             <div class="logo-item" title="Green Park Hotels">
-              <img src="assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
+              <img src="/assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
             </div>
             <div class="logo-item" title="Moxy Hotels by Marriott">
-              <img src="assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
+              <img src="/assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
             </div>
             <div class="logo-item" title="Dabur">
-              <img src="assets/images/dabur-logo.png" alt="Dabur Logo">
+              <img src="/assets/images/dabur-logo.png" alt="Dabur Logo">
             </div>
             <div class="logo-item" title="India Gate Basmati">
-              <img src="assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
+              <img src="/assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
             </div>
             <!-- Duplicated set for seamless mobile marquee -->
             <div class="logo-item duplicate" aria-hidden="true" title="Bikanervala">
-              <img src="assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
+              <img src="/assets/images/bikanervala-logo.png" alt="Bikanervala Logo">
             </div>
             <div class="logo-item duplicate" aria-hidden="true" title="Green Park Hotels">
-              <img src="assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
+              <img src="/assets/images/greenpark-logo.svg" alt="Green Park Hotels Logo">
             </div>
             <div class="logo-item duplicate" aria-hidden="true" title="Moxy Hotels by Marriott">
-              <img src="assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
+              <img src="/assets/images/moxy-logo.svg" alt="Moxy Hotels Logo">
             </div>
             <div class="logo-item duplicate" aria-hidden="true" title="Dabur">
-              <img src="assets/images/dabur-logo.png" alt="Dabur Logo">
+              <img src="/assets/images/dabur-logo.png" alt="Dabur Logo">
             </div>
             <div class="logo-item duplicate" aria-hidden="true" title="India Gate Basmati">
-              <img src="assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
+              <img src="/assets/images/indiagate-logo.png" alt="India Gate Basmati Logo">
             </div>
           </div>
         </div>
@@ -417,14 +419,14 @@
             <a href="https://linkedin.com/in/mahima003" target="_blank" rel="noopener noreferrer" class="about-link" id="link-linkedin">LinkedIn →</a>
             <a href="https://behance.net/mahima-gupta" target="_blank" rel="noopener noreferrer" class="about-link" id="link-behance">Behance →</a>
             <a href="mailto:mahimagupta015@gmail.com" class="about-link" id="link-email">Email →</a>
-            <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="about-link" id="link-resume">Resume →</a>
+            <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="about-link" id="link-resume">Resume →</a>
           </div>
         </div>
 
       </div>
     </div>
     <div class="about-screen-peek reveal" id="peek-about" role="button" tabindex="0" aria-label="Reveal Mahima's avatar">
-      <img src="assets/images/me-card-presenter.png" alt="" draggable="false">
+      <img src="/assets/images/me-card-presenter.png" alt="" draggable="false">
     </div>
   </section>
 
@@ -451,7 +453,7 @@
       </div>
     </div>
     <div class="insights-curious reveal" id="peek-insights" role="button" tabindex="0" aria-label="Reveal Mahima's curious avatar">
-      <img src="assets/images/me-peeking-curious-2.png" alt="" draggable="false">
+      <img src="/assets/images/me-peeking-curious-2.png" alt="" draggable="false">
     </div>
   </section>
 
@@ -468,7 +470,7 @@
         <p class="vcard-line"><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span> linkedin.com/in/mahima003</p>
         <p class="vcard-line"><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></span> behance.net/mahima-gupta</p>
       </div>
-      <img src="assets/images/me-peeking-curious.png" alt="Mahima Gupta peeking from behind her visiting card" class="vcard-avatar" draggable="false">
+      <img src="/assets/images/me-peeking-curious.png" alt="Mahima Gupta peeking from behind her visiting card" class="vcard-avatar" draggable="false">
     </div>
 
     <div class="section-wrap">
@@ -477,8 +479,8 @@
         <p class="cta-sub reveal" id="cta-subhead">Whether you are building AI platforms, complex enterprise software, or creative consumer applications, reach out to work together.</p>
         <div class="cta-actions reveal" id="cta-actions-buttons">
           <button class="btn-primary open-contact-trigger" id="cta-btn-contact">Get In Touch →</button>
-          <a href="assets/mahima_gupta_resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-secondary" id="cta-btn-resume-preview">Preview Resume</a>
-          <a href="assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-secondary" id="cta-btn-resume-download">Download Resume</a>
+          <a href="#" class="btn-secondary" id="cta-btn-resume-preview">Preview Resume</a>
+          <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-secondary" id="cta-btn-resume-download">Download Resume</a>
         </div>
       </div>
     </div>
@@ -541,6 +543,18 @@
         <p class="contact-success-sub">Thank you for reaching out, Mahima. I will get back to you within 24 hours.</p>
       </div>
 
+    </div>
+  </div>
+
+  <!-- PDF Viewer Modal for Resume Preview -->
+  <div class="modal-overlay" id="pdf-modal" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title">
+    <div class="pdf-viewer-container">
+      <button class="contact-close" id="pdf-close-btn" aria-label="Close PDF viewer">&times;</button>
+      <h4 class="pdf-modal-title" id="pdf-modal-title">Resume Preview</h4>
+      <div id="pdf-viewer" class="pdf-viewer-frame"></div>
+      <div class="pdf-actions">
+        <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-primary" id="pdf-download-btn">Download PDF</a>
+      </div>
     </div>
   </div>
 

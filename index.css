@@ -90,6 +90,15 @@ body {
   transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
 }
 
+/* Prevent scroll flash during page load transition from splash */
+body.from-portfolio-loader {
+  overflow: hidden;
+}
+
+body.from-portfolio-loader.loaded {
+  overflow-x: hidden;
+}
+
 /* Custom interactive cursor */
 #cursor {
   position: fixed;
@@ -343,9 +352,8 @@ nav {
 .nav-dropdown-content {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 0.6rem);
   right: 0;
-  margin-top: 0.6rem;
   background: var(--white);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(13, 20, 33, 0.08);
@@ -354,6 +362,16 @@ nav {
   z-index: 100;
   min-width: 140px;
   animation: navDropdownFadeIn 0.2s var(--ease);
+}
+
+/* Invisible hover bridge that fills the gap between trigger and dropdown */
+.nav-dropdown-content::before {
+  content: '';
+  position: absolute;
+  top: -0.8rem;
+  left: 0;
+  right: 0;
+  height: 0.8rem;
 }
 
 @keyframes navDropdownFadeIn {
@@ -2057,6 +2075,59 @@ footer span {
 @keyframes modalEnter {
   from { opacity: 0; transform: scale(0.95) translateY(10px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* PDF Viewer Modal */
+.pdf-viewer-container {
+  background: var(--modal-bg);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 95vw;
+  height: 90vh;
+  max-height: 95vh;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(11, 15, 25, 0.3);
+  animation: modalEnter 0.4s var(--ease);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pdf-modal-title {
+  font-family: var(--title);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  padding-right: 2rem;
+}
+
+.pdf-viewer-frame {
+  flex: 1;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.pdf-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.pdf-actions .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* Tablet & Mobile Breakpoints */

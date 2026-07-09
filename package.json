@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite --host",
+    "build": "vite build && node scripts/copy-slugs.mjs",
+    "preview": "vite preview --host"
   },
   "devDependencies": {
     "vite": "^5.4.11"

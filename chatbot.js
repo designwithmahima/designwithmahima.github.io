@@ -1,5 +1,6 @@
 /* chatbot.js — Premium floating chatbot widget for Mahima's Portfolio
  * Only activates on Vercel or localhost (never on GitHub Pages).
+ * API key is kept server-side via /api/chat endpoint.
  */
 
 (function () {
@@ -10,7 +11,8 @@
   const isVercel = hostname.endsWith('.vercel.app') || hostname.endsWith('.vercel.sh');
   const isLocalDev = hostname === 'localhost' || hostname === '127.0.0.1';
 
-  if (!isVercel && !isLocalDev) return; // silently skip on GitHub Pages
+  // Chatbot disabled on GitHub Pages (no server-side env vars available)
+  if (!isVercel && !isLocalDev) return;
 
   // ── State ──────────────────────────────────────────────────────────
   let isOpen = false;
@@ -124,6 +126,7 @@
     showTypingIndicator();
 
     try {
+      // Call serverless API endpoint (keeps API key hidden in env vars)
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

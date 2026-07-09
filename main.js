@@ -629,4 +629,64 @@
     startOrientation();
   }
 
+  // 9. PDF VIEWER MODAL (for resume preview)
+  const pdfModal = document.getElementById('pdf-modal');
+  const pdfCloseBtn = document.getElementById('pdf-close-btn');
+  const pdfViewerContainer = document.getElementById('pdf-viewer');
+  let pdfEmbedLoaded = false;
+
+  const openPdfViewer = async (e) => {
+    if (e) e.preventDefault();
+    if (pdfModal) {
+      pdfModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Load EmbedPDF dynamically on first open
+      if (!pdfEmbedLoaded && pdfViewerContainer) {
+        try {
+          const EmbedPDF = (await import('https://cdn.jsdelivr.net/npm/@embedpdf/snippet@2/dist/embedpdf.js')).default;
+          EmbedPDF.init({
+            type: 'container',
+            target: pdfViewerContainer,
+            src: '/assets/mahima_gupta_resume.pdf',
+            theme: { preference: 'system' }
+          });
+          pdfEmbedLoaded = true;
+        } catch (err) {
+          console.error('Failed to load PDF viewer:', err);
+          pdfViewerContainer.innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--ink2);">Unable to load PDF viewer. Please use the Download button.</p>';
+        }
+      }
+    }
+  };
+
+  const closePdfViewer = () => {
+    if (pdfModal) {
+      pdfModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Attach click handlers to all preview resume buttons
+  document.querySelectorAll('#hero-cta-preview, #cta-btn-resume-preview, #mob-resume-preview').forEach(btn => {
+    if (btn) btn.addEventListener('click', openPdfViewer);
+  });
+
+  if (pdfCloseBtn) {
+    pdfCloseBtn.addEventListener('click', closePdfViewer);
+  }
+  
+  if (pdfModal) {
+    pdfModal.addEventListener('click', (e) => {
+      if (e.target === pdfModal) closePdfViewer();
+    });
+  }
+
+  // ESC key closes PDF modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closePdfViewer();
+    }
+  });
+
 })();
