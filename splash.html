@@ -310,6 +310,32 @@
             font-size: 0.62rem;
             letter-spacing: 0;
             text-transform: uppercase;
+            border: 3px solid #1c1a24 !important;
+            border-radius: 4px !important;
+            background: #1c1a24 !important;
+            color: #10b981 !important;
+            box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.6) !important;
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px !important;
+        }
+
+        .status-chip::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px #10b981;
+            animation: statusPulse 1s infinite alternate;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        @keyframes statusPulse {
+            from { opacity: 0.3; }
+            to { opacity: 1; }
         }
 
         .sound-btn {
@@ -773,9 +799,18 @@
             }
 
             .status-chip {
-                max-width: 80px;
+                padding: 6px 8px !important;
+                font-size: 0.45rem !important;
+                border-width: 2.5px !important;
+                max-width: 90px;
                 overflow: hidden;
                 text-overflow: clip;
+            }
+            
+            .status-chip::before {
+                width: 4px;
+                height: 4px;
+                margin-right: 4px;
             }
 
             .resume-group-chip {
