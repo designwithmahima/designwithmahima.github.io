@@ -29,7 +29,8 @@
 <body>
   <script>
     if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
-      window.location.replace(new URL('splash', window.location.href));
+      var splashPath = window.location.hostname.endsWith('github.io') ? 'splash.html' : 'splash';
+      window.location.replace(new URL(splashPath, window.location.href));
     } else {
       document.body.classList.add('from-portfolio-loader');
       sessionStorage.removeItem('fromPortfolioLoader');
