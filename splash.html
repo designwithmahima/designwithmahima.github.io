@@ -1472,9 +1472,9 @@
                     const finalBeat = loaderBeats[loaderBeats.length - 1];
                     battleText.textContent = finalBeat.text;
                     statusChip.textContent = finalBeat.status;
-                    pxValue.textContent = finalBeat.xp;
-                    gridValue.textContent = finalBeat.level;
-                    layersValue.textContent = finalBeat.combo;
+                    pxValue.textContent = "MOVE MOUSE";
+                    gridValue.textContent = "TO MEASURE";
+                    layersValue.textContent = "0";
                     
                     if (!overrideActive) {
                         setSequence("dance");
@@ -1482,6 +1482,29 @@
                     gameShell.classList.add("is-ready");
                     fightBtn.focus({ preventScroll: true });
                     playReady();
+
+                    // Activate interactive canvas measurement tools
+                    const arenaElement = document.querySelector(".arena");
+                    let clickScore = 0;
+                    if (arenaElement) {
+                        arenaElement.addEventListener("pointermove", (e) => {
+                            const rect = arenaElement.getBoundingClientRect();
+                            const x = Math.max(0, Math.floor(e.clientX - rect.left));
+                            const y = Math.max(0, Math.floor(e.clientY - rect.top));
+                            pxValue.textContent = `${x},${y}`;
+                            
+                            // Snapping coordinates to retro 8px grid
+                            const snapX = Math.round(x / 8) * 8;
+                            const snapY = Math.round(y / 8) * 8;
+                            gridValue.textContent = `${snapX},${snapY}`;
+                        });
+
+                        arenaElement.addEventListener("pointerdown", () => {
+                            clickScore += 1;
+                            layersValue.textContent = clickScore;
+                            playStep(); // play click audio feedback
+                        });
+                    }
                 }
             }, 180);
 
