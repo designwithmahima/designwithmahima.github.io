@@ -1,18 +1,16 @@
 /* chatbot.js — Premium floating chatbot widget for Mahima's Portfolio
- * Only activates on Vercel or localhost (never on GitHub Pages).
+ * Activates everywhere except GitHub Pages.
  * API key is kept server-side via /api/chat endpoint.
  */
 
 (function () {
   'use strict';
 
-  // ── Gate: only run on Vercel or local dev ──────────────────────────
+  // ── Gate: disable only on GitHub Pages ─────────────────────────────
   const hostname = window.location.hostname;
-  const isVercel = hostname.endsWith('.vercel.app') || hostname.endsWith('.vercel.sh');
-  const isLocalDev = hostname === 'localhost' || hostname === '127.0.0.1';
 
   // Chatbot disabled on GitHub Pages (no server-side env vars available)
-  if (!isVercel && !isLocalDev) return;
+  if (hostname === 'designwithmahima.github.io' || hostname.endsWith('.github.io')) return;
 
   // ── State ──────────────────────────────────────────────────────────
   let isOpen = false;
@@ -24,6 +22,8 @@
   let activeTypeTimer = null;
   let recognition = null;
   let isListening = false;
+  let isReadingDoc = false;
+  const attachedDocs = [];
   const chatHistory = []; // { role, content }
   const recruiterPrompts = [
     'Why should we hire Mahima?',
@@ -75,6 +75,10 @@
         ${recruiterPrompts.map(prompt => `<button type="button" class="cb-chip" data-prompt="${prompt}">${prompt}</button>`).join('')}
       </div>
       <form class="cb-input-bar" id="cb-form" autocomplete="off">
+        <input class="cb-file-input" id="cb-file" type="file" accept=".txt,.md,.csv,.json,.pdf,.docx,text/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+        <button class="cb-attach" id="cb-attach" type="button" aria-label="Attach document" title="Attach document">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+        </button>
         <input class="cb-input" id="cb-input" type="text" placeholder="Ask a hiring question..." maxlength="500" required />
         <button class="cb-mic" id="cb-mic" type="button" aria-label="Speak your question" title="Speak your question">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
@@ -97,6 +101,8 @@
   const suggestions = document.getElementById('cb-suggestions');
   const form = document.getElementById('cb-form');
   const input = document.getElementById('cb-input');
+  const fileInput = document.getElementById('cb-file');
+  const attachBtn = document.getElementById('cb-attach');
   const micBtn = document.getElementById('cb-mic');
 
   // ── Helpers ────────────────────────────────────────────────────────
@@ -158,6 +164,94 @@
     gain.connect(ctx.destination);
     oscillator.start(now);
     oscillator.stop(now + duration + 0.02);
+  };
+
+  const truncateDocText = (text) => {
+    return String(text || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 12000);
+  };
+
+  const readTextFile = async (file) => truncateDocText(await file.text());
+
+  const readPdfFile = async (file) => {
+    const pdfjsLib = await import('https://esm.sh/pdfjs-dist@4.10.38/build/pdf.mjs');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://esm.sh/pdfjs-dist@4.10.38/build/pdf.worker.mjs';
+    const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+    const pages = [];
+
+    for (let pageNumber = 1; pageNumber <= Math.min(pdf.numPages, 12); pageNumber += 1) {
+      const page = await pdf.getPage(pageNumber);
+      const content = await page.getTextContent();
+      pages.push(content.items.map((item) => item.str).join(' '));
+    }
+
+    return truncateDocText(pages.join('\n\n'));
+  };
+
+  const readDocxFile = async (file) => {
+    const mammothModule = await import('https://esm.sh/mammoth@1.8.0/mammoth.browser');
+    const mammoth = mammothModule.default || mammothModule;
+    const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+    return truncateDocText(result.value);
+  };
+
+  const extractDocumentText = async (file) => {
+    const name = file.name.toLowerCase();
+    const type = file.type || '';
+
+    if (file.size > 8 * 1024 * 1024) {
+      throw new Error('Please attach a file under 8 MB.');
+    }
+
+    if (type.startsWith('text/') || /\.(txt|md|csv|json|html|css|js)$/i.test(name)) {
+      return readTextFile(file);
+    }
+
+    if (type === 'application/pdf' || name.endsWith('.pdf')) {
+      return readPdfFile(file);
+    }
+
+    if (
+      type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      name.endsWith('.docx')
+    ) {
+      return readDocxFile(file);
+    }
+
+    throw new Error('Supported docs: TXT, MD, CSV, JSON, PDF, and DOCX.');
+  };
+
+  const removeDocChip = (name) => {
+    document.querySelector(`.cb-doc-chip[data-doc="${CSS.escape(name)}"]`)?.remove();
+  };
+
+  const removeDoc = (name) => {
+    const index = attachedDocs.findIndex((doc) => doc.name === name);
+    if (index >= 0) attachedDocs.splice(index, 1);
+    removeDocChip(name);
+  };
+
+  const appendDocChip = (doc) => {
+    const chip = document.createElement('div');
+    chip.className = 'cb-doc-chip';
+    chip.dataset.doc = doc.name;
+    chip.innerHTML = `
+      <span>${doc.name}</span>
+      <button type="button" aria-label="Remove ${doc.name}">&times;</button>
+    `;
+    chip.querySelector('button').addEventListener('click', () => removeDoc(doc.name));
+    msgContainer.appendChild(chip);
+    scrollToBottom();
+  };
+
+  const buildUserContent = (text) => {
+    if (!attachedDocs.length) return text;
+    const docs = attachedDocs
+      .map((doc, index) => `Document ${index + 1}: ${doc.name}\n${doc.text}`)
+      .join('\n\n---\n\n');
+    return `${text}\n\nAttached document context for answering this question:\n${docs}`;
   };
 
   const speakText = (text) => {
@@ -379,6 +473,45 @@
     }
   });
 
+  attachBtn.addEventListener('click', () => {
+    if (!isLoading && !isReadingDoc) fileInput.click();
+  });
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files?.[0];
+    fileInput.value = '';
+    if (!file) return;
+
+    isReadingDoc = true;
+    attachBtn.classList.add('cb-attach--loading');
+    attachBtn.disabled = true;
+    input.placeholder = 'Reading document...';
+
+    try {
+      const text = await extractDocumentText(file);
+      if (!text) throw new Error('I could not find readable text in that document.');
+      const doc = { name: file.name, text };
+      const existingIndex = attachedDocs.findIndex((item) => item.name === doc.name);
+      if (existingIndex >= 0) {
+        attachedDocs[existingIndex] = doc;
+        removeDocChip(doc.name);
+      } else {
+        attachedDocs.push(doc);
+      }
+      appendDocChip(doc);
+      input.placeholder = 'Ask about the attached doc...';
+      playTone('reply');
+    } catch (err) {
+      await typeAssistantMessage(err.message || 'I could not read that document.');
+      input.placeholder = 'Ask a hiring question...';
+    } finally {
+      isReadingDoc = false;
+      attachBtn.classList.remove('cb-attach--loading');
+      attachBtn.disabled = false;
+      input.focus();
+    }
+  });
+
   suggestions.addEventListener('click', (e) => {
     const chip = e.target.closest('.cb-chip');
     if (!chip || isLoading) return;
@@ -404,7 +537,9 @@
     // Append user message
     appendMessage('user', text);
     playTone('send');
-    chatHistory.push({ role: 'user', content: text });
+    chatHistory.push({ role: 'user', content: buildUserContent(text) });
+    attachedDocs.splice(0, attachedDocs.length);
+    document.querySelectorAll('.cb-doc-chip').forEach((chip) => chip.remove());
     input.value = '';
     input.disabled = true;
     suggestions.classList.add('cb-suggestions--disabled');

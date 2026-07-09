@@ -98,6 +98,7 @@ RECRUITER-FACING POSITIONING:
 - When a question asks for fit, use confident but grounded language, such as "She would be a strong fit for..." or "Her edge is..."
 - Avoid sounding like a resume dump. Lead with the strongest answer, then support it with 1-2 proof points.
 - If the user asks for contact, mention the contact form or mahimagupta015@gmail.com.
+- If the user's message includes "Attached document context", use that document only for the current answer. Make it clear when you are using the attached document, and do not treat it as permanent portfolio/resume truth unless it matches the knowledge base.
 
 STYLE:
 - Professional, polished, warm, and recruiter-friendly.
@@ -218,8 +219,16 @@ STYLE:
 
   const shouldUseRecruiterFallback = (question) => {
     const normalized = question.toLowerCase();
+    const hasAttachedDocumentContext = normalized.includes('attached document context');
+    const hasEmailDraftIntent = /\b(write|draft|generate|create|format|compose)\b/.test(normalized) && /\b(email|mail|subject|body)\b/.test(normalized);
+    const hasContactIntent = /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized);
+
+    if (hasAttachedDocumentContext && !hasEmailDraftIntent && !hasContactIntent) {
+      return false;
+    }
+
     return (
-      (/\b(write|draft|generate|create|format|compose)\b/.test(normalized) && /\b(email|mail|subject|body)\b/.test(normalized)) ||
+      hasEmailDraftIntent ||
       normalized.includes('hire') ||
       normalized.includes('fit') ||
       /\b(ai|voice|robot|robotics|vui)\b/.test(normalized) ||
@@ -227,7 +236,7 @@ STYLE:
       normalized.includes('business') ||
       normalized.includes('skill') ||
       normalized.includes('figma') ||
-      /\b(call|phone|email|mail|contact|reach|linkedin|interview)\b/.test(normalized)
+      hasContactIntent
     );
   };
 
@@ -298,12 +307,16 @@ STYLE:
       }
     }
 
-    if (
-      /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
-      /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
-      assistantMessage.length < 90 ||
-      /[:*-]\s*$/.test(assistantMessage)
-    ) {
+    const shouldCleanWithFallback =
+      !latestUserMessage.toLowerCase().includes('attached document context') &&
+      (
+        /^(okay|let me|i need to|i should|the user|from the|so,)/i.test(assistantMessage) ||
+        /reasoning|structure the answer|provided context|provided resume/i.test(assistantMessage) ||
+        assistantMessage.length < 90 ||
+        /[:*-]\s*$/.test(assistantMessage)
+      );
+
+    if (shouldCleanWithFallback) {
       assistantMessage = recruiterFallback(latestUserMessage);
     }
 
