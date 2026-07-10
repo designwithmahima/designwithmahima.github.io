@@ -370,7 +370,6 @@ nav {
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(13, 20, 33, 0.08);
   border-radius: 8px;
-  overflow: hidden;
   z-index: 100;
   min-width: 140px;
   animation: navDropdownFadeIn 0.2s var(--ease);
@@ -381,8 +380,8 @@ nav {
   content: '';
   position: absolute;
   top: -0.8rem;
-  left: 0;
-  right: 0;
+  left: -10px;
+  right: -10px;
   height: 0.8rem;
 }
 
@@ -415,6 +414,14 @@ nav {
 .nav-dropdown-content a:hover {
   background: rgba(26, 111, 255, 0.06);
   color: var(--accent) !important;
+}
+
+.nav-dropdown-content a:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.nav-dropdown-content a:last-child {
+  border-radius: 0 0 8px 8px;
 }
 
 .nav-right {

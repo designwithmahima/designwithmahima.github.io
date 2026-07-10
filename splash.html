@@ -722,13 +722,10 @@
         }
 
         .game-shell.is-entering-portfolio .avatar-wrap {
-            animation: walkOutToRight 4.0s linear both;
+            animation: walkOutToLeft 4.0s linear both;
         }
 
-        .game-shell.is-entering-portfolio .avatar-sprite {
-            animation: none !important;
-            transform: scaleX(-1) !important;
-        }
+
 
         @keyframes mapDrift {
             to { background-position: 48px 48px; }
@@ -793,9 +790,9 @@
             100% { opacity: 0; }
         }
 
-        @keyframes walkOutToRight {
+        @keyframes walkOutToLeft {
             0% { transform: translate(0, -1vh); }
-            100% { transform: translate(110vw, -1vh); }
+            100% { transform: translate(-110vw, -1vh); }
         }
 
         @keyframes crtSwitchOff {
@@ -1645,6 +1642,9 @@
                 }
                 overrideActive = true;
                 setSequence("walk");
+                // Flip the sprite to face right and stop bounce animation during walk-out
+                avatarSprite.style.transform = 'scaleX(-1)';
+                avatarSprite.style.animation = 'none';
                 gameShell.classList.add("is-entering-portfolio");
                 playLaunch();
                 playGameBoyLoadingSound();
