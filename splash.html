@@ -742,7 +742,7 @@
         }
 
         .game-shell.is-entering-portfolio .avatar-wrap {
-            animation: walkOutToLeft 3.0s linear both;
+            animation: walkOutToLeft var(--walk-duration, 3s) linear both;
         }
 
 
@@ -1826,6 +1826,13 @@
                 if (overrideTimeout) {
                     clearTimeout(overrideTimeout);
                 }
+
+                // Calculate walk duration based on screen width (consistent visual speed)
+                // ~1.5s on mobile (375px), ~3s on desktop (1440px+)
+                const walkDuration = Math.max(1.5, Math.min(3.5, window.innerWidth / 480));
+                const walkMs = walkDuration * 1000;
+                document.documentElement.style.setProperty('--walk-duration', walkDuration + 's');
+
                 overrideActive = true;
                 setSequence("walk");
                 // Flip the sprite to face right and stop bounce animation during walk-out
@@ -1836,16 +1843,15 @@
                 playGameBoyLoadingSound();
                 sessionStorage.setItem("fromPortfolioLoader", "true");
 
-                // Character walks out first (4.0s animation)
-                // Then CRT close animation triggers
+                // Character walks out first, then CRT close animation triggers
                 setTimeout(() => {
                     document.body.classList.add("entering-site");
-                }, 4000);
+                }, walkMs);
 
                 // Redirect after character is gone and CRT close completes
                 setTimeout(() => {
                     window.location.replace('/'); // <-- Change to absolute root path
-                }, 4900);
+                }, walkMs + 900);
             }
 
             fightBtn.addEventListener("click", openPortfolio);
