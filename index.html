@@ -28,9 +28,9 @@
 </head>
 <body>
   <script>
+    // Redirect to splash page first - users must enter through the game loader
     if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
-      var splashPath = window.location.hostname.endsWith('github.io') ? 'splash.html' : 'splash';
-      window.location.replace(new URL(splashPath, window.location.href));
+      window.location.replace('splash.html');
     } else {
       document.body.classList.add('from-portfolio-loader');
       sessionStorage.removeItem('fromPortfolioLoader');

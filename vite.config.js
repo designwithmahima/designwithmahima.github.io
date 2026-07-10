@@ -10,7 +10,6 @@ export default defineConfig(({ mode }) => {
   process.env.LITELLM_MODEL ||= env.LITELLM_MODEL;
   
   return {
-    base: './',
     build: {
       rollupOptions: {
         input: {
