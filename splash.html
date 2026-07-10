@@ -722,7 +722,12 @@
         }
 
         .game-shell.is-entering-portfolio .avatar-wrap {
-            animation: walkOutToRight 2.2s linear both;
+            animation: walkOutToRight 4.0s linear both;
+        }
+
+        .game-shell.is-entering-portfolio .avatar-sprite {
+            animation: none !important;
+            transform: scaleX(-1) !important;
         }
 
         @keyframes mapDrift {
@@ -789,8 +794,8 @@
         }
 
         @keyframes walkOutToRight {
-            0% { transform: translate(0, -1vh) scaleX(-1); }
-            100% { transform: translate(110vw, -1vh) scaleX(-1); }
+            0% { transform: translate(0, -1vh); }
+            100% { transform: translate(110vw, -1vh); }
         }
 
         @keyframes crtSwitchOff {
@@ -1645,16 +1650,16 @@
                 playGameBoyLoadingSound();
                 sessionStorage.setItem("fromPortfolioLoader", "true");
 
-                // Character walks out first (2.2s animation)
+                // Character walks out first (4.0s animation)
                 // Then CRT close animation triggers
                 setTimeout(() => {
                     document.body.classList.add("entering-site");
-                }, 2200);
+                }, 4000);
 
                 // Redirect after character is gone and CRT close completes
                     setTimeout(() => {
                         window.location.replace('/'); // <-- Change to absolute root path
-                    }, 3100);
+                    }, 4900);
             }
 
             fightBtn.addEventListener("click", openPortfolio);
