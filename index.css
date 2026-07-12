@@ -1497,6 +1497,47 @@ body.from-portfolio-loader .hero-emoji-layer {
   flex-wrap: wrap;
 }
 
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.25rem;
+}
+
+.card-demo-link,
+.card-case-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.card-demo-link {
+  color: var(--white);
+  background: var(--grad1);
+  box-shadow: 0 10px 24px rgba(48, 106, 255, 0.22);
+}
+
+.card-case-link {
+  color: var(--accent);
+  border: 1px solid rgba(94, 103, 230, 0.22);
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.card-demo-link:hover,
+.card-case-link:hover {
+  transform: translateY(-2px);
+}
+
 .metric {
   display: flex;
   flex-direction: column;
