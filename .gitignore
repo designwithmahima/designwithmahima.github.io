@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+*-check.png
+ui-check*.png
+
+.vercel
+.env*
