@@ -247,8 +247,9 @@
               </div>
             </div>
             <div class="card-actions">
-              <a href="https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=94-12023" target="_blank" rel="noopener noreferrer" class="card-demo-link">Figma Design <span aria-hidden="true">↗</span></a>
-              <a href="https://www.behance.net/gallery/242225823/Voice-Assisted-Patient-Appointments-Wayfinding" target="_blank" rel="noopener noreferrer" class="card-case-link">Behance Case Study</a>
+              <button class="card-demo-link btn-view-deck" data-deck-id="patientvoice">View Slide Deck <span aria-hidden="true">↗</span></button>
+              <a href="https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=94-12023" target="_blank" rel="noopener noreferrer" class="card-case-link">Figma Canvas ↗</a>
+              <a href="https://www.behance.net/gallery/242225823/Voice-Assisted-Patient-Appointments-Wayfinding" target="_blank" rel="noopener noreferrer" class="card-case-link">Behance</a>
             </div>
           </div>
         </article>
@@ -262,12 +263,12 @@
           <div class="card-body">
             <div class="card-company">Aksigen &bull; Healthcare Product System</div>
             <div class="card-tags">
-              <span class="tag">Figma Presentation</span>
+              <span class="tag">Interactive Presentation Deck</span>
               <span class="tag">Medical SaaS</span>
               <span class="tag">Clinical UX</span>
             </div>
             <h3 class="card-title">Aksigen Healthcare: Clinical Workflow &amp; Patient Portal SaaS</h3>
-            <p class="card-desc">End-to-end Figma case study presentation for Aksigen healthcare SaaS platform, detailing patient record management, doctor scheduling dashboards, and clinical design tokens.</p>
+            <p class="card-desc">End-to-end presentation deck for Aksigen healthcare SaaS platform, detailing patient record management, doctor scheduling dashboards, and clinical design tokens.</p>
             <div class="card-metrics">
               <div class="metric">
                 <span class="metric-num">94%</span>
@@ -279,7 +280,8 @@
               </div>
             </div>
             <div class="card-actions">
-              <a href="https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=158-13" target="_blank" rel="noopener noreferrer" class="card-demo-link">Figma Design <span aria-hidden="true">↗</span></a>
+              <button class="card-demo-link btn-view-deck" data-deck-id="aksigen">View Slide Deck <span aria-hidden="true">↗</span></button>
+              <a href="https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=158-13" target="_blank" rel="noopener noreferrer" class="card-case-link">Figma Canvas ↗</a>
             </div>
           </div>
         </article>
@@ -293,7 +295,7 @@
           <div class="card-body">
             <div class="card-company">HeyAlpha &amp; Marriott Moxy &bull; Hospitality AI Voice UI</div>
             <div class="card-tags">
-              <span class="tag">Figma Presentation</span>
+              <span class="tag">Interactive Presentation Deck</span>
               <span class="tag">Voice UI (VUI)</span>
               <span class="tag">QR Web App</span>
             </div>
@@ -310,8 +312,9 @@
               </div>
             </div>
             <div class="card-actions">
-              <a href="https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=159-553" target="_blank" rel="noopener noreferrer" class="card-demo-link">Figma Design <span aria-hidden="true">↗</span></a>
-              <a href="https://www.behance.net/gallery/244217839/food-order-through-voice" target="_blank" rel="noopener noreferrer" class="card-case-link">Behance Case Study</a>
+              <button class="card-demo-link btn-view-deck" data-deck-id="foodvoice">View Slide Deck <span aria-hidden="true">↗</span></button>
+              <a href="https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=159-553" target="_blank" rel="noopener noreferrer" class="card-case-link">Figma Canvas ↗</a>
+              <a href="https://www.behance.net/gallery/244217839/food-order-through-voice" target="_blank" rel="noopener noreferrer" class="card-case-link">Behance</a>
             </div>
           </div>
         </article>
@@ -598,6 +601,40 @@
       <div id="pdf-viewer" class="pdf-viewer-frame"></div>
       <div class="pdf-actions">
         <a href="/assets/mahima_gupta_resume.pdf" download="mahima_gupta_resume.pdf" class="btn-primary" id="pdf-download-btn">Download PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Case Study Presentation Deck Modal -->
+  <div class="modal-overlay" id="deck-modal" role="dialog" aria-modal="true" aria-labelledby="deck-modal-title">
+    <div class="deck-viewer-container">
+      <button class="contact-close" id="deck-close-btn" aria-label="Close presentation deck">&times;</button>
+      
+      <div class="deck-header">
+        <div class="deck-meta">
+          <span class="deck-company-badge" id="deck-company-tag">Healthcare & Kiosk UX</span>
+          <h3 class="deck-modal-title" id="deck-modal-title">Case Study Presentation Deck</h3>
+        </div>
+        <div class="deck-header-actions">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="deck-figma-link" id="deck-figma-btn">
+            <svg width="14" height="14" viewBox="0 0 38 57" fill="currentColor"><path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38L19 38V28.5Z"/><path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z"/><path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z"/><path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z"/><path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z"/></svg>
+            Open in Figma <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="deck-body">
+        <button class="deck-nav-btn deck-prev" id="deck-prev-btn" aria-label="Previous slide">&#8249;</button>
+        <div class="deck-slides-viewport" id="deck-slides-viewport">
+          <!-- Slide items injected via JavaScript -->
+        </div>
+        <button class="deck-nav-btn deck-next" id="deck-next-btn" aria-label="Next slide">&#8250;</button>
+      </div>
+
+      <div class="deck-footer">
+        <div class="deck-slide-counter" id="deck-counter">Slide 1 of 4</div>
+        <div class="deck-dots" id="deck-dots-container"></div>
+        <button class="deck-toggle-mode" id="deck-toggle-embed-btn">View Figma Embedded Canvas</button>
       </div>
     </div>
   </div>

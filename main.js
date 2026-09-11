@@ -689,4 +689,346 @@
     }
   });
 
+  // 10. INTERACTIVE CASE STUDY SLIDE DECK MODAL
+  const caseDecks = {
+    patientvoice: {
+      company: "Novacare Hospital • Healthcare Kiosk UX",
+      title: "Patient Voice Helper: Hospital Wayfinding & Self Check-in Kiosk",
+      figmaUrl: "https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=94-12023",
+      slides: [
+        {
+          num: "SLIDE 01 / 04",
+          heading: "Overview & Problem Statement",
+          desc: "Hospital lobbies experienced severe bottlenecking during peak morning hours. Patients faced confusion navigating multi-building OPD centers, while touchscreens created sanitization hesitation.",
+          points: [
+            "Challenge: Over 4.5 minutes average check-in duration per patient.",
+            "Solution: Dual voice and touch kiosk enabling hands-free appointment lookup.",
+            "Accessibility: High-contrast AAA visual layout for elderly & mobility-assisted patients."
+          ],
+          metrics: [
+            { num: "4.5m ➔ 2.7m", label: "Check-in Duration" },
+            { num: "92%", label: "Patient Usability Score" }
+          ],
+          image: "/assets/images/heyalpha-healthcare.png"
+        },
+        {
+          num: "SLIDE 02 / 04",
+          heading: "Conversational Voice & Wayfinding UX",
+          desc: "Integrated an AI voice recognition loop built to operate under lobby background noise. Patients simply state 'Appointment with Dr. Sharma' to initiate check-in and receive animated floor maps.",
+          points: [
+            "Voice Intent Parsing: Recognizes department names, doctor aliases, and room numbers.",
+            "Interactive Maps: Turn-by-turn visual pathing to elevator & OPD consultation rooms.",
+            "Multilingual Support: Instant language switching between English, Hindi & regional dialects."
+          ],
+          metrics: [
+            { num: "65%", label: "Fewer Helpdesk Queries" },
+            { num: "< 800ms", label: "Voice Response Time" }
+          ],
+          image: "/assets/images/heyalpha-healthcare.png"
+        },
+        {
+          num: "SLIDE 03 / 04",
+          heading: "Figma Component & Kiosk Hardware Architecture",
+          desc: "Designed auto-layout component libraries in Figma tailored for 32-inch portrait kiosk screens, ensuring 48px minimum touch targets and clear audio feedback indicators.",
+          points: [
+            "Figma System: Over 80 UI variants built with strict auto-layout padding.",
+            "Micro-Interactions: Audio wave animations indicating when kiosk is listening.",
+            "Hardware Integration: Thermal ticket printer trigger and RFID badge scanner support."
+          ],
+          metrics: [
+            { num: "32\"", label: "Portrait Kiosk Target" },
+            { num: "80+", label: "Figma Components" }
+          ],
+          image: "/assets/images/heyalpha-healthcare.png"
+        },
+        {
+          num: "SLIDE 04 / 04",
+          heading: "Clinical Outcome & Deployment Impact",
+          desc: "Tested across pilot outpatient facilities with over 12,000 active patient sessions, delivering measurable queue reduction and positive hospital staff feedback.",
+          points: [
+            "Lobby Efficiency: Cut peak lobby queue length by 40%.",
+            "Sanitization Safety: 74% of patients utilized voice commands without touching screen.",
+            "Staff Feedback: Nurses spent 30% more time on critical care rather than wayfinding help."
+          ],
+          metrics: [
+            { num: "12,000+", label: "Patient Sessions" },
+            { num: "40%", label: "Queue Cut" }
+          ],
+          image: "/assets/images/heyalpha-healthcare.png"
+        }
+      ]
+    },
+    aksigen: {
+      company: "Aksigen • Healthcare Product Ecosystem",
+      title: "Aksigen Healthcare: Clinical Workflow & Patient Portal SaaS",
+      figmaUrl: "https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=158-13",
+      slides: [
+        {
+          num: "SLIDE 01 / 04",
+          heading: "Overview & Clinical Ecosystem",
+          desc: "Aksigen required a unified, high-performance medical SaaS platform to streamline patient record management, diagnostic lab ordering, and physician schedules across multiple clinical departments.",
+          points: [
+            "Problem: Fragmented legacy EHR tools slowed down physician consultation cycles.",
+            "Goal: Reduce cognitive load for doctors while improving patient record accuracy.",
+            "Approach: Clean data density, dark mode radiology themes, and single-click prescription drafting."
+          ],
+          metrics: [
+            { num: "94%", label: "Clinical Workflow Efficiency" },
+            { num: "2.5x", label: "Faster Record Retrieval" }
+          ],
+          image: "/assets/images/medicare.png"
+        },
+        {
+          num: "SLIDE 02 / 04",
+          heading: "Doctor Dashboard & Patient Vitals",
+          desc: "Architected a modular dashboard layout placing patient vital trends, allergy warnings, and active medications directly in the physician's primary field of view.",
+          points: [
+            "Vitals Sparklines: Real-time visual graphs for blood pressure, pulse, and oxygen levels.",
+            "Quick Shortcuts: Keyboard navigation for fast prescription search & diagnosis entry.",
+            "Contextual Drawer: Instant access to patient lab history without losing active consultation state."
+          ],
+          metrics: [
+            { num: "0", label: "UI Input Errors in Test" },
+            { num: "1-Click", label: "Lab Order Trigger" }
+          ],
+          image: "/assets/images/medicare.png"
+        },
+        {
+          num: "SLIDE 03 / 04",
+          heading: "Figma Design System & Clinical Tokens",
+          desc: "Created a comprehensive Figma design system featuring color tokens, typography scales, and WCAG AAA compliant contrast levels tailored for hospital environments.",
+          points: [
+            "Design Tokens: Standardized medical status colors (Critical Red, Stable Green, Alert Amber).",
+            "Figma Components: 120+ variant components with auto-layout constraints.",
+            "Developer Handoff: Strict token naming mapping directly to React / Tailwind CSS variables."
+          ],
+          metrics: [
+            { num: "120+", label: "Figma Variants" },
+            { num: "AAA", label: "WCAG Contrast Level" }
+          ],
+          image: "/assets/images/medicare.png"
+        },
+        {
+          num: "SLIDE 04 / 04",
+          heading: "Results & Healthcare Scale",
+          desc: "Deployed across clinical departments, enabling doctors to spend more face-to-face time with patients while reducing administrative documentation backlogs.",
+          points: [
+            "Time Saved: Average consultation documentation reduced by 3.2 minutes per patient.",
+            "Record Retrieval: Lab report access speed improved by 250%.",
+            "Physician Rating: Received a 4.9/5 satisfaction rating from practicing clinical staff."
+          ],
+          metrics: [
+            { num: "3.2m", label: "Time Saved per Patient" },
+            { num: "4.9 / 5", label: "Physician Rating" }
+          ],
+          image: "/assets/images/medicare.png"
+        }
+      ]
+    },
+    foodvoice: {
+      company: "HeyAlpha & Marriott Moxy • Hospitality AI Voice UI",
+      title: "HeyAlpha Food Voice: Touchless Restaurant & Room Service Ordering",
+      figmaUrl: "https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=159-553",
+      slides: [
+        {
+          num: "SLIDE 01 / 04",
+          heading: "Overview & Zero-Friction Vision",
+          desc: "Hotel guests and restaurant diners often face friction downloading native apps or waiting for staff during rush hours. HeyAlpha Food Voice allows instant QR scanning and natural voice ordering.",
+          points: [
+            "Zero App Download: Opens in any mobile browser in less than 1 second.",
+            "Multimodal Experience: Speak natural voice orders or tap visual food cards.",
+            "Target Brands: Implemented for Marriott Moxy in-room dining & Bikanervala tables."
+          ],
+          metrics: [
+            { num: "78%", label: "Guest Adoption Rate" },
+            { num: "3x", label: "Faster Order Placement" }
+          ],
+          image: "/assets/images/in-room-qr.png"
+        },
+        {
+          num: "SLIDE 02 / 04",
+          heading: "Conversational Voice Dialogue Engine",
+          desc: "Designed intuitive voice UI states that guide guests through item selection, customization (e.g. 'extra spicy', 'no onions'), and dietary filter toggles.",
+          points: [
+            "Natural Language: Handles multi-item orders like '2 Cappuccinos and 1 Club Sandwich'.",
+            "Smart Upselling: Non-intrusive AI recommendations for pairings (e.g. drinks, desserts).",
+            "Visual Sync: Voice commands instantly highlight corresponding items on the screen."
+          ],
+          metrics: [
+            { num: "22%", label: "Higher Order Value" },
+            { num: "96%", label: "Voice Recognition Accuracy" }
+          ],
+          image: "/assets/images/in-room-qr.png"
+        },
+        {
+          num: "SLIDE 03 / 04",
+          heading: "QR Table Integration & Kitchen KDS",
+          desc: "Mapped encrypted QR parameters to dynamically populate hotel room numbers or restaurant table IDs, transmitting structured orders directly to Kitchen Display Systems (KDS).",
+          points: [
+            "Session Security: Encrypted token handling eliminates order tampering.",
+            "Kitchen Sync: Real-time order status tracking ('Preparing', 'On the Way', 'Delivered').",
+            "Payment Gateway: Integrated Apple Pay, Google Pay, and room charge billing."
+          ],
+          metrics: [
+            { num: "< 1s", label: "QR Launch Speed" },
+            { num: "Real-time", label: "Kitchen KDS Dispatch" }
+          ],
+          image: "/assets/images/in-room-qr.png"
+        },
+        {
+          num: "SLIDE 04 / 04",
+          heading: "Hospitality Adoption & Guest Impact",
+          desc: "Transformed guest room service into a delightful, 24/7 self-service amenity while boosting food & beverage revenue for partner hotel properties.",
+          points: [
+            "Order Volume: Processed over 45,000 guest food orders with zero staff intervention.",
+            "Guest Delight: Rated 4.8/5 by guests for convenience and novel voice interaction.",
+            "Staff Relief: Reduced front-desk and room service phone calls by 60%."
+          ],
+          metrics: [
+            { num: "45,000+", label: "Orders Processed" },
+            { num: "60%", label: "Fewer Phone Calls" }
+          ],
+          image: "/assets/images/in-room-qr.png"
+        }
+      ]
+    }
+  };
+
+  const deckModal = document.getElementById('deck-modal');
+  const deckCloseBtn = document.getElementById('deck-close-btn');
+  const deckCompanyTag = document.getElementById('deck-company-tag');
+  const deckTitle = document.getElementById('deck-modal-title');
+  const deckFigmaBtn = document.getElementById('deck-figma-btn');
+  const deckSlidesViewport = document.getElementById('deck-slides-viewport');
+  const deckPrevBtn = document.getElementById('deck-prev-btn');
+  const deckNextBtn = document.getElementById('deck-next-btn');
+  const deckCounter = document.getElementById('deck-counter');
+  const deckDotsContainer = document.getElementById('deck-dots-container');
+  const deckToggleEmbedBtn = document.getElementById('deck-toggle-embed-btn');
+
+  let currentDeckKey = null;
+  let currentSlideIndex = 0;
+  let isEmbedMode = false;
+
+  const renderDeckSlide = (index) => {
+    if (!currentDeckKey || !caseDecks[currentDeckKey]) return;
+    const deck = caseDecks[currentDeckKey];
+    const total = deck.slides.length;
+    currentSlideIndex = (index + total) % total;
+
+    if (isEmbedMode) {
+      deckSlidesViewport.innerHTML = `<iframe class="deck-iframe-viewport" src="https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(deck.figmaUrl)}" allowfullscreen></iframe>`;
+      if (deckCounter) deckCounter.textContent = `Figma Canvas Mode`;
+      return;
+    }
+
+    const slide = deck.slides[currentSlideIndex];
+
+    const pointsHtml = slide.points.map(p => `<li>${p}</li>`).join('');
+    const metricsHtml = slide.metrics ? slide.metrics.map(m => `
+      <div class="metric">
+        <span class="metric-num">${m.num}</span>
+        <span class="metric-label">${m.label}</span>
+      </div>
+    `).join('') : '';
+
+    deckSlidesViewport.innerHTML = `
+      <div class="deck-slide active">
+        <div class="deck-slide-content">
+          <div class="deck-slide-num">${slide.num}</div>
+          <h4 class="deck-slide-heading">${slide.heading}</h4>
+          <p class="deck-slide-desc">${slide.desc}</p>
+          <ul class="deck-slide-points">
+            ${pointsHtml}
+          </ul>
+          <div class="deck-slide-metrics-row">
+            ${metricsHtml}
+          </div>
+        </div>
+        <div class="deck-slide-preview">
+          <img src="${slide.image}" alt="${slide.heading} mockup preview">
+        </div>
+      </div>
+    `;
+
+    if (deckCounter) {
+      deckCounter.textContent = `Slide ${currentSlideIndex + 1} of ${total}`;
+    }
+
+    if (deckDotsContainer) {
+      deckDotsContainer.innerHTML = deck.slides.map((_, i) => `
+        <span class="deck-dot ${i === currentSlideIndex ? 'active' : ''}" data-index="${i}"></span>
+      `).join('');
+
+      deckDotsContainer.querySelectorAll('.deck-dot').forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.getAttribute('data-index'), 10);
+          renderDeckSlide(idx);
+        });
+      });
+    }
+  };
+
+  const openDeckModal = (deckId) => {
+    if (!caseDecks[deckId]) return;
+    currentDeckKey = deckId;
+    currentSlideIndex = 0;
+    isEmbedMode = false;
+
+    const deck = caseDecks[deckId];
+    if (deckCompanyTag) deckCompanyTag.textContent = deck.company;
+    if (deckTitle) deckTitle.textContent = deck.title;
+    if (deckFigmaBtn) deckFigmaBtn.href = deck.figmaUrl;
+    if (deckToggleEmbedBtn) deckToggleEmbedBtn.textContent = "View Figma Embedded Canvas";
+
+    renderDeckSlide(0);
+
+    if (deckModal) {
+      deckModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  const closeDeckModal = () => {
+    if (deckModal) {
+      deckModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  document.querySelectorAll('.btn-view-deck').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const deckId = btn.getAttribute('data-deck-id');
+      openDeckModal(deckId);
+    });
+  });
+
+  if (deckCloseBtn) deckCloseBtn.addEventListener('click', closeDeckModal);
+  if (deckPrevBtn) deckPrevBtn.addEventListener('click', () => renderDeckSlide(currentSlideIndex - 1));
+  if (deckNextBtn) deckNextBtn.addEventListener('click', () => renderDeckSlide(currentSlideIndex + 1));
+
+  if (deckToggleEmbedBtn) {
+    deckToggleEmbedBtn.addEventListener('click', () => {
+      isEmbedMode = !isEmbedMode;
+      deckToggleEmbedBtn.textContent = isEmbedMode ? "View Visual Slide Presentation" : "View Figma Embedded Canvas";
+      renderDeckSlide(currentSlideIndex);
+    });
+  }
+
+  if (deckModal) {
+    deckModal.addEventListener('click', (e) => {
+      if (e.target === deckModal) closeDeckModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (deckModal && deckModal.classList.contains('active')) {
+      if (e.key === 'Escape') closeDeckModal();
+      if (e.key === 'ArrowRight') renderDeckSlide(currentSlideIndex + 1);
+      if (e.key === 'ArrowLeft') renderDeckSlide(currentSlideIndex - 1);
+    }
+  });
+
 })();

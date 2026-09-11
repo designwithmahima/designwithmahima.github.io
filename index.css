@@ -2190,6 +2190,288 @@ footer span {
   gap: 0.5rem;
 }
 
+/* Presentation Slide Deck Modal */
+.deck-viewer-container {
+  background: var(--modal-bg);
+  -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  width: 94vw;
+  max-width: 1060px;
+  height: 85vh;
+  max-height: 740px;
+  position: relative;
+  box-shadow: 0 32px 64px rgba(11, 15, 25, 0.28);
+  display: flex;
+  flex-direction: column;
+  animation: modalEnter 0.4s var(--ease);
+  overflow: hidden;
+}
+
+.deck-viewer-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 6%;
+  right: 6%;
+  height: 3px;
+  background: var(--grad1);
+  border-radius: 0 0 6px 6px;
+}
+
+.deck-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(94, 103, 230, 0.12);
+  padding-right: 2.5rem;
+}
+
+.deck-company-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.deck-modal-title {
+  font-family: var(--title);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin: 0;
+}
+
+.deck-figma-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  border: 1px solid rgba(94, 103, 230, 0.25);
+  background: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: all 0.2s var(--ease);
+}
+
+.deck-figma-link:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.deck-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.deck-slides-viewport {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(94, 103, 230, 0.1);
+}
+
+.deck-slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 2rem;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+.deck-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.deck-slide-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.deck-slide-num {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.deck-slide-heading {
+  font-family: var(--title);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+  line-height: 1.25;
+}
+
+.deck-slide-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink2);
+  margin-bottom: 1.2rem;
+}
+
+.deck-slide-points {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.deck-slide-points li {
+  font-size: 0.86rem;
+  color: var(--ink);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  line-height: 1.45;
+}
+
+.deck-slide-points li::before {
+  content: "◆";
+  color: var(--accent);
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
+}
+
+.deck-slide-metrics-row {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(94, 103, 230, 0.15);
+}
+
+.deck-slide-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(11, 15, 25, 0.12);
+  background: #0f1422;
+}
+
+.deck-slide-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.deck-nav-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(94, 103, 230, 0.2);
+  color: var(--ink);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s var(--ease);
+  box-shadow: 0 4px 12px rgba(11, 15, 25, 0.08);
+}
+
+.deck-nav-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.deck-prev {
+  margin-right: 0.8rem;
+}
+
+.deck-next {
+  margin-left: 0.8rem;
+}
+
+.deck-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(94, 103, 230, 0.12);
+}
+
+.deck-slide-counter {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink3);
+}
+
+.deck-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.deck-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(94, 103, 230, 0.25);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.deck-dot.active {
+  width: 24px;
+  border-radius: 12px;
+  background: var(--accent);
+}
+
+.deck-toggle-mode {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.deck-iframe-viewport {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+}
+
 /* Tablet & Mobile Breakpoints */
 
 /* Medium tablet — fix project card layout before it overflows at zoom out */
