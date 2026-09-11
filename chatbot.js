@@ -18,7 +18,6 @@
   let audioCtx = null;
   let soundEnabled = true;
   let voiceReplyEnabled = localStorage.getItem('cbVoiceReply') === 'on';
-  let liquidGlassEnabled = localStorage.getItem('cbLiquidGlass') !== 'off';
   let activeTypeTimer = null;
   let recognition = null;
   let isListening = false;
@@ -36,56 +35,83 @@
   if (!root) return;
 
   root.innerHTML = `
-    <button class="cb-fab" id="cb-fab" aria-label="Open chat assistant" title="Ask Mahima's AI Assistant">
-      <svg class="cb-fab-icon cb-fab-icon--chat" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-      <svg class="cb-fab-icon cb-fab-icon--close" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <button class="cb-fab" id="cb-fab" aria-label="Open chat assistant" title="Chat with Mahima's AI">
+      <div class="cb-fab-inner">
+        <svg class="cb-fab-icon cb-fab-icon--chat" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg class="cb-fab-icon cb-fab-icon--close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+      <span class="cb-fab-badge">1</span>
     </button>
     <div class="cb-window" id="cb-window" role="dialog" aria-modal="false" aria-label="Chat with Mahima's assistant">
       <div class="cb-header">
-        <div class="cb-header-info">
-          <div class="cb-header-avatar">M</div>
-          <div>
-            <div class="cb-header-title">Mahima AI Concierge</div>
-            <div class="cb-header-sub">Recruiter-ready portfolio answers</div>
+        <div class="cb-header-top">
+          <div class="cb-header-info">
+            <div class="cb-avatar-wrap">
+              <div class="cb-avatar-icon">✦</div>
+              <span class="cb-status-dot" title="Online"></span>
+            </div>
+            <div class="cb-header-meta">
+              <div class="cb-header-overtitle">Chat with</div>
+              <div class="cb-header-name">Mahima's AI Concierge</div>
+            </div>
+          </div>
+          <div class="cb-header-controls">
+            <button class="cb-voice-toggle" id="cb-voice" type="button" aria-label="Toggle voice" title="Toggle voice replies">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H3v6h3l5 4V5Z"></path><path d="M16 8.5a5 5 0 0 1 0 7"></path></svg>
+            </button>
+            <button class="cb-sound-toggle" id="cb-sound" type="button" aria-label="Toggle sound" title="Toggle sound">
+              <span class="cb-sound-on">♪</span>
+              <span class="cb-sound-off">×</span>
+            </button>
+            <button class="cb-header-close" id="cb-close" aria-label="Close chat" title="Minimize chat">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
           </div>
         </div>
-        <div class="cb-header-actions">
-          <button class="cb-liquid-toggle" id="cb-liquid" type="button" aria-label="Toggle liquid glass background" title="Toggle liquid glass">
-            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
-              <path d="M12 3.2c3.9 3.8 6.2 7 6.2 10.1a6.2 6.2 0 1 1-12.4 0C5.8 10.2 8.1 7 12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M9.2 13.2c.2 1.7 1.3 2.7 3.1 2.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-          </button>
-          <button class="cb-voice-toggle" id="cb-voice" type="button" aria-label="Toggle spoken replies" title="Toggle spoken replies">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"></path><path d="M16 8.5a5 5 0 0 1 0 7"></path><path d="M19 5a9 9 0 0 1 0 14"></path></svg>
-          </button>
-          <button class="cb-sound-toggle" id="cb-sound" type="button" aria-label="Toggle chat sounds" title="Toggle sounds">
-            <span class="cb-sound-on">♪</span>
-            <span class="cb-sound-off">×</span>
-          </button>
-          <button class="cb-header-close" id="cb-close" aria-label="Close chat">&times;</button>
+        <div class="cb-header-tagline">We typically reply in few minutes.</div>
+        <div class="cb-header-wave">
+          <svg viewBox="0 0 500 35" preserveAspectRatio="none">
+            <path d="M0,0 C150,30 350,5 500,24 L500,35 L0,35 Z" fill="#ffffff"></path>
+          </svg>
         </div>
       </div>
+
       <div class="cb-messages" id="cb-messages">
         <div class="cb-msg cb-msg--assistant">
-          <div class="cb-msg-bubble">Hi, I can help you evaluate Mahima for product, UI/UX, AI interface, kiosk, and SaaS design roles. Try a recruiter-style question below.</div>
+          <div class="cb-msg-bubble">
+            Hey 👋 I'm Mahima's AI assistant. Ask me anything about her product design experience, enterprise UX, or design systems!
+          </div>
         </div>
       </div>
+
       <div class="cb-suggestions" id="cb-suggestions">
         ${recruiterPrompts.map(prompt => `<button type="button" class="cb-chip" data-prompt="${prompt}">${prompt}</button>`).join('')}
       </div>
-      <form class="cb-input-bar" id="cb-form" autocomplete="off">
+
+      <form class="cb-input-container" id="cb-form" autocomplete="off">
         <input class="cb-file-input" id="cb-file" type="file" accept=".txt,.md,.csv,.json,.pdf,.docx,text/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-        <button class="cb-attach" id="cb-attach" type="button" aria-label="Attach document" title="Attach document">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
-        </button>
-        <input class="cb-input" id="cb-input" type="text" placeholder="Ask a hiring question..." maxlength="500" required />
-        <button class="cb-mic" id="cb-mic" type="button" aria-label="Speak your question" title="Speak your question">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
-        </button>
-        <button class="cb-send" id="cb-send" type="submit" aria-label="Send message">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-        </button>
+        <div class="cb-input-row">
+          <textarea class="cb-input" id="cb-input" rows="1" placeholder="Enter your message..." maxlength="500" required></textarea>
+        </div>
+        <div class="cb-input-footer">
+          <div class="cb-input-tools">
+            <span class="cb-bot-badge" title="AI Bot Active">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+            </span>
+            <button class="cb-tool-btn cb-attach" id="cb-attach" type="button" aria-label="Attach document" title="Attach document">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+            </button>
+            <button class="cb-tool-btn cb-mic" id="cb-mic" type="button" aria-label="Speak your question" title="Voice input">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+            </button>
+          </div>
+          <div class="cb-branding">
+            POWERED BY <strong>MAHIMA AI</strong>
+          </div>
+          <button class="cb-send-btn" id="cb-send" type="submit" aria-label="Send message" title="Send message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
       </form>
     </div>
   `;
@@ -94,7 +120,6 @@
   const fab = document.getElementById('cb-fab');
   const win = document.getElementById('cb-window');
   const closeBtn = document.getElementById('cb-close');
-  const liquidBtn = document.getElementById('cb-liquid');
   const voiceBtn = document.getElementById('cb-voice');
   const soundBtn = document.getElementById('cb-sound');
   const msgContainer = document.getElementById('cb-messages');
@@ -108,11 +133,6 @@
   // ── Helpers ────────────────────────────────────────────────────────
   const scrollToBottom = () => {
     msgContainer.scrollTop = msgContainer.scrollHeight;
-  };
-
-  const applyLiquidGlass = () => {
-    win.classList.toggle('cb-window--liquid', liquidGlassEnabled);
-    liquidBtn.classList.toggle('cb-liquid-toggle--active', liquidGlassEnabled);
   };
 
   const applyVoiceReply = () => {
@@ -441,12 +461,6 @@
 
   fab.addEventListener('click', toggle);
   closeBtn.addEventListener('click', toggle);
-  liquidBtn.addEventListener('click', () => {
-    liquidGlassEnabled = !liquidGlassEnabled;
-    localStorage.setItem('cbLiquidGlass', liquidGlassEnabled ? 'on' : 'off');
-    applyLiquidGlass();
-    playTone('open');
-  });
   voiceBtn.addEventListener('click', () => {
     voiceReplyEnabled = !voiceReplyEnabled;
     localStorage.setItem('cbVoiceReply', voiceReplyEnabled ? 'on' : 'off');
@@ -525,7 +539,6 @@
     if (e.key === 'Escape' && isOpen) toggle();
   });
 
-  applyLiquidGlass();
   applyVoiceReply();
 
   // ── Send message ───────────────────────────────────────────────────
