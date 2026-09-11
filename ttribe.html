@@ -1052,6 +1052,88 @@
       border: none;
     }
 
+    /* Typographic Text Animations & Parallax */
+    .split-word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+    .split-char {
+      display: inline-block;
+      transform: translateY(115%) rotate(4deg);
+      transition: transform 0.85s var(--ease), opacity 0.85s var(--ease);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    .is-visible .split-char,
+    .hero-title-main .split-char {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+
+    .parallax-layer {
+      will-change: transform;
+      transition: transform 0.1s linear;
+    }
+
+    /* Mobile Header & Drawer */
+    .mobile-nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+    }
+
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 2500;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s var(--ease);
+    }
+    .mobile-nav-drawer.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-nav-drawer a {
+      color: #FFFFFF;
+      font-family: 'Syne', var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .mobile-nav-drawer a:hover {
+      color: #d7ff00;
+      transform: scale(1.08);
+    }
+    .mobile-drawer-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
     /* Responsive */
     @media (max-width: 960px) {
       .chapter-rail { display: none; }
@@ -1074,43 +1156,107 @@
         grid-template-columns: repeat(2, 1fr);
       }
       .case-study-hero, .recommendations-sec, .section-caption-bar, .typography-showcase-box, .mindmap-section {
-        padding: 32px 24px;
+        padding: 36px 24px;
       }
     }
 
     @media (max-width: 640px) {
+      .content-wrapper {
+        margin: 0 auto 40px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
       .portfolio-topbar {
-        flex-direction: column;
+        padding: 10px 14px;
         gap: 8px;
-        align-items: flex-start;
+      }
+      .portfolio-topbar-center {
+        display: none;
       }
       .portfolio-topbar-right {
         width: 100%;
-        justify-content: space-between;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+      }
+      .portfolio-topbar-right::-webkit-scrollbar { display: none; }
+      .tab-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .ext-figma-btn { display: none; }
+      
+      .hero-meta-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        font-size: 10px;
       }
       .hero-title-main {
-        font-size: clamp(52px, 20vw, 90px);
+        font-size: clamp(52px, 17vw, 80px);
+        margin-bottom: 8px;
       }
       .hero-tagline {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+      .hero-lead-quote {
+        padding: 16px 18px;
+        font-size: 14px;
+        line-height: 1.65;
+      }
+      .store-header {
+        padding: 16px 20px;
+      }
+      .mobile-nav-toggle {
+        display: block;
+      }
+      .mobile-nav-drawer {
+        display: flex;
       }
       .store-nav {
         display: none;
       }
+      .product-stage {
+        padding: 24px 16px;
+        gap: 28px;
+      }
+      .gallery-thumbs {
+        gap: 8px;
+      }
+      .gallery-thumb {
+        width: 100%;
+      }
       .rec-grid {
         grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .rec-card {
+        padding: 12px;
       }
       .mindmap-nodes-grid {
         grid-template-columns: 1fr;
       }
       .case-study-hero {
-        min-height: 570px;
-        padding-bottom: 52px;
+        min-height: auto;
+        padding: 32px 18px 40px;
       }
       .hero-scroll-cue { display: none; }
       .section-caption-bar {
         position: relative;
         bottom: auto;
+        padding: 16px 20px;
+      }
+      .type-specimen-grid {
+        padding: 20px 16px;
+      }
+      .type-scale-display {
+        font-size: 32px;
       }
     }
 
@@ -1400,8 +1546,19 @@
         <button class="action-link" id="open-cart-btn" type="button">
           Cart <span class="cart-count" id="cart-badge">1</span>
         </button>
+        <button class="mobile-nav-toggle" id="open-mobile-nav" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
     </header>
+
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <button class="mobile-drawer-close" id="close-mobile-nav" aria-label="Close menu">✕</button>
+      <a href="#shop" class="mobile-nav-link">Shop</a>
+      <a href="#new-arrivals" class="mobile-nav-link">New Arrivals</a>
+      <a href="#collections" class="mobile-nav-link">Collections</a>
+      <a href="#about" class="mobile-nav-link">About</a>
+    </div>
 
     <section class="store-editorial" id="collections">
       <img class="editorial-fabric" src="/ttribe/assets/editorial-cotton.png" alt="Sculptural folds of heavyweight ivory cotton with a black TTribe woven label" fetchpriority="high">
@@ -1556,7 +1713,49 @@
       });
     });
 
-    // Scroll-led case-study storytelling
+    // Mobile Navigation Menu Drawer
+    const mobileNavDrawer = document.getElementById('mobile-nav-drawer');
+    const openMobileNavBtn = document.getElementById('open-mobile-nav');
+    const closeMobileNavBtn = document.getElementById('close-mobile-nav');
+
+    if (openMobileNavBtn && closeMobileNavBtn && mobileNavDrawer) {
+      openMobileNavBtn.addEventListener('click', () => mobileNavDrawer.classList.add('open'));
+      closeMobileNavBtn.addEventListener('click', () => mobileNavDrawer.classList.remove('open'));
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => mobileNavDrawer.classList.remove('open'));
+      });
+    }
+
+    // Typographic Text Animation Engine (Character Splitting & Staggered Reveal)
+    const splitTypographyElements = document.querySelectorAll(
+      '.hero-title-main, .rec-heading, .caption-title, .type-scale-display, .mindmap-core'
+    );
+
+    splitTypographyElements.forEach(el => {
+      if (el.dataset.splitDone) return;
+      el.dataset.splitDone = 'true';
+      const text = el.innerText.trim();
+      el.innerHTML = '';
+      
+      text.split(' ').forEach((word, wIdx) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'split-word';
+        word.split('').forEach((char, cIdx) => {
+          const charSpan = document.createElement('span');
+          charSpan.className = 'split-char';
+          charSpan.textContent = char;
+          charSpan.style.transitionDelay = `${(wIdx * 60) + (cIdx * 28)}ms`;
+          wordSpan.appendChild(charSpan);
+        });
+        el.appendChild(wordSpan);
+        if (wIdx < text.split(' ').length - 1) {
+          const space = document.createTextNode(' ');
+          el.appendChild(space);
+        }
+      });
+    });
+
+    // Scroll-led case-study storytelling & Parallax Motion
     const progressBar = document.getElementById('scroll-progress');
     const chapterButtons = [...document.querySelectorAll('.chapter-rail button')];
     const chapters = chapterButtons
@@ -1564,7 +1763,7 @@
       .filter(Boolean);
     const motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const revealTargets = document.querySelectorAll(
-      '.figma-art-slice, .editorial-manifesto-row, .typography-showcase-box, .mindmap-section'
+      '.figma-art-slice, .editorial-manifesto-row, .typography-showcase-box, .mindmap-section, .rec-heading, .type-scale-display'
     );
 
     revealTargets.forEach(target => target.classList.add('reveal-target'));
@@ -1576,7 +1775,7 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
 
     revealTargets.forEach(target => revealObserver.observe(target));
 
@@ -1598,7 +1797,7 @@
     const updateCaseStudyMotion = () => {
       scrollFrame = 0;
       const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-      progressBar.style.transform = `scaleX(${Math.min(window.scrollY / maxScroll, 1)})`;
+      if (progressBar) progressBar.style.transform = `scaleX(${Math.min(window.scrollY / maxScroll, 1)})`;
 
       let activeChapter = chapters[0];
       chapters.forEach(chapter => {
@@ -1610,14 +1809,29 @@
         button.toggleAttribute('aria-current', isActive);
       });
 
-      if (!motionReduced && document.getElementById('case-study-tab').classList.contains('active')) {
-        document.querySelectorAll('.figma-art-slice').forEach(slice => {
-          const rect = slice.getBoundingClientRect();
-          if (rect.bottom > 0 && rect.top < window.innerHeight) {
-            const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
-            slice.style.setProperty('--parallax-y', `${Math.max(-18, Math.min(18, centerOffset * -14))}px`);
+      if (!motionReduced) {
+        // Multi-layered Parallax Effect
+        const scrollY = window.scrollY;
+        
+        // Background typography ghost shift
+        const heroGhost = document.querySelector('.case-study-hero');
+        if (heroGhost) {
+          const rect = heroGhost.getBoundingClientRect();
+          if (rect.bottom > 0) {
+            heroGhost.style.setProperty('--ghost-parallax-y', `${scrollY * 0.22}px`);
           }
-        });
+        }
+
+        // Image slices smooth parallax translation
+        if (document.getElementById('case-study-tab').classList.contains('active')) {
+          document.querySelectorAll('.figma-art-slice').forEach(slice => {
+            const rect = slice.getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+              const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+              slice.style.setProperty('--parallax-y', `${Math.max(-28, Math.min(28, centerOffset * -22))}px`);
+            }
+          });
+        }
       }
     };
 
@@ -1648,43 +1862,50 @@
 
     let qty = 1;
     const qtyVal = document.getElementById('qty-val');
-    document.getElementById('qty-plus').addEventListener('click', () => { qty++; qtyVal.textContent = qty; });
-    document.getElementById('qty-minus').addEventListener('click', () => { if (qty > 1) { qty--; qtyVal.textContent = qty; } });
+    if (document.getElementById('qty-plus')) {
+      document.getElementById('qty-plus').addEventListener('click', () => { qty++; qtyVal.textContent = qty; });
+      document.getElementById('qty-minus').addEventListener('click', () => { if (qty > 1) { qty--; qtyVal.textContent = qty; } });
+    }
 
     // Cart logic
     const cart = [{ title: 'TTribe Oversize T-Shirt | Off-White', size: 'M', price: 78.00, qty: 1, img: '/ttribe/assets/hero-tee.jpg' }];
     function updateCartUI() {
       const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      document.getElementById('cart-badge').textContent = totalItems;
-      document.getElementById('drawer-item-count').textContent = totalItems;
-      document.getElementById('drawer-subtotal').textContent = '$' + subtotal.toFixed(2) + ' USD';
-      document.getElementById('cart-items-container').innerHTML = cart.map(item => `
-        <div class="cart-item">
-          <div class="cart-item-img"><img src="${item.img}" alt="${item.title}"></div>
-          <div style="flex: 1;">
-            <div style="font-size: 13px; font-weight: 600;">${item.title}</div>
-            <div style="font-size: 12px; color: var(--text-muted);">Size: ${item.size} &bull; Qty: ${item.qty}</div>
-            <div style="font-size: 13px; font-weight: 700;">$${(item.price * item.qty).toFixed(2)} USD</div>
+      if (document.getElementById('cart-badge')) document.getElementById('cart-badge').textContent = totalItems;
+      if (document.getElementById('drawer-item-count')) document.getElementById('drawer-item-count').textContent = totalItems;
+      if (document.getElementById('drawer-subtotal')) document.getElementById('drawer-subtotal').textContent = '$' + subtotal.toFixed(2) + ' USD';
+      const itemsContainer = document.getElementById('cart-items-container');
+      if (itemsContainer) {
+        itemsContainer.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div class="cart-item-img"><img src="${item.img}" alt="${item.title}"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 13px; font-weight: 600;">${item.title}</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Size: ${item.size} &bull; Qty: ${item.qty}</div>
+              <div style="font-size: 13px; font-weight: 700;">$${(item.price * item.qty).toFixed(2)} USD</div>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `).join('');
+      }
     }
 
     const overlay = document.getElementById('cart-overlay');
-    function openCart() { overlay.classList.add('open'); }
-    function closeCart() { overlay.classList.remove('open'); }
-    document.getElementById('open-cart-btn').addEventListener('click', openCart);
-    document.getElementById('close-cart-btn').addEventListener('click', closeCart);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCart(); });
+    function openCart() { if (overlay) overlay.classList.add('open'); }
+    function closeCart() { if (overlay) overlay.classList.remove('open'); }
+    if (document.getElementById('open-cart-btn')) document.getElementById('open-cart-btn').addEventListener('click', openCart);
+    if (document.getElementById('close-cart-btn')) document.getElementById('close-cart-btn').addEventListener('click', closeCart);
+    if (overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCart(); });
 
-    document.getElementById('add-to-bag-btn').addEventListener('click', () => {
-      const existing = cart.find(i => i.title.includes('Off-White') && i.size === selectedSize);
-      if (existing) { existing.qty += qty; }
-      else { cart.push({ title: 'TTribe Oversize T-Shirt | Off-White', size: selectedSize, price: 78.00, qty, img: mainImg.src }); }
-      updateCartUI();
-      openCart();
-    });
+    if (document.getElementById('add-to-bag-btn')) {
+      document.getElementById('add-to-bag-btn').addEventListener('click', () => {
+        const existing = cart.find(i => i.title.includes('Off-White') && i.size === selectedSize);
+        if (existing) { existing.qty += qty; }
+        else { cart.push({ title: 'TTribe Oversize T-Shirt | Off-White', size: selectedSize, price: 78.00, qty, img: mainImg.src }); }
+        updateCartUI();
+        openCart();
+      });
+    }
 
     document.querySelectorAll('.quick-shop-btn').forEach(btn => {
       btn.addEventListener('click', () => {
