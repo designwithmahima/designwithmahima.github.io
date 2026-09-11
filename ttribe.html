@@ -958,56 +958,65 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(17, 17, 17, 0.88);
+      background: rgba(17, 17, 17, 0.92);
       color: #FFFFFF;
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 6px;
       font-family: 'Syne', var(--font-display);
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       z-index: 2;
       transform: translateZ(15px);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .rec-logo-badge::before {
       content: "✦";
       color: #d7ff00;
-      font-size: 11px;
+      font-size: 13px;
     }
 
     .rec-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       transform: translateZ(5px);
+      color: var(--text-main);
     }
 
     .rec-price {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 14px;
       transform: translateZ(5px);
     }
 
     .quick-shop-btn {
       margin-top: auto;
       width: 100%;
-      height: 40px;
+      height: 44px;
       background: #111111;
       color: #FFFFFF;
       border: none;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transform: translateZ(12px);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
       font-weight: 700;
       letter-spacing: 0.04em;
       cursor: pointer;
