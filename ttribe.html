@@ -543,49 +543,43 @@
       animation: heroGhostDrift 10s ease-in-out infinite alternate;
     }
 
-    /* Video-masked typography effect (CodePen style with fallback) */
+    /* Video background & animated split-character typography */
     .hero-title-main {
       font-family: 'Syne', var(--font-display);
-      font-size: clamp(72px, 15vw, 180px);
+      font-size: clamp(76px, 16vw, 190px);
       font-weight: 800;
       letter-spacing: -0.05em;
       line-height: 0.88;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       color: #FFFFFF;
-      position: relative;
       display: inline-block;
       width: fit-content;
-      animation: heroTitleIn 900ms var(--ease) both;
-    }
-
-    .video-text-mask-wrapper {
       position: relative;
+      z-index: 2;
+    }
+
+    .hero-title-main .split-word {
       display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
     }
 
-    .video-text-mask-wrapper h1 {
-      font-family: 'Syne', var(--font-display);
-      font-size: clamp(72px, 15vw, 180px);
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 0.88;
-      margin-bottom: 16px;
-      color: transparent;
-      background: url('/ttribe/assets/mountain-bg.jpg') center/cover no-repeat;
+    .hero-title-main .split-char {
+      display: inline-block;
+      transform: translateY(115%) rotate(4deg);
+      transition: transform 0.85s var(--ease), opacity 0.85s var(--ease);
+      opacity: 0;
+      will-change: transform, opacity;
+      background: linear-gradient(180deg, #FFFFFF 20%, #CBD5E1 100%);
       -webkit-background-clip: text;
-      background-clip: text;
-      filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.8));
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.7));
     }
 
-    @supports (-webkit-background-clip: text) {
-      .video-text-mask-wrapper video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-      }
+    .is-visible .hero-title-main .split-char,
+    .hero-title-main .split-char {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
     }
 
     .hero-meta-row {
@@ -1511,7 +1505,7 @@
       <button type="button" data-target="chapter-6" aria-label="Packaging and merchandise">06</button>
     </nav>
 
-    <!-- Hero Header with Stars Space Video Background Masking -->
+    <!-- Hero Header with Stars Space Video Background -->
     <section class="case-study-hero" id="case-study-overview">
       <video class="hero-video-bg" autoplay loop muted playsinline poster="/ttribe/assets/mountain-bg.jpg">
         <source src="/ttribe/assets/stars-space.mp4" type="video/mp4">
@@ -1521,9 +1515,7 @@
         <span>BRANDING &bull; CLOTHING BRAND NEW LAUNCH 2026</span>
         <span>COMPANY: TTRIBE &bull; 01:04:2025</span>
       </div>
-      <div class="video-text-mask-wrapper">
-        <h1 class="hero-title-main">Ttribe</h1>
-      </div>
+      <h1 class="hero-title-main">TTRIBE</h1>
       <div class="hero-tagline">Your Vibe. Your Tribe.</div>
       <p class="hero-lead-quote">
         <strong>“TTRIBE is not a clothing brand. It’s a reflection of who you are — without explanation.</strong><br>
