@@ -28,17 +28,25 @@
 </head>
 <body>
   <script>
-    // Redirect to splash page first - users must enter through the game loader
-    if (sessionStorage.getItem('fromPortfolioLoader') !== 'true') {
+    // Redirect to splash page only on very first entry, never when returning from case studies or during session
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasSeenSplash = sessionStorage.getItem('fromPortfolioLoader') === 'true' ||
+                          localStorage.getItem('hasSeenSplash') === 'true' ||
+                          urlParams.has('skipSplash') ||
+                          document.referrer.includes('ttribe') ||
+                          document.referrer.includes('case-study');
+
+    if (!hasSeenSplash) {
       window.location.replace('splash.html');
     } else {
+      sessionStorage.setItem('fromPortfolioLoader', 'true');
+      localStorage.setItem('hasSeenSplash', 'true');
       document.body.classList.add('from-portfolio-loader');
-      sessionStorage.removeItem('fromPortfolioLoader');
-      // Enable scroll after page is ready
+      document.body.classList.add('loaded');
       window.addEventListener('load', () => {
         setTimeout(() => {
           document.body.classList.add('loaded');
-        }, 100);
+        }, 50);
       });
     }
   </script>

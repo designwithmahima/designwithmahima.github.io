@@ -1815,6 +1815,15 @@
                 }
             }, 180);
 
+            function instantSkip() {
+                sessionStorage.setItem("fromPortfolioLoader", "true");
+                localStorage.setItem("hasSeenSplash", "true");
+                document.body.classList.add("entering-site");
+                setTimeout(() => {
+                    window.location.replace('/?skipSplash=true');
+                }, 220);
+            }
+
             function openPortfolio() {
                 ensureAudio();
                 sfxEnabled = true;
@@ -1827,9 +1836,8 @@
                     clearTimeout(overrideTimeout);
                 }
 
-                // Calculate walk duration based on screen width (consistent visual speed)
-                // ~1.5s on mobile (375px), ~3s on desktop (1440px+)
-                const walkDuration = Math.max(1.5, Math.min(3.5, window.innerWidth / 480));
+                // Snappy walk duration based on screen width
+                const walkDuration = Math.max(1.2, Math.min(2.4, window.innerWidth / 560));
                 const walkMs = walkDuration * 1000;
                 document.documentElement.style.setProperty('--walk-duration', walkDuration + 's');
 
@@ -1842,20 +1850,21 @@
                 playLaunch();
                 playGameBoyLoadingSound();
                 sessionStorage.setItem("fromPortfolioLoader", "true");
+                localStorage.setItem("hasSeenSplash", "true");
 
                 // Character walks out first, then CRT close animation triggers
                 setTimeout(() => {
                     document.body.classList.add("entering-site");
                 }, walkMs);
 
-                // Redirect after character is gone and CRT close completes
+                // Redirect after character exits and CRT close completes
                 setTimeout(() => {
-                    window.location.replace('/'); // <-- Change to absolute root path
-                }, walkMs + 900);
+                    window.location.replace('/?skipSplash=true');
+                }, walkMs + 450);
             }
 
             fightBtn.addEventListener("click", openPortfolio);
-            skipBtn.addEventListener("click", openPortfolio);
+            skipBtn.addEventListener("click", instantSkip);
 
             // Register Service Worker for PWA
             if ('serviceWorker' in navigator) {

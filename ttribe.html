@@ -1802,7 +1802,7 @@
   <!-- Top Portfolio Controls -->
   <header class="portfolio-topbar topbar-hidden">
     <div class="portfolio-topbar-left">
-      <a href="/" id="back-portfolio-link">
+      <a href="/?skipSplash=true" id="back-portfolio-link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         <span class="back-text-full">Back to Mahima's Portfolio</span>
         <span class="back-text-short">Portfolio</span>
@@ -2352,6 +2352,15 @@
       history.scrollRestoration = 'manual';
     }
     const topbar = document.querySelector('.portfolio-topbar');
+
+    // Ensure returning to portfolio never triggers splash screen
+    const backPortfolioLink = document.getElementById('back-portfolio-link');
+    if (backPortfolioLink) {
+      backPortfolioLink.addEventListener('click', () => {
+        sessionStorage.setItem('fromPortfolioLoader', 'true');
+        localStorage.setItem('hasSeenSplash', 'true');
+      });
+    }
 
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
