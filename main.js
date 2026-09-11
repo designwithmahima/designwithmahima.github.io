@@ -1023,6 +1023,31 @@
     });
   }
 
+  // Touch swipe support for mobile slide decks
+  let touchStartX = 0;
+  let touchEndX = 0;
+  if (deckSlidesViewport) {
+    deckSlidesViewport.addEventListener('touchstart', (e) => {
+      if (e.changedTouches && e.changedTouches[0]) {
+        touchStartX = e.changedTouches[0].screenX;
+      }
+    }, { passive: true });
+
+    deckSlidesViewport.addEventListener('touchend', (e) => {
+      if (e.changedTouches && e.changedTouches[0]) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchStartX - touchEndX;
+        if (Math.abs(diffX) > 40) {
+          if (diffX > 0) {
+            renderDeckSlide(currentSlideIndex + 1); // Swipe left -> next slide
+          } else {
+            renderDeckSlide(currentSlideIndex - 1); // Swipe right -> prev slide
+          }
+        }
+      }
+    }, { passive: true });
+  }
+
   document.addEventListener('keydown', (e) => {
     if (deckModal && deckModal.classList.contains('active')) {
       if (e.key === 'Escape') closeDeckModal();
