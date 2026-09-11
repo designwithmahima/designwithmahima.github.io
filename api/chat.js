@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.LITELLM_API_KEY;
-  const apiBase = process.env.LITELLM_API_BASE || 'http://13.126.102.204:4000';
+  const apiBase = process.env.LITELLM_API_BASE;
   const model = process.env.LITELLM_MODEL || 'nvidia.nemotron-nano-9b-v2';
 
   if (!apiKey) {

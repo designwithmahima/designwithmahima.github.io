@@ -2,5 +2,10 @@
   "cleanUrls": true,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/splash", "destination": "/splash.html" },
+    { "source": "/healthcare-case-study", "destination": "/index.html" },
+    { "source": "/healthcare-case-study.html", "destination": "/index.html" }
+  ]
 }
