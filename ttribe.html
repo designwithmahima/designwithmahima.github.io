@@ -58,6 +58,8 @@
       top: 0;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
+      will-change: transform, opacity;
     }
 
     .portfolio-topbar-left a {
@@ -1422,6 +1424,25 @@
       .case-study-hero, .recommendations-sec, .section-caption-bar, .typography-showcase-box, .mindmap-section {
         padding: 36px 24px;
       }
+      .case-study-hero .hero-clean-base {
+        padding: 32px 28px 28px;
+      }
+      .case-study-hero .hero-clean-base .hero-title-main {
+        font-size: clamp(52px, 14vw, 110px);
+        margin: 12px 0 6px;
+      }
+      .case-study-hero .hero-ghost-t {
+        font-size: clamp(240px, 50vw, 450px);
+        right: 0;
+        top: -4%;
+      }
+      .case-study-hero .hero-mask-text {
+        font-size: 150px;
+        letter-spacing: 2px;
+      }
+      .case-study-hero .hero-clean-base .hero-scroll-cue {
+        display: none;
+      }
     }
 
     @media (max-width: 640px) {
@@ -1455,24 +1476,43 @@
       }
       .ext-figma-btn { display: none; }
       
-      .hero-meta-row {
+      .case-study-hero.wrapper {
+        height: 100vh;
+      }
+      .case-study-hero .hero-clean-base {
+        padding: 24px 16px 20px;
+        justify-content: space-around;
+      }
+      .case-study-hero .hero-clean-base .hero-meta-row {
         flex-direction: column;
         align-items: flex-start;
-        gap: 6px;
+        gap: 4px;
         font-size: 10px;
+        padding-bottom: 8px;
       }
-      .hero-title-main {
-        font-size: clamp(52px, 17vw, 80px);
-        margin-bottom: 8px;
+      .case-study-hero .hero-clean-base .hero-title-main {
+        font-size: clamp(36px, 13.5vw, 68px);
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+        margin: 8px 0 4px;
       }
-      .hero-tagline {
-        font-size: 18px;
-        margin-bottom: 16px;
+      .case-study-hero .hero-clean-base .hero-tagline {
+        font-size: clamp(16px, 4.5vw, 22px);
+        margin-bottom: 12px;
       }
-      .hero-lead-quote {
-        padding: 16px 18px;
-        font-size: 14px;
-        line-height: 1.65;
+      .case-study-hero .hero-clean-base .hero-lead-quote {
+        padding: 14px 16px;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .case-study-hero #enter {
+        bottom: 16px;
+        padding: 8px 20px;
+        font-size: 11px;
+      }
+      .case-study-hero .hero-mask-text {
+        font-size: 110px;
+        letter-spacing: 1px;
       }
       .store-header {
         padding: 16px 20px;
@@ -2246,7 +2286,14 @@
               ease: "power2.in"
             }, 0);
 
-            // Stage 1b (0.0 - 0.5s): Floating Enter button fades out
+            // Stage 1b (0.0 - 0.5s): Hide topbar during wormhole scroll, fade floating enter button
+            wormholeTimeline.to(".portfolio-topbar", {
+              yPercent: -100,
+              opacity: 0,
+              duration: 0.5,
+              ease: "power1.inOut"
+            }, 0);
+
             wormholeTimeline.to(".case-study-hero #enter", {
               opacity: 0,
               y: -30,
@@ -2261,12 +2308,19 @@
               ease: "none"
             }, 1.0);
 
-            // Stage 3 (1.4 - 2.2s): Wormhole portal dissolves away, exposing off-white TTRIBE hero layout
+            // Stage 3 (1.4 - 2.2s): Wormhole portal dissolves away, exposing off-white TTRIBE hero layout & restoring topbar
             wormholeTimeline.to(".case-study-hero .wormhole-portal-layer", {
               opacity: 0,
               filter: "blur(20px) brightness(1.6)",
               duration: 0.8,
               ease: "power2.out"
+            }, 1.4);
+
+            wormholeTimeline.to(".portfolio-topbar", {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.6,
+              ease: "power1.out"
             }, 1.4);
 
             // Stage 4 (2.2 - 3.8s): Hold duration - Off-white hero layout stays locked & fully visible for reading
