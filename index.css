@@ -2191,17 +2191,28 @@ footer span {
 }
 
 /* Presentation Slide Deck Modal */
+.modal-overlay {
+  z-index: 99999;
+}
+
+body:has(.modal-overlay.active) .cb-fab,
+.modal-overlay.active ~ #chatbot-root .cb-fab {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 .deck-viewer-container {
   background: var(--modal-bg);
   -webkit-backdrop-filter: blur(28px);
   backdrop-filter: blur(28px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 2rem;
+  padding: 1.8rem 2rem 1.4rem;
   width: 94vw;
-  max-width: 1060px;
-  height: 85vh;
-  max-height: 740px;
+  max-width: 1080px;
+  height: 88vh;
+  max-height: 760px;
   position: relative;
   box-shadow: 0 32px 64px rgba(11, 15, 25, 0.28);
   display: flex;
@@ -2221,14 +2232,40 @@ footer span {
   border-radius: 0 0 6px 6px;
 }
 
+#deck-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(94, 103, 230, 0.1);
+  border: 1px solid rgba(94, 103, 230, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  z-index: 40;
+  transition: all 0.2s var(--ease);
+}
+
+#deck-close-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
 .deck-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.2rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.9rem;
   border-bottom: 1px solid rgba(94, 103, 230, 0.12);
-  padding-right: 2.5rem;
+  padding-right: 3.5rem;
 }
 
 .deck-company-badge {
@@ -2244,36 +2281,39 @@ footer span {
 .deck-modal-title {
   font-family: var(--title);
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   color: var(--ink);
   margin: 0;
+  line-height: 1.3;
 }
 
 .deck-figma-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.9rem;
+  padding: 0.5rem 0.95rem;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--accent);
   border: 1px solid rgba(94, 103, 230, 0.25);
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.65);
   text-decoration: none;
   transition: all 0.2s var(--ease);
+  flex-shrink: 0;
 }
 
 .deck-figma-link:hover {
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .deck-body {
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   position: relative;
   min-height: 0;
   overflow: hidden;
@@ -2285,22 +2325,23 @@ footer span {
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.35);
-  border: 1px solid rgba(94, 103, 230, 0.1);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(94, 103, 230, 0.14);
 }
 
 .deck-slide {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
+  grid-template-columns: 1.15fr 1fr;
   gap: 2rem;
-  padding: 2rem;
+  padding: 1.8rem 2rem;
   opacity: 0;
   transform: translateX(30px);
   transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
   pointer-events: none;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .deck-slide.active {
@@ -2326,27 +2367,27 @@ footer span {
 
 .deck-slide-heading {
   font-family: var(--title);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--ink);
-  margin-bottom: 0.8rem;
-  line-height: 1.25;
+  margin-bottom: 0.7rem;
+  line-height: 1.3;
 }
 
 .deck-slide-desc {
   font-size: 0.92rem;
   line-height: 1.6;
   color: var(--ink2);
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.1rem;
 }
 
 .deck-slide-points {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.2rem 0;
+  margin: 0 0 1.1rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.55rem;
 }
 
 .deck-slide-points li {
@@ -2367,7 +2408,7 @@ footer span {
 
 .deck-slide-metrics-row {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.6rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(94, 103, 230, 0.15);
 }
@@ -2378,32 +2419,49 @@ footer span {
   justify-content: center;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 12px 32px rgba(11, 15, 25, 0.12);
-  background: #0f1422;
+  box-shadow: 0 12px 28px rgba(11, 15, 25, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(94, 103, 230, 0.14);
+  padding: 10px;
 }
 
 .deck-slide-preview img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 16px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.deck-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(94, 103, 230, 0.12);
+  gap: 1rem;
+}
+
+.deck-footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
 }
 
 .deck-nav-btn {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(94, 103, 230, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(94, 103, 230, 0.22);
   color: var(--ink);
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
   transition: all 0.2s var(--ease);
-  box-shadow: 0 4px 12px rgba(11, 15, 25, 0.08);
+  box-shadow: 0 2px 8px rgba(11, 15, 25, 0.06);
 }
 
 .deck-nav-btn:hover {
@@ -2412,32 +2470,18 @@ footer span {
   transform: scale(1.08);
 }
 
-.deck-prev {
-  margin-right: 0.8rem;
-}
-
-.deck-next {
-  margin-left: 0.8rem;
-}
-
-.deck-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid rgba(94, 103, 230, 0.12);
-}
-
 .deck-slide-counter {
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--ink3);
+  min-width: 80px;
+  text-align: center;
 }
 
 .deck-dots {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .deck-dot {
@@ -2450,7 +2494,7 @@ footer span {
 }
 
 .deck-dot.active {
-  width: 24px;
+  width: 22px;
   border-radius: 12px;
   background: var(--accent);
 }
@@ -2463,6 +2507,7 @@ footer span {
   border: none;
   cursor: pointer;
   text-decoration: underline;
+  padding: 0.3rem 0.5rem;
 }
 
 .deck-iframe-viewport {
@@ -2475,25 +2520,28 @@ footer span {
 /* Deck Modal Responsive Rules */
 @media (max-width: 900px) {
   .deck-viewer-container {
-    width: 95vw;
-    height: 90vh;
-    max-height: 800px;
-    padding: 1.5rem;
+    width: 96vw;
+    height: 92vh;
+    max-height: 840px;
+    padding: 1.4rem 1.2rem 1rem;
   }
 
   .deck-slide {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 1.5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.2rem;
+    padding: 1.2rem;
   }
 
   .deck-slide-preview {
-    max-height: 280px;
-    order: -1;
+    height: 240px;
+    width: 100%;
+    flex-shrink: 0;
   }
 
   .deck-slide-preview img {
-    max-height: 280px;
+    height: 100%;
     object-fit: contain;
   }
 }
@@ -2507,13 +2555,21 @@ footer span {
     border-radius: 18px;
   }
 
+  #deck-close-btn {
+    top: 0.7rem;
+    right: 0.7rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1.3rem;
+  }
+
   .deck-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 0.8rem;
-    padding-bottom: 0.7rem;
-    padding-right: 2.2rem;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.6rem;
+    padding-right: 2.8rem;
   }
 
   .deck-company-badge {
@@ -2530,93 +2586,87 @@ footer span {
     padding: 0.35rem 0.75rem;
   }
 
-  .deck-body {
-    position: relative;
-  }
-
-  .deck-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
-    font-size: 1.3rem;
-    background: rgba(255, 255, 255, 0.85);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 14px rgba(11, 15, 25, 0.2);
-    z-index: 15;
-  }
-
-  .deck-prev {
-    left: 6px;
-    margin-right: 0;
-  }
-
-  .deck-next {
-    right: 6px;
-    margin-left: 0;
-  }
-
   .deck-slides-viewport {
     border-radius: 12px;
   }
 
   .deck-slide {
-    padding: 0.9rem;
-    gap: 0.9rem;
+    padding: 0.8rem;
+    gap: 0.8rem;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .deck-slide-heading {
     font-size: 1.15rem;
     line-height: 1.3;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   .deck-slide-desc {
     font-size: 0.82rem;
-    line-height: 1.5;
-    margin-bottom: 0.7rem;
+    line-height: 1.48;
+    margin-bottom: 0.6rem;
   }
 
   .deck-slide-points {
-    gap: 0.45rem;
-    margin-bottom: 0.8rem;
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
   }
 
   .deck-slide-points li {
     font-size: 0.78rem;
     line-height: 1.35;
-    gap: 0.45rem;
+    gap: 0.4rem;
   }
 
   .deck-slide-metrics-row {
     gap: 1rem;
-    padding-top: 0.7rem;
+    padding-top: 0.6rem;
   }
 
   .deck-slide-preview {
-    max-height: 180px;
-    border-radius: 10px;
+    height: 190px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 6px;
+    flex-shrink: 0;
   }
 
   .deck-slide-preview img {
-    max-height: 180px;
+    height: 100%;
+    object-fit: contain;
   }
 
   .deck-footer {
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
     padding-top: 0.5rem;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .deck-footer-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .deck-nav-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
   }
 
   .deck-slide-counter {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
+    min-width: 65px;
   }
 
   .deck-toggle-mode {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
   }
 
   .deck-dots {
