@@ -324,60 +324,102 @@
       color: var(--text-main);
     }
 
-    /* Brand Values Mind Map Section */
+    /* Brand Values Mind Map Section (Hub-and-Spoke Architecture) */
     .mindmap-section {
-      padding: 48px 64px;
-      background: #FAF8F5;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .mindmap-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 32px;
-    }
-
-    .mindmap-core {
-      background: #111111;
-      color: #FFFFFF;
-      font-size: 24px;
-      font-weight: 800;
-      padding: 16px 44px;
-      border-radius: 999px;
-      letter-spacing: -0.02em;
-      margin-bottom: 28px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }
-
-    .mindmap-nodes-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      width: 100%;
-      max-width: 860px;
-    }
-
-    .mindmap-node {
+      padding: 56px 64px;
       background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 14px 16px;
-      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .pdf-mindmap-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 36px auto 0;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdf-mindmap-oval {
+      width: 380px;
+      height: 180px;
+      border: 1.5px solid #111111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      z-index: 2;
+      transition: transform 0.3s var(--ease), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pdf-mindmap-oval:hover {
+      transform: scale(1.03);
+      border-color: #D97706;
+      box-shadow: 0 8px 30px rgba(217, 119, 6, 0.15);
+    }
+
+    .pdf-mindmap-logo {
+      font-family: 'Syne', var(--font-display);
+      font-size: 58px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #111111;
+    }
+
+    .pdf-mindmap-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .pdf-mindmap-svg path {
+      stroke: #111111;
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .pdf-mindmap-nodes {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .pdf-node {
+      position: absolute;
+      pointer-events: auto;
+      font-family: 'Space Grotesk', var(--font-display);
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--text-main);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-      transition: all 0.2s ease;
+      color: #111111;
+      background: #FFFFFF;
+      padding: 4px 10px;
+      border-radius: 4px;
+      transition: transform 0.2s ease, color 0.2s ease;
     }
 
-    .mindmap-node:hover {
-      border-color: var(--text-main);
+    .pdf-node:hover {
+      color: #D97706;
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
     }
+
+    /* Position 8 nodes exactly as in original PDF diagram */
+    .pdf-node-top { top: 0; left: 50%; transform: translateX(-50%); }
+    .pdf-node-tl { top: 12%; left: 16%; }
+    .pdf-node-tr { top: 12%; right: 16%; }
+    .pdf-node-left { top: 50%; left: 4%; transform: translateY(-50%); }
+    .pdf-node-right { top: 50%; right: 4%; transform: translateY(-50%); }
+    .pdf-node-bl { bottom: 12%; left: 16%; }
+    .pdf-node-br { bottom: 12%; right: 16%; }
+    .pdf-node-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
 
     /* Figma Visual Art Slices */
     .figma-art-scroll {
@@ -1239,8 +1281,36 @@
       .rec-card {
         padding: 12px;
       }
-      .mindmap-nodes-grid {
-        grid-template-columns: 1fr;
+      .pdf-mindmap-wrapper {
+        min-height: auto;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .pdf-mindmap-oval {
+        width: 240px;
+        height: 110px;
+      }
+      .pdf-mindmap-logo {
+        font-size: 36px;
+      }
+      .pdf-mindmap-svg { display: none; }
+      .pdf-mindmap-nodes {
+        position: relative;
+        inset: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        width: 100%;
+      }
+      .pdf-node {
+        position: relative;
+        inset: auto !important;
+        transform: none !important;
+        text-align: center;
+        width: 100%;
+        border: 1px solid var(--border-color);
+        padding: 8px 10px;
+        font-size: 11px;
       }
       .case-study-hero {
         min-height: auto;
@@ -1484,23 +1554,46 @@
       </div>
     </section>
 
-    <!-- Brand Values Mind Map (home.pdf exact diagram) -->
+    <!-- Brand Values Mind Map (Exact PDF Hub-and-Spoke Diagram) -->
     <section class="mindmap-section">
       <div class="label-block" style="margin-bottom: 20px;">
         <div class="label-text">Brand Attributes<br>&amp; Core Values:</div>
         <div class="label-rule"></div>
       </div>
-      <div class="mindmap-container">
-        <div class="mindmap-core">Ttribe</div>
-        <div class="mindmap-nodes-grid">
-          <div class="mindmap-node">Belonging</div>
-          <div class="mindmap-node">Structure</div>
-          <div class="mindmap-node">Direction</div>
-          <div class="mindmap-node">Consistency</div>
-          <div class="mindmap-node">Modernity</div>
-          <div class="mindmap-node">Distinction</div>
-          <div class="mindmap-node">Strength</div>
-          <div class="mindmap-node">Luxury / Elegance</div>
+      <div class="pdf-mindmap-wrapper">
+        <!-- Connecting Orthogonal Lines SVG -->
+        <svg class="pdf-mindmap-svg" viewBox="0 0 900 420">
+          <!-- Top vertical -->
+          <path d="M 450 120 L 450 24" />
+          <!-- Top-Left orthogonal -->
+          <path d="M 384 140 H 300 V 54 H 260" />
+          <!-- Top-Right orthogonal -->
+          <path d="M 516 140 H 600 V 54 H 640" />
+          <!-- Left horizontal -->
+          <path d="M 260 210 H 160" />
+          <!-- Right horizontal -->
+          <path d="M 640 210 H 740" />
+          <!-- Bottom-Left orthogonal -->
+          <path d="M 384 280 H 300 V 366 H 260" />
+          <!-- Bottom-Right orthogonal -->
+          <path d="M 516 280 H 600 V 366 H 640" />
+          <!-- Bottom vertical -->
+          <path d="M 450 300 L 450 396" />
+        </svg>
+
+        <div class="pdf-mindmap-oval">
+          <div class="pdf-mindmap-logo">Ttribe</div>
+        </div>
+
+        <div class="pdf-mindmap-nodes">
+          <div class="pdf-node pdf-node-top">Premium</div>
+          <div class="pdf-node pdf-node-tl">Belonging</div>
+          <div class="pdf-node pdf-node-tr">Structure</div>
+          <div class="pdf-node pdf-node-left">Consistency</div>
+          <div class="pdf-node pdf-node-right">Luxury / Elegance</div>
+          <div class="pdf-node pdf-node-bl">Modernity</div>
+          <div class="pdf-node pdf-node-br">Distinction</div>
+          <div class="pdf-node pdf-node-bottom">Strength</div>
         </div>
       </div>
     </section>
