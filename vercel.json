@@ -1,11 +1,11 @@
 {
-  "cleanUrls": true,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "rewrites": [
-    { "source": "/splash", "destination": "/splash.html" },
-    { "source": "/healthcare-case-study", "destination": "/index.html" },
-    { "source": "/healthcare-case-study.html", "destination": "/index.html" }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/splash", "dest": "/splash.html" },
+    { "src": "/healthcare-case-study(.*)", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
