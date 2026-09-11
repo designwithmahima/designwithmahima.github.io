@@ -495,7 +495,7 @@
       box-shadow: 0 0 16px rgba(215, 255, 0, 0.55);
     }
 
-    /* Pinned Hero Section with GSAP Wormhole Video Text Mask */
+    /* Full Viewport GSAP Wormhole Video Text Mask */
     .case-study-hero.wrapper {
       position: relative;
       width: 100%;
@@ -545,18 +545,30 @@
       height: 100%;
       position: absolute;
       inset: 0;
-      filter: contrast(1.25) brightness(0.9);
+      filter: contrast(1.35) brightness(1.2) saturate(1.25);
       z-index: 1;
       will-change: transform;
     }
 
-    .case-study-hero .hero-overlay-shade {
+    .case-study-hero .fullscreen-mask-svg {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(9, 11, 14, 0.8) 85%);
-      z-index: 2;
+      width: 100vw;
+      height: 100vh;
+      z-index: 3;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+    }
+
+    .case-study-hero .zoom-text-group {
+      transform-origin: 960px 540px;
+      will-change: transform;
+    }
+
+    .case-study-hero .hero-mask-text {
+      font-family: 'Syne', var(--font-display);
+      font-weight: 800;
+      font-size: 210px;
+      letter-spacing: 6px;
     }
 
     .case-study-hero .content-wrap {
@@ -568,8 +580,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 32px 24px;
+      justify-content: space-between;
+      padding: 32px 24px 80px;
       box-sizing: border-box;
       text-align: center;
       pointer-events: none;
@@ -588,43 +600,28 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.85);
       padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       will-change: opacity, transform;
     }
 
-    .case-study-hero .zoom {
-      position: relative;
-      width: 100%;
-      max-width: 1100px;
+    .case-study-hero .hero-copy-group {
+      margin-top: auto;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      margin: 12px 0;
-      transform-origin: 50% 50%;
-      will-change: transform, opacity;
-    }
-
-    .case-study-hero .wormhole-svg-stage {
-      width: 100%;
-      height: auto;
-      max-height: 320px;
-      display: block;
-      margin: 0 auto;
-      filter: drop-shadow(0 0 40px rgba(0,0,0,0.95));
-      overflow: visible;
+      gap: 12px;
+      z-index: 6;
     }
 
     .case-study-hero .hero-tagline {
       font-family: 'Space Grotesk', var(--font-display);
       font-size: clamp(20px, 3vw, 32px);
       font-weight: 700;
-      color: #F7FAFC;
-      margin-bottom: 16px;
+      color: #FFFFFF;
       letter-spacing: -0.02em;
-      text-shadow: 0 4px 16px rgba(0,0,0,0.8);
-      z-index: 6;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.9);
       will-change: opacity, transform;
     }
 
@@ -633,15 +630,14 @@
       color: #E2E8F0;
       line-height: 1.75;
       max-width: 800px;
-      background: rgba(17, 17, 17, 0.75);
+      background: rgba(9, 11, 14, 0.8);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 18px 24px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-left: 4px solid var(--accent-amber);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      z-index: 6;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
       pointer-events: auto;
       will-change: opacity, transform;
     }
@@ -652,10 +648,10 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      background: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.16);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       color: #FFFFFF;
       padding: 10px 26px;
       border-radius: 999px;
@@ -673,7 +669,7 @@
       background: #FFFFFF;
       color: #111111;
       transform: translateX(-50%) translateY(-2px);
-      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
     }
 
     .hero-scroll-cue {
@@ -1558,7 +1554,7 @@
       <button type="button" data-target="chapter-6" aria-label="Packaging and merchandise">06</button>
     </nav>
 
-    <!-- Hero Header with Stars Space Video Background & GSAP Wormhole Text Mask -->
+    <!-- Hero Header with Full Viewport Wormhole SVG Video Mask -->
     <section class="case-study-hero wrapper" id="case-study-overview">
       <div class="sticky_layer">
         <div class="landing_screen">
@@ -1566,31 +1562,34 @@
             <video class="hero-video-bg" autoplay loop muted playsinline poster="/ttribe/assets/mountain-bg.jpg">
               <source src="/ttribe/assets/stars-space.mp4" type="video/mp4">
             </video>
-            <div class="hero-overlay-shade"></div>
           </div>
+
+          <!-- Full Viewport Mask SVG: covers entire screen with solid dark background & cuts out TTRIBE letters -->
+          <svg class="fullscreen-mask-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <mask id="hero-viewport-mask">
+                <rect width="100%" height="100%" fill="white" />
+                <g class="zoom-text-group">
+                  <text class="hero-mask-text" x="960" y="540" text-anchor="middle" dominant-baseline="central" fill="black">TTRIBE</text>
+                </g>
+              </mask>
+            </defs>
+            <rect width="100%" height="100%" fill="#090B0E" mask="url(#hero-viewport-mask)" />
+          </svg>
+
           <div class="content-wrap">
             <div class="hero-meta-row">
               <span>BRANDING &bull; CLOTHING BRAND NEW LAUNCH 2026</span>
               <span>COMPANY: TTRIBE &bull; 01:04:2025</span>
             </div>
-            
-            <div class="zoom">
-              <svg class="wormhole-svg-stage" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <mask id="ttribe-text-holes">
-                    <rect width="100%" height="100%" fill="white" />
-                    <text class="mask-text-element" x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="'Syne', 'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="160" fill="black" letter-spacing="4">TTRIBE</text>
-                  </mask>
-                </defs>
-                <rect width="100%" height="100%" fill="#090B0E" mask="url(#ttribe-text-holes)" />
-              </svg>
-            </div>
 
-            <div class="hero-tagline">Your Vibe. Your Tribe.</div>
-            <p class="hero-lead-quote">
-              <strong>“TTRIBE is not a clothing brand. It’s a reflection of who you are — without explanation.</strong><br>
-              Built on the idea that what you wear is not just seen, but felt, TTRIBE transforms everyday T-shirts into statements of identity. No noise. No chaos. Just clarity.”
-            </p>
+            <div class="hero-copy-group">
+              <div class="hero-tagline">Your Vibe. Your Tribe.</div>
+              <p class="hero-lead-quote">
+                <strong>“TTRIBE is not a clothing brand. It’s a reflection of who you are — without explanation.</strong><br>
+                Built on the idea that what you wear is not just seen, but felt, TTRIBE transforms everyday T-shirts into statements of identity. No noise. No chaos. Just clarity.”
+              </p>
+            </div>
           </div>
 
           <div class="btn btn-primary" id="enter">Wormhole Scroll &darr;</div>
@@ -2159,10 +2158,10 @@
 
             const wormholeTimeline = gsap.timeline();
 
-            // Stage 1: Text cutout zooms in massively (travelling into text cutout)
-            wormholeTimeline.to(".case-study-hero .zoom", {
-              scale: 65,
-              transformOrigin: "50% 50%",
+            // Stage 1: Text cutout in full viewport SVG mask zooms in (flying through the letter cutout)
+            wormholeTimeline.to(".case-study-hero .zoom-text-group", {
+              scale: 90,
+              transformOrigin: "960px 540px",
               duration: 2.5,
               ease: "power2.in"
             }, 0);
