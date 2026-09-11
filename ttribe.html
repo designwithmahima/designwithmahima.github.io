@@ -495,7 +495,7 @@
       box-shadow: 0 0 16px rgba(215, 255, 0, 0.55);
     }
 
-    /* Pinned Hero Section with GSAP Zoom-In Mask */
+    /* Pinned Hero Section with GSAP Wormhole Video Text Mask */
     .case-study-hero.wrapper {
       position: relative;
       width: 100%;
@@ -536,6 +536,7 @@
       inset: 0;
       overflow: hidden;
       z-index: 1;
+      will-change: transform, filter, opacity;
     }
 
     .case-study-hero .video-container video {
@@ -544,29 +545,31 @@
       height: 100%;
       position: absolute;
       inset: 0;
-      filter: contrast(1.2) brightness(0.85);
+      filter: contrast(1.25) brightness(0.9);
       z-index: 1;
+      will-change: transform;
     }
 
     .case-study-hero .hero-overlay-shade {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 50%, transparent 15%, rgba(9, 11, 14, 0.85) 85%);
+      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(9, 11, 14, 0.8) 85%);
       z-index: 2;
       pointer-events: none;
+      transition: opacity 0.4s ease;
     }
 
     .case-study-hero .content-wrap {
       position: relative;
       z-index: 5;
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px;
+      padding: 32px 24px;
       box-sizing: border-box;
       text-align: center;
       pointer-events: none;
@@ -574,7 +577,7 @@
 
     .case-study-hero .hero-meta-row {
       position: absolute;
-      top: 28px;
+      top: 24px;
       left: 48px;
       right: 48px;
       z-index: 6;
@@ -588,97 +591,64 @@
       color: rgba(255, 255, 255, 0.75);
       padding-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      will-change: opacity, transform;
     }
 
     .case-study-hero .zoom {
       position: relative;
       width: 100%;
+      max-width: 1100px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 16px 0;
-      transform-origin: center center;
+      margin: 12px 0;
+      transform-origin: 50% 50%;
       will-change: transform, opacity;
     }
 
-    .case-study-hero .ttribe-mask-svg {
+    .case-study-hero .wormhole-svg-stage {
       width: 100%;
-      max-width: 920px;
       height: auto;
+      max-height: 320px;
       display: block;
       margin: 0 auto;
-      filter: drop-shadow(0 0 35px rgba(0,0,0,0.9));
-    }
-
-    .case-study-hero .hero-title-main {
-      font-family: 'Syne', var(--font-display);
-      font-size: clamp(76px, 16vw, 190px);
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 0.88;
-      margin-bottom: 0;
-      color: #FFFFFF;
-      display: inline-block;
-      width: fit-content;
-      position: relative;
-      z-index: 2;
-    }
-
-    .case-study-hero .hero-title-main .split-word {
-      display: inline-block;
-      overflow: hidden;
-      vertical-align: bottom;
-    }
-
-    .case-study-hero .hero-title-main .split-char {
-      display: inline-block;
-      transform: translateY(115%) rotate(4deg);
-      transition: transform 0.85s var(--ease), opacity 0.85s var(--ease);
-      opacity: 0;
-      will-change: transform, opacity;
-      background: linear-gradient(180deg, #FFFFFF 20%, #CBD5E1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.7));
-    }
-
-    .is-visible .case-study-hero .hero-title-main .split-char,
-    .case-study-hero .hero-title-main .split-char {
-      transform: translateY(0) rotate(0deg);
-      opacity: 1;
+      filter: drop-shadow(0 0 40px rgba(0,0,0,0.95));
+      overflow: visible;
     }
 
     .case-study-hero .hero-tagline {
       font-family: 'Space Grotesk', var(--font-display);
-      font-size: clamp(22px, 3.5vw, 34px);
+      font-size: clamp(20px, 3vw, 32px);
       font-weight: 700;
       color: #F7FAFC;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       letter-spacing: -0.02em;
       text-shadow: 0 4px 16px rgba(0,0,0,0.8);
       z-index: 6;
+      will-change: opacity, transform;
     }
 
     .case-study-hero .hero-lead-quote {
       font-size: 15px;
       color: #E2E8F0;
       line-height: 1.75;
-      max-width: 820px;
-      background: rgba(17, 17, 17, 0.7);
+      max-width: 800px;
+      background: rgba(17, 17, 17, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      padding: 20px 24px;
+      padding: 18px 24px;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-left: 4px solid var(--accent-amber);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       z-index: 6;
       pointer-events: auto;
+      will-change: opacity, transform;
     }
 
     .case-study-hero #enter {
       position: absolute;
-      bottom: 28px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -1588,7 +1558,7 @@
       <button type="button" data-target="chapter-6" aria-label="Packaging and merchandise">06</button>
     </nav>
 
-    <!-- Hero Header with Stars Space Video Background & GSAP Zoom Mask -->
+    <!-- Hero Header with Stars Space Video Background & GSAP Wormhole Text Mask -->
     <section class="case-study-hero wrapper" id="case-study-overview">
       <div class="sticky_layer">
         <div class="landing_screen">
@@ -1605,16 +1575,15 @@
             </div>
             
             <div class="zoom">
-              <h1 class="hero-title-main" aria-label="TTRIBE">
-                <span class="split-word">
-                  <span class="split-char" style="transition-delay: 0ms;">T</span>
-                  <span class="split-char" style="transition-delay: 28ms;">T</span>
-                  <span class="split-char" style="transition-delay: 56ms;">R</span>
-                  <span class="split-char" style="transition-delay: 84ms;">I</span>
-                  <span class="split-char" style="transition-delay: 112ms;">B</span>
-                  <span class="split-char" style="transition-delay: 140ms;">E</span>
-                </span>
-              </h1>
+              <svg class="wormhole-svg-stage" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <mask id="ttribe-text-holes">
+                    <rect width="100%" height="100%" fill="white" />
+                    <text class="mask-text-element" x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="'Syne', 'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="160" fill="black" letter-spacing="4">TTRIBE</text>
+                  </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="#090B0E" mask="url(#ttribe-text-holes)" />
+              </svg>
             </div>
 
             <div class="hero-tagline">Your Vibe. Your Tribe.</div>
@@ -1624,7 +1593,7 @@
             </p>
           </div>
 
-          <div class="btn btn-primary" id="enter">Explore System &darr;</div>
+          <div class="btn btn-primary" id="enter">Wormhole Scroll &darr;</div>
         </div>
       </div>
     </section>
@@ -2182,42 +2151,60 @@
         // Multi-layered Scroll Zoom & Parallax Effect
         const scrollY = window.scrollY;
         
-        // GSAP ScrollTrigger Pinned Zoom-In Mask Animation (CodePen OnyxJoy style)
+        // GSAP ScrollTrigger Pinned Wormhole Video Text Mask Animation
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-          if (!window._gsapHeroInit) {
-            window._gsapHeroInit = true;
+          if (!window._gsapWormholeInit) {
+            window._gsapWormholeInit = true;
             gsap.registerPlugin(ScrollTrigger);
 
-            const heroTimeline = gsap.timeline();
-            heroTimeline.fromTo(
-              ".case-study-hero .zoom",
-              { scale: 1, opacity: 1 },
-              { scale: 50, transformOrigin: "center center", duration: 1, ease: "power1.inOut" }
-            );
+            const wormholeTimeline = gsap.timeline();
+
+            // Stage 1: Text cutout zooms in massively (travelling into text cutout)
+            wormholeTimeline.to(".case-study-hero .zoom", {
+              scale: 65,
+              transformOrigin: "50% 50%",
+              duration: 2.5,
+              ease: "power2.in"
+            }, 0);
+
+            // Stage 1b: UI text elements (Meta, Tagline, Lead Quote) fade out during wormhole acceleration
+            wormholeTimeline.to(".case-study-hero .hero-meta-row, .case-study-hero .hero-tagline, .case-study-hero .hero-lead-quote, .case-study-hero #enter", {
+              opacity: 0,
+              y: -40,
+              duration: 0.8,
+              ease: "power1.out"
+            }, 0);
+
+            // Stage 2: Full video revealed, traveling through space video (Wormhole Speed-up)
+            wormholeTimeline.to(".case-study-hero .hero-video-bg", {
+              scale: 1.35,
+              duration: 1.5,
+              ease: "none"
+            }, 1.2);
+
+            // Stage 3: Wormhole Exit - Video expands, warps/blurs out, and dissolves to uncover page content underneath
+            wormholeTimeline.to(".case-study-hero .video-container", {
+              opacity: 0,
+              filter: "blur(18px) brightness(1.8)",
+              scale: 1.5,
+              duration: 1.2,
+              ease: "power2.out"
+            }, 2.2);
 
             ScrollTrigger.create({
               trigger: ".case-study-hero.wrapper",
-              animation: heroTimeline,
+              animation: wormholeTimeline,
               start: "top top",
-              end: "+=130%",
-              scrub: 0.7,
+              end: "+=220%",
+              scrub: 0.8,
               pin: true,
-              anticipatePin: 1,
-              onUpdate: (self) => {
-                const enterBtn = document.getElementById('enter');
-                if (enterBtn) {
-                  enterBtn.style.opacity = Math.max(0, 1 - self.progress * 3.5).toString();
-                }
-              }
+              anticipatePin: 1
             });
 
             const enterBtn = document.getElementById('enter');
             if (enterBtn) {
               enterBtn.addEventListener('click', () => {
-                const target = document.getElementById('chapter-1');
-                if (target) {
-                  target.scrollIntoView({ behavior: 'smooth' });
-                }
+                document.getElementById('chapter-1')?.scrollIntoView({ behavior: 'smooth' });
               });
             }
           }
