@@ -41,6 +41,8 @@
       overflow-x: hidden;
     }
 
+    html { scroll-behavior: smooth; }
+
     /* Top Portfolio Bar */
     .portfolio-topbar {
       background: #111111;
@@ -388,12 +390,17 @@
       width: 100%;
       border-bottom: 1px solid var(--border-color);
       position: relative;
+      overflow: clip;
+      background: #111111;
     }
 
     .figma-art-slice img {
       width: 100%;
       height: auto;
       display: block;
+      transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.012);
+      transform-origin: center;
+      transition: transform 0.16s linear, filter 0.7s var(--ease);
     }
 
     .section-caption-bar {
@@ -405,7 +412,207 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
+      position: sticky;
+      bottom: 0;
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
     }
+
+    /* Dynamic case-study reading experience */
+    .scroll-progress {
+      position: fixed;
+      inset: 0 0 auto;
+      height: 3px;
+      background: #d7ff00;
+      transform: scaleX(0);
+      transform-origin: left center;
+      z-index: 3000;
+      pointer-events: none;
+      box-shadow: 0 0 16px rgba(215, 255, 0, 0.55);
+    }
+
+    .case-study-hero {
+      position: relative;
+      min-height: min(650px, calc(100vh - 88px));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 82% 20%, rgba(217, 119, 6, 0.14), transparent 30%),
+        linear-gradient(145deg, #faf8f5 0%, #f3efe8 100%);
+    }
+
+    .case-study-hero::before {
+      content: "T";
+      position: absolute;
+      right: -0.05em;
+      top: -0.28em;
+      z-index: -1;
+      font-family: 'Syne', var(--font-display);
+      font-size: clamp(320px, 48vw, 660px);
+      font-weight: 800;
+      line-height: 1;
+      color: rgba(17, 17, 17, 0.035);
+      transform: rotate(-7deg);
+      animation: heroGhostDrift 10s ease-in-out infinite alternate;
+    }
+
+    .hero-title-main {
+      font-family: 'Syne', var(--font-display);
+      font-size: clamp(70px, 13vw, 160px);
+      animation: heroTitleIn 900ms var(--ease) both;
+    }
+
+    .hero-tagline,
+    .hero-lead-quote {
+      animation: heroCopyIn 750ms var(--ease) both;
+    }
+
+    .hero-tagline { animation-delay: 120ms; }
+    .hero-lead-quote { animation-delay: 220ms; }
+
+    .hero-scroll-cue {
+      position: absolute;
+      right: 64px;
+      bottom: 48px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font: 700 10px/1 var(--font-mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+
+    .hero-scroll-cue::after {
+      content: "";
+      width: 1px;
+      height: 54px;
+      background: #111;
+      animation: scrollCue 1.7s ease-in-out infinite;
+    }
+
+    .brand-ticker {
+      overflow: hidden;
+      background: #111;
+      color: #fff;
+      border-bottom: 1px solid #111;
+      padding: 13px 0;
+    }
+
+    .brand-ticker-track {
+      display: flex;
+      width: max-content;
+      gap: 42px;
+      font: 700 11px/1 var(--font-mono);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      animation: brandTicker 24s linear infinite;
+    }
+
+    .brand-ticker-track span::before {
+      content: "✦";
+      color: #d7ff00;
+      margin-right: 42px;
+    }
+
+    .chapter-rail {
+      position: fixed;
+      right: 18px;
+      top: 50%;
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 9px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(17,17,17,.82);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      transform: translateY(-50%);
+      border-radius: 999px;
+      transition: opacity .25s ease, transform .25s var(--ease);
+    }
+
+    .chapter-rail button {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #aaa;
+      font: 700 9px/1 var(--font-mono);
+      cursor: pointer;
+      transition: color .2s ease, background .2s ease, transform .2s var(--ease);
+    }
+
+    .chapter-rail button:hover,
+    .chapter-rail button.active {
+      color: #111;
+      background: #d7ff00;
+      transform: scale(1.1);
+    }
+
+    .reveal-target {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+
+    .reveal-target.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .figma-art-slice.reveal-target {
+      transform: translateY(52px) scale(.985);
+    }
+
+    .figma-art-slice.reveal-target.is-visible {
+      transform: translateY(0) scale(1);
+    }
+
+    .mindmap-node {
+      transition: opacity .55s var(--ease), transform .55s var(--ease), border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .mindmap-section:not(.is-visible) .mindmap-node {
+      opacity: 0;
+      transform: translateY(18px) scale(.94);
+    }
+
+    .mindmap-section.is-visible .mindmap-node:nth-child(2) { transition-delay: 60ms; }
+    .mindmap-section.is-visible .mindmap-node:nth-child(3) { transition-delay: 120ms; }
+    .mindmap-section.is-visible .mindmap-node:nth-child(4) { transition-delay: 180ms; }
+    .mindmap-section.is-visible .mindmap-node:nth-child(5) { transition-delay: 240ms; }
+    .mindmap-section.is-visible .mindmap-node:nth-child(6) { transition-delay: 300ms; }
+    .mindmap-section.is-visible .mindmap-node:nth-child(7) { transition-delay: 360ms; }
+    .mindmap-section.is-visible .mindmap-node:nth-child(8) { transition-delay: 420ms; }
+
+    @keyframes heroTitleIn {
+      from { opacity: 0; transform: translateY(56px) skewY(3deg); letter-spacing: .02em; }
+      to { opacity: 1; transform: translateY(0) skewY(0); letter-spacing: -.055em; }
+    }
+
+    @keyframes heroCopyIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroGhostDrift {
+      to { transform: translate(-2vw, 2vh) rotate(-3deg); }
+    }
+
+    @keyframes scrollCue {
+      0%, 100% { transform: scaleY(.25); transform-origin: top; opacity: .35; }
+      50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+    }
+
+    @keyframes brandTicker { to { transform: translateX(-50%); } }
 
     .caption-title {
       font-size: 14px;
@@ -791,6 +998,7 @@
 
     /* Responsive */
     @media (max-width: 960px) {
+      .chapter-rail { display: none; }
       .editorial-manifesto-row {
         grid-template-columns: 1fr;
         gap: 16px;
@@ -825,7 +1033,7 @@
         justify-content: space-between;
       }
       .hero-title-main {
-        font-size: 38px;
+        font-size: clamp(52px, 20vw, 90px);
       }
       .hero-tagline {
         font-size: 20px;
@@ -839,10 +1047,41 @@
       .mindmap-nodes-grid {
         grid-template-columns: 1fr;
       }
+      .case-study-hero {
+        min-height: 570px;
+        padding-bottom: 52px;
+      }
+      .hero-scroll-cue { display: none; }
+      .section-caption-bar {
+        position: relative;
+        bottom: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .case-study-hero::before,
+      .hero-title-main,
+      .hero-tagline,
+      .hero-lead-quote,
+      .hero-scroll-cue::after,
+      .brand-ticker-track {
+        animation: none !important;
+      }
+      .reveal-target,
+      .figma-art-slice.reveal-target,
+      .mindmap-section:not(.is-visible) .mindmap-node {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .figma-art-slice img { transform: none !important; }
     }
   </style>
+  <link rel="stylesheet" href="/ttribe/materials.css">
 </head>
 <body>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <!-- Top Portfolio Controls -->
   <header class="portfolio-topbar">
@@ -876,8 +1115,17 @@
   <!-- TAB 1: Complete Actual Figma Case Study from home.pdf -->
   <main class="content-wrapper tab-panel active" id="case-study-tab">
 
+    <nav class="chapter-rail" id="chapter-rail" aria-label="Case study chapters">
+      <button type="button" data-target="chapter-1" aria-label="Why TTribe">01</button>
+      <button type="button" data-target="chapter-2" aria-label="Mission and vision">02</button>
+      <button type="button" data-target="chapter-3" aria-label="Streetwear lookbook">03</button>
+      <button type="button" data-target="chapter-4" aria-label="Identity system">04</button>
+      <button type="button" data-target="chapter-5" aria-label="Retail experience">05</button>
+      <button type="button" data-target="chapter-6" aria-label="Packaging and merchandise">06</button>
+    </nav>
+
     <!-- Hero Header -->
-    <section class="case-study-hero">
+    <section class="case-study-hero" id="case-study-overview">
       <div class="hero-meta-row">
         <span>BRANDING &bull; CLOTHING BRAND NEW LAUNCH 2026</span>
         <span>COMPANY: TTRIBE &bull; 01:04:2025</span>
@@ -888,10 +1136,17 @@
         <strong>“TTRIBE is not a clothing brand. It’s a reflection of who you are — without explanation.</strong><br>
         Built on the idea that what you wear is not just seen, but felt, TTRIBE transforms everyday T-shirts into statements of identity. No noise. No chaos. Just clarity.”
       </p>
+      <span class="hero-scroll-cue" aria-hidden="true">Explore the system</span>
     </section>
 
+    <div class="brand-ticker" aria-hidden="true">
+      <div class="brand-ticker-track">
+        <span>Belonging</span><span>Structure</span><span>Direction</span><span>Consistency</span><span>Modernity</span><span>Distinction</span><span>Strength</span><span>Belonging</span><span>Structure</span><span>Direction</span><span>Consistency</span><span>Modernity</span><span>Distinction</span><span>Strength</span>
+      </div>
+    </div>
+
     <!-- Visual Art Slice 1: Mobile UI Screens & Why TTribe Name -->
-    <article class="figma-art-slice">
+    <article class="figma-art-slice" id="chapter-1">
       <img src="/ttribe/assets/figma-01-intro.jpg" alt="TTribe Mobile App Screens & Brand Genesis" loading="eager">
       <div class="section-caption-bar">
         <div class="caption-title">01 / Why TTRIBE name?</div>
@@ -914,7 +1169,7 @@
     </section>
 
     <!-- Visual Art Slice 2: Brand Aim, Mission & Vision -->
-    <article class="figma-art-slice">
+    <article class="figma-art-slice" id="chapter-2">
       <img src="/ttribe/assets/figma-02-mission-vision.jpg" alt="Brand Aim, Mission & Goals, Vision" loading="lazy">
       <div class="section-caption-bar">
         <div class="caption-title">02 / Mission, Vision & Youth Culture</div>
@@ -950,7 +1205,7 @@
     </section>
 
     <!-- Visual Art Slice 3: The Challenge & 8-Poster Lookbook Collage -->
-    <article class="figma-art-slice">
+    <article class="figma-art-slice" id="chapter-3">
       <img src="/ttribe/assets/figma-03-lookbook-collage.jpg" alt="Streetwear Lookbook Collage & Graphic Posters" loading="lazy">
       <div class="section-caption-bar">
         <div class="caption-title">03 / The Challenge & Streetwear Lookbook</div>
@@ -959,7 +1214,7 @@
     </article>
 
     <!-- Visual Art Slice 4: Brand Typeface & Brutalist Stationery -->
-    <article class="figma-art-slice">
+    <article class="figma-art-slice" id="chapter-4">
       <img src="/ttribe/assets/figma-04-typography-stationery.jpg" alt="Brand Typeface & Concrete Stationery Collateral" loading="lazy">
       <div class="section-caption-bar">
         <div class="caption-title">04 / Brand Typeface & Identity System</div>
@@ -1027,7 +1282,7 @@
     </section>
 
     <!-- Visual Art Slice 5: Retail Space & Night Campaign -->
-    <article class="figma-art-slice">
+    <article class="figma-art-slice" id="chapter-5">
       <img src="/ttribe/assets/figma-05-values-retail.jpg" alt="Brand Values Mind Map & Retail Storefront" loading="lazy">
       <div class="section-caption-bar">
         <div class="caption-title">05 / Retail Space &amp; In-Store Experience</div>
@@ -1064,7 +1319,7 @@
     </section>
 
     <!-- Visual Art Slice 6: Monogram, Packaging & Merch Collateral -->
-    <article class="figma-art-slice">
+    <article class="figma-art-slice" id="chapter-6">
       <img src="/ttribe/assets/figma-06-packaging-merch.jpg" alt="Why Monogram, Packaging, Tote Bags, Shopping Bags & Hangtags" loading="lazy">
       <div class="section-caption-bar">
         <div class="caption-title">06 / Monogram, Packaging & Merchandise</div>
@@ -1092,7 +1347,14 @@
       </div>
     </header>
 
-    <section class="product-stage">
+    <section class="store-editorial" id="collections">
+      <img class="editorial-fabric" src="/ttribe/assets/editorial-cotton.png" alt="Sculptural folds of heavyweight ivory cotton with a black TTribe woven label" fetchpriority="high">
+      <div class="editorial-copy"><span class="editorial-eyebrow">TTRIBE / EVERYDAY UNIFORM / VOL. 01</span><h1>FEEL THE<br><em>DIFFERENCE.</em></h1><p>Quiet identity. Heavyweight presence.<br>Made to be lived in.</p><a href="#shop" class="editorial-shop">Explore the essentials <span>↗</span></a></div>
+      <span class="editorial-note">01 — A STUDY IN TEXTURE</span>
+    </section>
+    <div class="store-type-band" aria-label="Your vibe. Your tribe."><div aria-hidden="true">YOUR VIBE. YOUR TRIBE. &nbsp;✳&nbsp; YOUR VIBE. YOUR TRIBE. &nbsp;✳&nbsp; YOUR VIBE. YOUR TRIBE. &nbsp;✳&nbsp; YOUR VIBE. YOUR TRIBE. &nbsp;✳&nbsp;</div></div>
+    <section class="store-intro" id="about"><span>LESS NOISE.<br>MORE YOU.</span><p>A considered uniform for an unconsidered day. Explore oversized silhouettes, tactile cotton and a monochrome identity that goes wherever you do.</p><small>THE ESSENTIALS<br>COLLECTION 001 ↓</small></section>
+    <section class="product-stage" id="shop">
       <div class="product-gallery">
         <div class="gallery-main">
           <img src="/ttribe/assets/hero-tee.jpg" id="main-product-img" alt="TTribe Oversize T-Shirt">
@@ -1141,7 +1403,7 @@
       </div>
     </section>
 
-    <section class="recommendations-sec">
+    <section class="recommendations-sec" id="new-arrivals">
       <h3 class="rec-heading">You May Also Like</h3>
       <div class="rec-grid">
         <article class="rec-card">
@@ -1222,8 +1484,80 @@
         btn.classList.add('active');
         const targetId = btn.dataset.tab;
         document.getElementById(targetId).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
+
+    // Scroll-led case-study storytelling
+    const progressBar = document.getElementById('scroll-progress');
+    const chapterButtons = [...document.querySelectorAll('.chapter-rail button')];
+    const chapters = chapterButtons
+      .map(button => document.getElementById(button.dataset.target))
+      .filter(Boolean);
+    const motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealTargets = document.querySelectorAll(
+      '.figma-art-slice, .editorial-manifesto-row, .typography-showcase-box, .mindmap-section'
+    );
+
+    revealTargets.forEach(target => target.classList.add('reveal-target'));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+
+    revealTargets.forEach(target => revealObserver.observe(target));
+
+    chapterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        chapterButtons.forEach(item => {
+          const isActive = item === button;
+          item.classList.toggle('active', isActive);
+          item.toggleAttribute('aria-current', isActive);
+        });
+        document.getElementById(button.dataset.target)?.scrollIntoView({
+          behavior: motionReduced ? 'auto' : 'smooth',
+          block: 'start'
+        });
+      });
+    });
+
+    let scrollFrame = 0;
+    const updateCaseStudyMotion = () => {
+      scrollFrame = 0;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      progressBar.style.transform = `scaleX(${Math.min(window.scrollY / maxScroll, 1)})`;
+
+      let activeChapter = chapters[0];
+      chapters.forEach(chapter => {
+        if (chapter.getBoundingClientRect().top <= window.innerHeight * 0.44) activeChapter = chapter;
+      });
+      chapterButtons.forEach(button => {
+        const isActive = button.dataset.target === activeChapter?.id;
+        button.classList.toggle('active', isActive);
+        button.toggleAttribute('aria-current', isActive);
+      });
+
+      if (!motionReduced && document.getElementById('case-study-tab').classList.contains('active')) {
+        document.querySelectorAll('.figma-art-slice').forEach(slice => {
+          const rect = slice.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+            slice.style.setProperty('--parallax-y', `${Math.max(-18, Math.min(18, centerOffset * -14))}px`);
+          }
+        });
+      }
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateCaseStudyMotion);
+    }, { passive: true });
+    window.addEventListener('resize', updateCaseStudyMotion, { passive: true });
+    updateCaseStudyMotion();
 
     // Gallery and sizing
     let selectedSize = 'M';
@@ -1299,5 +1633,7 @@
 
     updateCartUI();
   </script>
+  <script type="module" src="/ttribe-materials.js"></script>
 </body>
 </html>
+

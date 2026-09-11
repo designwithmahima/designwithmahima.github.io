@@ -709,7 +709,7 @@
             { num: "4.5m ➔ 2.7m", label: "Check-in Duration" },
             { num: "92%", label: "Patient Usability Score" }
           ],
-          image: "/assets/images/heyalpha-healthcare.png"
+          image: "/assets/images/deck-patient-voice-overview.png"
         },
         {
           num: "SLIDE 02 / 04",
@@ -866,7 +866,7 @@
             { num: "94%", label: "Clinical Workflow Efficiency" },
             { num: "2.5x", label: "Faster Record Retrieval" }
           ],
-          image: "/assets/images/medicare.png"
+          image: "/assets/images/deck-aksigen-overview.png"
         },
         {
           num: "SLIDE 02 / 04",
@@ -1024,7 +1024,7 @@
             { num: "3.4x", label: "Lookbook Engagement" },
             { num: "62%", label: "Mobile Checkout Uplift" }
           ],
-          image: "/assets/images/ttribe.png"
+          image: "/assets/images/deck-ttribe-overview.png"
         },
         {
           num: "SLIDE 02 / 04",
@@ -1172,7 +1172,7 @@
             { num: "78%", label: "Guest Adoption Rate" },
             { num: "3x", label: "Faster Order Placement" }
           ],
-          image: "/assets/images/in-room-qr.png"
+          image: "/assets/images/deck-food-voice-overview.png"
         },
         {
           num: "SLIDE 02 / 04",
@@ -1328,8 +1328,50 @@
   let currentDeckKey = null;
   let currentSlideIndex = 0;
   let isEmbedMode = false;
+  let deckMotionFrame = 0;
+  let deckMotionObserver;
+  let deckOpener;
+  const animateDeckEvidence = (root) => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const counters = [...root.querySelectorAll('.metric-num, .deck-ui-stat-val')].flatMap(el => {
+      const original = el.textContent.trim();
+      const match = original.match(/^([^\d]*)(\d[\d,]*(?:\.\d+)?)([^\d]*)$/);
+      if (!match) return [];
+      const value = Number(match[2].replaceAll(',', ''));
+      const decimals = (match[2].split('.')[1] || '').length;
+      el.setAttribute('aria-label', original);
+      return [{el, original, prefix:match[1], suffix:match[3], value, decimals, started:null}];
+    });
+    const bars = [...root.querySelectorAll('.deck-ui-progress-fill')].map(el => ({el, started:null}));
+    const items = [...counters, ...bars];
+    const tick = time => {
+      let running = false;
+      items.forEach(item => {
+        if (item.started === null) return;
+        const progress = Math.min((time-item.started)/1350,1);
+        const eased = 1-Math.pow(1-progress,3);
+        if ('value' in item) item.el.textContent = progress===1 ? item.original : `${item.prefix}${(item.value*eased).toLocaleString('en-US',{minimumFractionDigits:item.decimals,maximumFractionDigits:item.decimals})}${item.suffix}`;
+        else item.el.style.transform = `scaleX(${eased})`;
+        if(progress<1) running=true;
+      });
+      deckMotionFrame = running ? requestAnimationFrame(tick) : 0;
+    };
+    deckMotionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(!entry.isIntersecting)return;
+        const item=items.find(item=>item.el===entry.target);
+        item.started=performance.now();
+        deckMotionObserver.unobserve(item.el);
+      });
+      if(!deckMotionFrame)deckMotionFrame=requestAnimationFrame(tick);
+    },{root,threshold:.5});
+    items.forEach(item=>{if(!('value' in item))item.el.style.transform='scaleX(0)';deckMotionObserver.observe(item.el);});
+  };
 
   const renderDeckSlide = (index) => {
+    cancelAnimationFrame(deckMotionFrame);
+    deckMotionFrame = 0;
+    deckMotionObserver?.disconnect();
     if (!currentDeckKey || !caseDecks[currentDeckKey]) return;
     const deck = caseDecks[currentDeckKey];
     const total = deck.slides.length;
@@ -1359,7 +1401,7 @@
       : `<img src="${slide.image}" alt="${slide.heading} mockup preview">`;
 
     deckSlidesViewport.innerHTML = `
-      <div class="deck-slide active">
+      <div class="deck-slide active deck-theme-${currentDeckKey}" data-slide-index="${currentSlideIndex}">
         <div class="deck-slide-content">
           <div class="deck-slide-num">${slide.num}</div>
           <h4 class="deck-slide-heading">${slide.heading}</h4>
@@ -1381,6 +1423,7 @@
     deckSlidesViewport.scrollTop = 0;
     const activeSlide = deckSlidesViewport.querySelector('.deck-slide');
     if (activeSlide) activeSlide.scrollTop = 0;
+    if (activeSlide) animateDeckEvidence(activeSlide);
 
     if (deckCounter) {
       deckCounter.textContent = `Slide ${currentSlideIndex + 1} of ${total}`;
@@ -1398,7 +1441,7 @@
 
     if (deckDotsContainer) {
       deckDotsContainer.innerHTML = deck.slides.map((_, i) => `
-        <span class="deck-dot ${i === currentSlideIndex ? 'active' : ''}" data-index="${i}"></span>
+        <button type="button" aria-label="Go to slide ${i+1}" aria-current="${i === currentSlideIndex ? 'step' : 'false'}" class="deck-dot ${i === currentSlideIndex ? 'active' : ''}" data-index="${i}"></button>
       `).join('');
 
       deckDotsContainer.querySelectorAll('.deck-dot').forEach(dot => {
@@ -1412,6 +1455,7 @@
 
   const openDeckModal = (deckId) => {
     if (!caseDecks[deckId]) return;
+    deckOpener = document.activeElement;
     currentDeckKey = deckId;
     currentSlideIndex = 0;
     isEmbedMode = false;
@@ -1426,14 +1470,22 @@
 
     if (deckModal) {
       deckModal.classList.add('active');
+      document.body.classList.add('deck-modal-open');
+      cursor?.classList.remove('expanded');
       document.body.style.overflow = 'hidden';
+      deckCloseBtn?.focus({preventScroll:true});
     }
   };
 
   const closeDeckModal = () => {
+    cancelAnimationFrame(deckMotionFrame);
+    deckMotionFrame = 0;
+    deckMotionObserver?.disconnect();
     if (deckModal) {
       deckModal.classList.remove('active');
+      document.body.classList.remove('deck-modal-open');
       document.body.style.overflow = '';
+      deckOpener?.focus({preventScroll:true});
     }
   };
 
@@ -1477,11 +1529,13 @@
 
   // Touch swipe support for mobile slide decks
   let touchStartX = 0;
+  let touchStartY = 0;
   let touchEndX = 0;
   if (deckSlidesViewport) {
     deckSlidesViewport.addEventListener('touchstart', (e) => {
       if (e.changedTouches && e.changedTouches[0]) {
         touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
       }
     }, { passive: true });
 
@@ -1490,7 +1544,8 @@
         touchEndX = e.changedTouches[0].screenX;
         const diffX = touchStartX - touchEndX;
         const deck = caseDecks[currentDeckKey];
-        if (Math.abs(diffX) > 40 && deck) {
+        const diffY = touchStartY - e.changedTouches[0].screenY;
+        if (!isEmbedMode && Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY)*1.5 && deck) {
           if (diffX > 0 && currentSlideIndex < deck.slides.length - 1) {
             renderDeckSlide(currentSlideIndex + 1); // Swipe left -> next slide
           } else if (diffX < 0 && currentSlideIndex > 0) {
@@ -1503,6 +1558,12 @@
 
   document.addEventListener('keydown', (e) => {
     if (deckModal && deckModal.classList.contains('active')) {
+      if (e.key === 'Tab') {
+        const focusable = [...deckModal.querySelectorAll('button:not(:disabled), a[href], iframe')].filter(el=>el.getClientRects().length);
+        const first=focusable[0], last=focusable[focusable.length-1];
+        if(e.shiftKey && document.activeElement===first){e.preventDefault();last?.focus();}
+        else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first?.focus();}
+      }
       const deck = caseDecks[currentDeckKey];
       if (e.key === 'Escape') closeDeckModal();
       if (e.key === 'ArrowRight' && deck && currentSlideIndex < deck.slides.length - 1) {
@@ -1515,4 +1576,3 @@
   });
 
 })();
-

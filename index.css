@@ -2202,6 +2202,25 @@ body:has(.modal-overlay.active) .cb-fab,
   pointer-events: none !important;
 }
 
+/* Decks use the native pointer: the global decorative cursor sits below this modal. */
+body.deck-modal-open,
+body.deck-modal-open .modal-overlay,
+body.deck-modal-open .deck-viewer-container,
+body.deck-modal-open .deck-slide {
+  cursor: default;
+}
+
+body.deck-modal-open button,
+body.deck-modal-open a,
+body.deck-modal-open .deck-dot {
+  cursor: pointer;
+}
+
+body.deck-modal-open #cursor {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .deck-viewer-container {
   background: var(--modal-bg);
   -webkit-backdrop-filter: blur(28px);
@@ -2621,6 +2640,255 @@ body:has(.modal-overlay.active) .cb-fab,
   display: inline-flex;
   align-items: center;
   gap: 4px;
+}
+
+/* Deck-specific art direction and motion. TTribe intentionally keeps the base style. */
+.deck-theme-patientvoice,
+.deck-theme-aksigen,
+.deck-theme-foodvoice,
+.deck-theme-ttribe {
+  --deck-stagger: 70ms;
+}
+
+.deck-theme-patientvoice .deck-slide-content > *,
+.deck-theme-aksigen .deck-slide-content > *,
+.deck-theme-foodvoice .deck-slide-content > *,
+.deck-theme-ttribe .deck-slide-content > * {
+  animation: deckCopyReveal 520ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.deck-theme-patientvoice .deck-slide-content > *:nth-child(2),
+.deck-theme-aksigen .deck-slide-content > *:nth-child(2),
+.deck-theme-foodvoice .deck-slide-content > *:nth-child(2),
+.deck-theme-ttribe .deck-slide-content > *:nth-child(2) { animation-delay: calc(var(--deck-stagger) * 1); }
+.deck-theme-patientvoice .deck-slide-content > *:nth-child(3),
+.deck-theme-aksigen .deck-slide-content > *:nth-child(3),
+.deck-theme-foodvoice .deck-slide-content > *:nth-child(3),
+.deck-theme-ttribe .deck-slide-content > *:nth-child(3) { animation-delay: calc(var(--deck-stagger) * 2); }
+.deck-theme-patientvoice .deck-slide-content > *:nth-child(4),
+.deck-theme-aksigen .deck-slide-content > *:nth-child(4),
+.deck-theme-foodvoice .deck-slide-content > *:nth-child(4),
+.deck-theme-ttribe .deck-slide-content > *:nth-child(4) { animation-delay: calc(var(--deck-stagger) * 3); }
+.deck-theme-patientvoice .deck-slide-content > *:nth-child(5),
+.deck-theme-aksigen .deck-slide-content > *:nth-child(5),
+.deck-theme-foodvoice .deck-slide-content > *:nth-child(5),
+.deck-theme-ttribe .deck-slide-content > *:nth-child(5) { animation-delay: calc(var(--deck-stagger) * 4); }
+
+.deck-theme-patientvoice[data-slide-index="0"] .deck-slide-preview img,
+.deck-theme-aksigen[data-slide-index="0"] .deck-slide-preview img,
+.deck-theme-foodvoice[data-slide-index="0"] .deck-slide-preview img,
+.deck-theme-ttribe[data-slide-index="0"] .deck-slide-preview img {
+  object-fit: cover;
+  animation: deckImageReveal 900ms cubic-bezier(.2, .8, .2, 1) both,
+             deckImageDrift 9s ease-in-out 900ms infinite alternate;
+}
+
+/* Patient Voice: airy aqua surfaces and wayfinding/listening motion. */
+.deck-theme-patientvoice { --accent: #0797a5; }
+.deck-theme-patientvoice .deck-slide-preview {
+  background: linear-gradient(145deg, #effcfc, #dff6f3);
+  border-color: rgba(7, 151, 165, 0.25);
+}
+.deck-theme-patientvoice .deck-ui-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(224,248,246,.94));
+  border-color: rgba(7, 151, 165, 0.22);
+}
+.deck-theme-patientvoice .deck-ui-vui-bubble {
+  animation: patientVoiceBubble 650ms cubic-bezier(.2, .9, .25, 1) both;
+}
+.deck-theme-patientvoice .deck-ui-vui-bubble:nth-of-type(3) { animation-delay: 180ms; }
+.deck-theme-patientvoice .deck-ui-badge-live::before {
+  animation: patientListening 1.5s ease-out infinite;
+}
+.deck-theme-patientvoice .deck-ui-token-chip {
+  animation: patientWaypoint 480ms cubic-bezier(.2, .8, .2, 1) both;
+}
+.deck-theme-patientvoice .deck-ui-token-chip:nth-child(2) { animation-delay: 100ms; }
+.deck-theme-patientvoice .deck-ui-token-chip:nth-child(3) { animation-delay: 200ms; }
+
+/* Aksigen: dense clinical dashboard with measured data motion. */
+.deck-theme-aksigen { --accent: #2687ff; }
+.deck-theme-aksigen .deck-slide-preview {
+  background: radial-gradient(circle at 80% 15%, #193b64 0, #0c2039 42%, #071526 100%);
+  border-color: rgba(70, 156, 255, 0.34);
+  box-shadow: 0 16px 38px rgba(4, 20, 39, 0.26);
+}
+.deck-theme-aksigen .deck-ui-card {
+  background: linear-gradient(145deg, rgba(17,42,71,.98), rgba(7,23,42,.98));
+  border-color: rgba(73, 157, 255, 0.35);
+}
+.deck-theme-aksigen .deck-ui-card-title,
+.deck-theme-aksigen .deck-ui-progress-label { color: #eaf4ff; }
+.deck-theme-aksigen .deck-ui-stat-box {
+  background: rgba(255,255,255,.075);
+  border-color: rgba(118,183,255,.2);
+  animation: clinicalCardIn 540ms cubic-bezier(.16, 1, .3, 1) both;
+}
+.deck-theme-aksigen .deck-ui-stat-box:nth-child(2) { animation-delay: 120ms; }
+.deck-theme-aksigen .deck-ui-stat-label { color: #9fb9d5; }
+.deck-theme-aksigen .deck-ui-progress-fill {
+  transform-origin: left center;
+  animation: clinicalProgress 1.2s cubic-bezier(.2, .8, .2, 1) both;
+}
+.deck-theme-aksigen .deck-ui-badge-live::before {
+  animation: clinicalBeat 1.15s ease-in-out infinite;
+}
+
+/* Food Voice: warm hospitality, conversational ordering and QR scan motion. */
+.deck-theme-foodvoice { --accent: #c22a71; }
+.deck-theme-foodvoice .deck-slide-preview {
+  background: linear-gradient(145deg, #2a1721, #4a2231 55%, #7a3a27);
+  border-color: rgba(238, 118, 152, 0.28);
+  box-shadow: 0 16px 38px rgba(56, 19, 34, 0.24);
+}
+.deck-theme-foodvoice .deck-ui-card {
+  background: linear-gradient(145deg, rgba(255,250,246,.98), rgba(255,232,220,.95));
+  border-color: rgba(194,42,113,.24);
+}
+.deck-theme-foodvoice .deck-ui-vui-bubble {
+  animation: orderBubblePop 560ms cubic-bezier(.18, .9, .26, 1.2) both;
+}
+.deck-theme-foodvoice .deck-ui-vui-bubble:nth-of-type(3) { animation-delay: 220ms; }
+.deck-theme-foodvoice .deck-ui-token-chip {
+  animation: orderStep 1.8s ease-in-out infinite;
+}
+.deck-theme-foodvoice .deck-ui-token-chip:nth-child(2) { animation-delay: 180ms; }
+.deck-theme-foodvoice .deck-ui-token-chip:nth-child(3) { animation-delay: 360ms; }
+.deck-theme-foodvoice[data-slide-index="2"] .deck-slide-preview::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  top: 24%;
+  background: linear-gradient(90deg, transparent, #ffcf78, transparent);
+  box-shadow: 0 0 14px rgba(255, 207, 120, .8);
+  animation: qrScanLine 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* TTribe: brutalist monochrome editorial motion with a sharp lime signal. */
+.deck-theme-ttribe { --accent: #171717; --deck-stagger: 48ms; }
+.deck-theme-ttribe .deck-slide-num { color: #596500; }
+.deck-theme-ttribe .deck-slide-preview {
+  background: #111;
+  border-color: rgba(192, 224, 0, .42);
+  border-radius: 4px;
+  box-shadow: 10px 10px 0 rgba(23, 23, 23, .14);
+}
+.deck-theme-ttribe .deck-ui-card {
+  background: #111;
+  color: #f5f5ef;
+  border: 1px solid #c0e000;
+  border-radius: 2px;
+  box-shadow: inset 5px 0 0 #c0e000;
+}
+.deck-theme-ttribe .deck-ui-card-header { border-bottom-color: rgba(255,255,255,.18); }
+.deck-theme-ttribe .deck-ui-card-title,
+.deck-theme-ttribe .deck-ui-progress-label { color: #f5f5ef; }
+.deck-theme-ttribe .deck-ui-stat-box {
+  background: #1e1e1e;
+  border-color: rgba(255,255,255,.16);
+  border-radius: 0;
+  animation: ttribeCutIn 460ms steps(5, end) both;
+}
+.deck-theme-ttribe .deck-ui-stat-box:nth-child(2) { animation-delay: 100ms; }
+.deck-theme-ttribe .deck-ui-stat-val { color: #c0e000; }
+.deck-theme-ttribe .deck-ui-stat-label { color: #b8b8b0; }
+.deck-theme-ttribe .deck-ui-token-chip {
+  color: #111;
+  background: #c0e000;
+  border-color: #c0e000;
+  border-radius: 0;
+  animation: ttribeTicker 2.4s steps(6, end) infinite;
+}
+.deck-theme-ttribe .deck-ui-token-chip:nth-child(2) { animation-delay: 160ms; }
+.deck-theme-ttribe .deck-ui-token-chip:nth-child(3) { animation-delay: 320ms; }
+.deck-theme-ttribe .deck-ui-progress-track { background: rgba(255,255,255,.15); border-radius: 0; }
+.deck-theme-ttribe .deck-ui-progress-fill {
+  background: #c0e000 !important;
+  border-radius: 0;
+  transform-origin: left;
+  animation: ttribeProgress 900ms steps(8, end) both;
+}
+.deck-theme-ttribe .deck-ui-badge-live {
+  color: #111;
+  background: #c0e000;
+  border-color: #c0e000;
+  border-radius: 0;
+}
+.deck-theme-ttribe .deck-ui-badge-live::before { background: #111; box-shadow: none; }
+
+@keyframes deckCopyReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes deckImageReveal {
+  from { opacity: 0; transform: scale(.96); filter: saturate(.7); }
+  to { opacity: 1; transform: scale(1); filter: saturate(1); }
+}
+@keyframes deckImageDrift {
+  from { transform: scale(1); }
+  to { transform: scale(1.035); }
+}
+@keyframes patientVoiceBubble {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes patientListening {
+  0% { box-shadow: 0 0 0 0 rgba(16,185,129,.5); }
+  75%, 100% { box-shadow: 0 0 0 9px rgba(16,185,129,0); }
+}
+@keyframes patientWaypoint {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes clinicalCardIn {
+  from { opacity: 0; transform: translateY(14px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes clinicalProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes clinicalBeat {
+  0%, 100% { transform: scale(.8); opacity: .65; }
+  15% { transform: scale(1.45); opacity: 1; }
+  30% { transform: scale(.95); opacity: .8; }
+  45% { transform: scale(1.2); opacity: 1; }
+}
+@keyframes orderBubblePop {
+  from { opacity: 0; transform: translateY(14px) scale(.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes orderStep {
+  0%, 100% { transform: translateY(0); box-shadow: none; }
+  45% { transform: translateY(-3px); box-shadow: 0 5px 12px rgba(194,42,113,.14); }
+}
+@keyframes qrScanLine {
+  0%, 100% { transform: translateY(0); opacity: .25; }
+  50% { transform: translateY(145px); opacity: 1; }
+}
+@keyframes ttribeCutIn {
+  from { opacity: 0; transform: translate(18px, -8px) skewX(-5deg); }
+  to { opacity: 1; transform: translate(0, 0) skewX(0); }
+}
+@keyframes ttribeTicker {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+@keyframes ttribeProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-theme-patientvoice *,
+  .deck-theme-aksigen *,
+  .deck-theme-foodvoice *,
+  .deck-theme-ttribe * {
+    animation: none !important;
+  }
 }
 
 .deck-footer {
@@ -3987,3 +4255,54 @@ body:has(.modal-overlay.active) .cb-fab,
     white-space: normal;
   }
 }
+
+/* Evidence stays readable; only its presentation animates. */
+.deck-ui-progress-fill{transform-origin:left center;animation:none!important;transition:none!important}
+.deck-ui-stat-val,.deck-slide-metrics-row .metric-num{font-variant-numeric:tabular-nums}
+.deck-slide-content,.deck-slide-preview,.deck-ui-card{min-width:0}
+.deck-header,.deck-footer{flex-shrink:0}
+.deck-dot{border:0;padding:0;position:relative;cursor:pointer}
+.deck-dot::before{content:'';position:absolute;inset:-12px -5px}
+.deck-dot:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+.deck-ui-card{height:auto;flex-shrink:0}
+.deck-ui-progress-item{animation:deckCopyReveal .55s ease both}
+.deck-ui-progress-item:nth-child(2n){animation-delay:120ms}
+@media(max-width:900px){
+ .deck-viewer-container{height:94dvh;max-height:none}
+ .deck-slide{gap:24px;overscroll-behavior:contain;touch-action:pan-y}
+ .deck-slide-content{justify-content:flex-start}
+ .deck-slide-preview{max-height:none;height:auto;min-height:220px;overflow:visible;padding:16px}
+ .deck-slide-preview img{width:100%;max-height:none;height:auto;object-fit:contain}
+ .deck-ui-card{width:100%;min-height:220px;padding:20px}
+ .deck-ui-stat-val{font-size:1.65rem}
+ .deck-ui-stat-label{font-size:.75rem}
+ .deck-ui-card-title{font-size:.9rem}
+ .deck-ui-progress-label{font-size:.75rem}
+}
+@media(max-width:640px){
+ #deck-modal{padding:0}
+ .deck-viewer-container{width:100%;height:100dvh;max-height:100dvh;border-radius:0;padding:max(14px,env(safe-area-inset-top)) 12px max(10px,env(safe-area-inset-bottom))}
+ #deck-close-btn{width:44px;height:44px;top:max(10px,env(safe-area-inset-top));right:12px}
+ .deck-header{padding-right:50px;gap:8px}
+ .deck-modal-title{font-size:1rem}
+ .deck-figma-link{min-height:36px}
+ .deck-slide{padding:18px 14px 26px;gap:24px}
+ .deck-slide-heading{font-size:1.45rem;line-height:1.15;margin-bottom:12px}
+ .deck-slide-desc{font-size:.9rem;line-height:1.65;margin-bottom:16px}
+ .deck-slide-points{gap:12px;margin-bottom:20px}
+ .deck-slide-points li{font-size:.83rem;line-height:1.55}
+ .deck-slide-metrics-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .deck-slide-metrics-row .metric{min-width:0;padding:12px 8px}
+ .deck-slide-metrics-row .metric-num{font-size:1.5rem}
+ .deck-slide-metrics-row .metric-label{font-size:.65rem;overflow-wrap:anywhere}
+ .deck-ui-stat-grid{gap:10px}.deck-ui-stat-box{padding:14px 10px}
+ .deck-ui-card-header{flex-wrap:wrap;gap:10px}
+ .deck-slide-preview{border-radius:12px;padding:12px;min-height:0}
+ .deck-ui-card{padding:16px;gap:16px}
+ .deck-ui-stat-val{font-size:1.55rem}.deck-ui-stat-label{font-size:.72rem}
+ .deck-ui-vui-bubble{font-size:.8rem;line-height:1.6}
+ .deck-ui-chips-row{flex-wrap:wrap}.deck-ui-token-chip{white-space:normal;font-size:.68rem}
+ .deck-footer{gap:4px}.deck-nav-btn{width:44px;height:44px}.deck-toggle-mode{min-height:40px}
+ .deck-dots{gap:14px}.deck-dot{width:8px;height:8px}.deck-dot.active{width:18px}
+}
+@media(prefers-reduced-motion:reduce){.deck-ui-progress-item{animation:none}.deck-ui-progress-fill{transform:none!important}}
