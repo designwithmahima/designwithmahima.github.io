@@ -14,7 +14,8 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: resolve(__dirname, 'index.html'),
-          splash: resolve(__dirname, 'splash.html')
+          splash: resolve(__dirname, 'splash.html'),
+          ttribe: resolve(__dirname, 'ttribe.html')
         }
       }
     },
@@ -70,6 +71,9 @@ export default defineConfig(({ mode }) => {
 
             if (req.url === '/splash' || req.url === '/splash/') {
               req.url = '/splash.html';
+            }
+            if (req.url === '/ttribe' || req.url === '/ttribe/') {
+              req.url = '/ttribe.html';
             }
             next();
           });

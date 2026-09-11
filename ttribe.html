@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TTribe — Your Vibe. Your Tribe. | Brand Identity & Streetwear Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-page: #F6F4F0;
+      --bg-header: #ECE7DF;
+      --bg-card: #FFFFFF;
+      --text-main: #111111;
+      --text-muted: #444444;
+      --text-sub: #777777;
+      --border-color: #E2DDD5;
+      --border-dark: #111111;
+      --accent-black: #111111;
+      --accent-amber: #D97706;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* Top Portfolio Bar */
+    .portfolio-topbar {
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 13px;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .portfolio-topbar-left a {
+      color: #FFFFFF;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+    }
+
+    .portfolio-topbar-left a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .portfolio-topbar-center {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-figma-proto {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .portfolio-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.12);
+      color: #E2E8F0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    .tab-btn.active {
+      background: #FFFFFF;
+      color: #111111;
+      border-color: #FFFFFF;
+    }
+
+    .ext-figma-btn {
+      color: #CBD5E1;
+      font-size: 12px;
+      text-decoration: none;
+      padding: 5px 8px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .ext-figma-btn:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    /* Container */
+    .content-wrapper {
+      max-width: 1240px;
+      margin: 28px auto 60px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    /* Tab Panels */
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Case Study Presentation (Direct Figma home.pdf Design) */
+    .case-study-hero {
+      padding: 56px 64px 44px;
+      background: #FAF8F5;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-sub);
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero-title-main {
+      font-size: clamp(52px, 8vw, 84px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .hero-tagline {
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-lead-quote {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 860px;
+      background: #FFFFFF;
+      padding: 24px 28px;
+      border-radius: 8px;
+      border-left: 4px solid var(--text-main);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    /* Editorial Manifesto Row - The Signature home.pdf Layout */
+    .editorial-manifesto-row {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 48px 64px;
+      border-bottom: 1px solid var(--border-color);
+      background: #FFFFFF;
+      align-items: start;
+    }
+
+    .editorial-manifesto-row:nth-child(even) {
+      background: #FAF8F5;
+    }
+
+    .label-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .label-text {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    .label-rule {
+      flex: 1;
+      height: 1px;
+      background: #111111;
+      min-width: 32px;
+    }
+
+    .manifesto-body {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #262626;
+      max-width: 720px;
+    }
+
+    .manifesto-body p {
+      margin-bottom: 16px;
+    }
+
+    .manifesto-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .accent-amber {
+      color: var(--accent-amber);
+      font-weight: 600;
+    }
+
+    /* Typography Showcase Box */
+    .typography-showcase-box {
+      padding: 48px 64px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .type-specimen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-top: 28px;
+      background: #FAF8F5;
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .type-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-sub);
+      margin-bottom: 14px;
+    }
+
+    .type-scale-display {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .type-alphabet {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+      color: var(--text-main);
+      word-break: break-all;
+    }
+
+    .type-attributes-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .type-attributes-list li strong {
+      color: var(--text-main);
+    }
+
+    /* Brand Values Mind Map Section */
+    .mindmap-section {
+      padding: 48px 64px;
+      background: #FAF8F5;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .mindmap-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 32px;
+    }
+
+    .mindmap-core {
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 24px;
+      font-weight: 800;
+      padding: 16px 44px;
+      border-radius: 999px;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .mindmap-nodes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .mindmap-node {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px 16px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+    }
+
+    .mindmap-node:hover {
+      border-color: var(--text-main);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+
+    /* Figma Visual Art Slices */
+    .figma-art-scroll {
+      display: flex;
+      flex-direction: column;
+      background: #FAF8F5;
+    }
+
+    .figma-art-slice {
+      width: 100%;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .figma-art-slice img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .section-caption-bar {
+      padding: 22px 64px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .caption-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-main);
+    }
+
+    .caption-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    /* Storefront & Products */
+    .store-header {
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border-color);
+      padding: 22px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .store-logo {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .store-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .store-nav a {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .store-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .action-link {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-main);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cart-count {
+      background: #111111;
+      color: #FFFFFF;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      margin-left: 4px;
+    }
+
+    .product-stage {
+      padding: 48px 56px;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 56px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .gallery-main {
+      width: 100%;
+      background: #EFECE6;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+    }
+
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .gallery-thumb {
+      width: 80px;
+      aspect-ratio: 3 / 4;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: #EFECE6;
+    }
+
+    .gallery-thumb.active {
+      border-color: var(--text-main);
+    }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .product-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .product-price {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .size-grid {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .size-btn {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border-color);
+      background: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .size-btn.active {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+    }
+
+    .qty-picker {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: #FFFFFF;
+      margin-bottom: 24px;
+    }
+
+    .qty-btn {
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .qty-val {
+      width: 44px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cta-btn {
+      width: 100%;
+      height: 52px;
+      background: #111111;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      margin-bottom: 32px;
+      transition: background 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      background: #2D3748;
+    }
+
+    .recommendations-sec {
+      padding: 48px 56px 64px;
+    }
+
+    .rec-heading {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 36px;
+    }
+
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .rec-card {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rec-img-wrap {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: #EFECE6;
+    }
+
+    .rec-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rec-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rec-price {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .quick-shop-btn {
+      margin-top: auto;
+      width: 100%;
+      height: 38px;
+      background: #111111;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Cart Drawer */
+    .cart-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .cart-drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: #FFFFFF;
+      z-index: 2001;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+      transition: right 0.35s var(--ease);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-drawer-overlay.open .cart-drawer {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .drawer-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .cart-item-img {
+      width: 64px;
+      aspect-ratio: 3 / 4;
+      border-radius: 4px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .cart-item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .drawer-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-color);
+      background: #FAF8F5;
+    }
+
+    /* Embedded Figma Frame View */
+    .figma-proto-view {
+      width: 100%;
+      height: calc(100vh - 45px);
+      border: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .editorial-manifesto-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 36px 28px;
+      }
+      .product-stage {
+        grid-template-columns: 1fr;
+        padding: 32px 24px;
+      }
+      .type-specimen-grid {
+        grid-template-columns: 1fr;
+      }
+      .mindmap-nodes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .rec-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .case-study-hero, .recommendations-sec, .section-caption-bar, .typography-showcase-box, .mindmap-section {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .portfolio-topbar {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .portfolio-topbar-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .hero-title-main {
+        font-size: 38px;
+      }
+      .hero-tagline {
+        font-size: 20px;
+      }
+      .store-nav {
+        display: none;
+      }
+      .rec-grid {
+        grid-template-columns: 1fr;
+      }
+      .mindmap-nodes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Portfolio Controls -->
+  <header class="portfolio-topbar">
+    <div class="portfolio-topbar-left">
+      <a href="/" id="back-portfolio-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Mahima's Portfolio
+      </a>
+    </div>
+    <div class="portfolio-topbar-center">
+      <span>TTribe Case Study</span>
+      <span class="badge-figma-proto">Figma &bull; home.pdf</span>
+    </div>
+    <div class="portfolio-topbar-right">
+      <button class="tab-btn active" data-tab="case-study-tab" id="btn-case-study">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        Figma Design Case
+      </button>
+      <button class="tab-btn" data-tab="storefront-tab" id="btn-storefront">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Interactive Store
+      </button>
+      <button class="tab-btn" data-tab="figma-proto-tab" id="btn-figma-proto">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Figma Prototype
+      </button>
+      <a href="https://www.figma.com/proto/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=159-554&scaling=min-zoom" target="_blank" rel="noopener noreferrer" class="ext-figma-btn">Figma File ↗</a>
+    </div>
+  </header>
+
+  <!-- TAB 1: Complete Actual Figma Case Study from home.pdf -->
+  <main class="content-wrapper tab-panel active" id="case-study-tab">
+
+    <!-- Hero Header -->
+    <section class="case-study-hero">
+      <div class="hero-meta-row">
+        <span>BRANDING &bull; CLOTHING BRAND NEW LAUNCH 2026</span>
+        <span>COMPANY: TTRIBE &bull; 01:04:2025</span>
+      </div>
+      <h1 class="hero-title-main">TTRIBE</h1>
+      <div class="hero-tagline">Your Vibe. Your Tribe.</div>
+      <p class="hero-lead-quote">
+        <strong>“TTRIBE is not a clothing brand. It’s a reflection of who you are — without explanation.</strong><br>
+        Built on the idea that what you wear is not just seen, but felt, TTRIBE transforms everyday T-shirts into statements of identity. No noise. No chaos. Just clarity.”
+      </p>
+    </section>
+
+    <!-- Visual Art Slice 1: Mobile UI Screens & Why TTribe Name -->
+    <article class="figma-art-slice">
+      <img src="/ttribe/assets/figma-01-intro.jpg" alt="TTribe Mobile App Screens & Brand Genesis" loading="eager">
+      <div class="section-caption-bar">
+        <div class="caption-title">01 / Why TTRIBE name?</div>
+        <div class="caption-desc">The name is built on identity and belonging. The extra “T” transforms a familiar word into a memorable, ownable brand statement.</div>
+      </div>
+    </article>
+
+    <!-- Editorial Manifesto Module: Why TTribe name? (home.pdf exact layout) -->
+    <section class="editorial-manifesto-row">
+      <div class="label-block">
+        <div class="label-text">Why<br>TTRIBE<br>name?</div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="manifesto-body">
+        <p>The name <strong>TTRIBE</strong> is built on the idea of identity and belonging.</p>
+        <p><span class="accent-amber">“Tribe”</span> represents a group of individuals connected by shared values, emotions, and mindset — not by sameness, but by understanding.</p>
+        <p>The extra <span class="accent-amber">“T”</span> making the name unique, memorable, and ownable. It transforms a familiar word into a brand that stands apart.</p>
+        <p>TTRIBE is not just a name — it’s a statement that everyone belongs somewhere, and that place starts with being true to yourself.</p>
+      </div>
+    </section>
+
+    <!-- Visual Art Slice 2: Brand Aim, Mission & Vision -->
+    <article class="figma-art-slice">
+      <img src="/ttribe/assets/figma-02-mission-vision.jpg" alt="Brand Aim, Mission & Goals, Vision" loading="lazy">
+      <div class="section-caption-bar">
+        <div class="caption-title">02 / Mission, Vision & Youth Culture</div>
+        <div class="caption-desc">“Our aim is not to dress people — it is to help them feel seen. Where clothing becomes a reflection of identity, and every individual feels confident.”</div>
+      </div>
+    </article>
+
+    <!-- Editorial Manifesto Module: Brand Aim & Vision (home.pdf exact layout) -->
+    <section class="editorial-manifesto-row">
+      <div class="label-block">
+        <div class="label-text">Brand<br>aim:</div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="manifesto-body">
+        <p>At <strong>TTRIBE</strong>, our aim is not to dress people — it is to help them feel seen.</p>
+        <p>In a world where everyone is trying to fit in, we exist to remind you that who you are is enough.</p>
+        <p>Every piece we create is a quiet expression of identity — something you don’t have to explain, but simply feel.</p>
+        <p>Because when you feel aligned with what you wear, you show up differently: <br>
+          <strong>More confident. More honest. More you.</strong>
+        </p>
+      </div>
+    </section>
+
+    <section class="editorial-manifesto-row">
+      <div class="label-block">
+        <div class="label-text">Vision of<br>the brand:</div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="manifesto-body">
+        <p>Our vision is to build a world where people don’t follow trends — they follow themselves.</p>
+        <p>Where clothing becomes a reflection of identity, and every individual feels confident expressing who they truly are.</p>
+      </div>
+    </section>
+
+    <!-- Visual Art Slice 3: The Challenge & 8-Poster Lookbook Collage -->
+    <article class="figma-art-slice">
+      <img src="/ttribe/assets/figma-03-lookbook-collage.jpg" alt="Streetwear Lookbook Collage & Graphic Posters" loading="lazy">
+      <div class="section-caption-bar">
+        <div class="caption-title">03 / The Challenge & Streetwear Lookbook</div>
+        <div class="caption-desc">Designing an iconic brand mark carrying recall without loud visuals, backed by an authentic 8-poster editorial lookbook wall collage.</div>
+      </div>
+    </article>
+
+    <!-- Visual Art Slice 4: Brand Typeface & Brutalist Stationery -->
+    <article class="figma-art-slice">
+      <img src="/ttribe/assets/figma-04-typography-stationery.jpg" alt="Brand Typeface & Concrete Stationery Collateral" loading="lazy">
+      <div class="section-caption-bar">
+        <div class="caption-title">04 / Brand Typeface & Identity System</div>
+        <div class="caption-desc">Restrained geometric grotesque typography paired with tactile concrete stone stationery, communicating authenticity through precision.</div>
+      </div>
+    </article>
+
+    <!-- Dedicated Brand Typeface & Specimen Showcase (home.pdf exact section) -->
+    <section class="typography-showcase-box">
+      <div class="label-block" style="margin-bottom: 20px;">
+        <div class="label-text">Brand typeface:<br><span style="font-weight: 500; font-size: 13px; text-transform: none; color: var(--text-muted);">Elegant &amp; Stylish &bull; 01:05:2025</span></div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="manifesto-body" style="max-width: 100%;">
+        <p><strong>Establishing the brand identity started with one critical decision — the typeface.</strong></p>
+        <p>Because in a minimal system, typography is not just a visual choice, it becomes the voice of the brand.</p>
+        <p>The challenge was to find a font that feels modern yet timeless, expressive yet restrained — something that could carry the weight of identity without relying on heavy graphics.</p>
+        <p>Every curve, spacing, and letterform was chosen intentionally to ensure that even in its simplest form, TTRIBE feels distinctive, confident, and instantly recognizable.</p>
+      </div>
+
+      <!-- Interactive Specimen -->
+      <div class="type-specimen-grid">
+        <div class="type-col">
+          <h4>Typeface Specimen &bull; Display</h4>
+          <div class="type-scale-display">TTRIBE</div>
+          <div style="font-size: 20px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.01em;">Your Vibe. Your Tribe.</div>
+          <div class="type-alphabet">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+            abcdefghijklmnopqrstuvwxyz<br>
+            0123456789 &bull; (!@#$%&amp;*)
+          </div>
+        </div>
+        <div class="type-col">
+          <h4>Typography Attributes &bull; System Hierarchy</h4>
+          <ul class="type-attributes-list">
+            <li><strong>Display Headline:</strong> 56px–84px / -0.04em tracking / Bold 800</li>
+            <li><strong>Section Subheads:</strong> 24px–32px / -0.02em tracking / SemiBold 700</li>
+            <li><strong>Manifesto Body:</strong> 15px / 1.85 line-height / Clean 400</li>
+            <li><strong>Technical Badges:</strong> 11px / +0.10em uppercase tracking / Bold 700</li>
+            <li><strong>Color Restraint:</strong> Pure Black (#111111) on Gallery Off-White (#F6F4F0) with amber focal emphasis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Values Mind Map (home.pdf exact diagram) -->
+    <section class="mindmap-section">
+      <div class="label-block" style="margin-bottom: 20px;">
+        <div class="label-text">Brand Attributes<br>&amp; Core Values:</div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="mindmap-container">
+        <div class="mindmap-core">Ttribe</div>
+        <div class="mindmap-nodes-grid">
+          <div class="mindmap-node">Belonging</div>
+          <div class="mindmap-node">Structure</div>
+          <div class="mindmap-node">Direction</div>
+          <div class="mindmap-node">Consistency</div>
+          <div class="mindmap-node">Modernity</div>
+          <div class="mindmap-node">Distinction</div>
+          <div class="mindmap-node">Strength</div>
+          <div class="mindmap-node">Luxury / Elegance</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Art Slice 5: Retail Space & Night Campaign -->
+    <article class="figma-art-slice">
+      <img src="/ttribe/assets/figma-05-values-retail.jpg" alt="Brand Values Mind Map & Retail Storefront" loading="lazy">
+      <div class="section-caption-bar">
+        <div class="caption-title">05 / Retail Space &amp; In-Store Experience</div>
+        <div class="caption-desc">Translating the minimal brand structure into real-world physical retail touchpoints, clothing displays, and campaign poster frames.</div>
+      </div>
+    </article>
+
+    <!-- Editorial Manifesto Module: Why Monogram & Why Colours? -->
+    <section class="editorial-manifesto-row">
+      <div class="label-block">
+        <div class="label-text">Why<br>Monogram?</div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="manifesto-body">
+        <p>The decision to use a monogram was rooted in clarity and memorability. In a world of complex and overdesigned visuals, a monogram brings the brand back to its essence — simple, strong, and instantly recognizable.</p>
+        <p>For <strong>TTRIBE</strong>, the symbol is not just a mark, but a representation of unity and identity. It captures the idea of many individuals forming one tribe — connected, yet distinct.</p>
+        <p>Designed to stand on its own, the monogram ensures that even without the name, the brand remains identifiable, scalable, and timeless.</p>
+      </div>
+    </section>
+
+    <section class="editorial-manifesto-row">
+      <div class="label-block">
+        <div class="label-text">Why these<br>colours?</div>
+        <div class="label-rule"></div>
+      </div>
+      <div class="manifesto-body">
+        <p>The decision to use black and white was intentional — not aesthetic.</p>
+        <p>In a world full of color and distraction, these two tones bring clarity, contrast, and focus.</p>
+        <p><strong>Black</strong> represents strength, depth, and confidence.<br>
+           <strong>White</strong> represents clarity, simplicity, and honesty.</p>
+        <p>Together, they create a timeless foundation that allows the identity to remain bold, adaptable, and instantly recognizable — without relying on trends.</p>
+        <p>This restraint ensures that what stands out is not the color, but the meaning behind it.</p>
+      </div>
+    </section>
+
+    <!-- Visual Art Slice 6: Monogram, Packaging & Merch Collateral -->
+    <article class="figma-art-slice">
+      <img src="/ttribe/assets/figma-06-packaging-merch.jpg" alt="Why Monogram, Packaging, Tote Bags, Shopping Bags & Hangtags" loading="lazy">
+      <div class="section-caption-bar">
+        <div class="caption-title">06 / Monogram, Packaging & Merchandise</div>
+        <div class="caption-desc">The monochromatic black & white system deployed across shopping bags, canvas tote bags, custom stickers, pins, and kraft swing tags.</div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- TAB 2: Interactive Storefront Demo -->
+  <main class="content-wrapper tab-panel" id="storefront-tab">
+    <header class="store-header">
+      <a href="#" class="store-logo">TTribe</a>
+      <nav class="store-nav">
+        <a href="#shop">Shop</a>
+        <a href="#new-arrivals">New Arrivals</a>
+        <a href="#collections">Collections</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="store-actions">
+        <button class="action-link" type="button">Search</button>
+        <button class="action-link" id="open-cart-btn" type="button">
+          Cart <span class="cart-count" id="cart-badge">1</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="product-stage">
+      <div class="product-gallery">
+        <div class="gallery-main">
+          <img src="/ttribe/assets/hero-tee.jpg" id="main-product-img" alt="TTribe Oversize T-Shirt">
+        </div>
+        <div class="gallery-thumbs">
+          <div class="gallery-thumb active" data-src="/ttribe/assets/hero-tee.jpg">
+            <img src="/ttribe/assets/hero-tee.jpg" alt="Off-White">
+          </div>
+          <div class="gallery-thumb" data-src="/ttribe/assets/tee-sand.jpg">
+            <img src="/ttribe/assets/tee-sand.jpg" alt="Sand">
+          </div>
+          <div class="gallery-thumb" data-src="/ttribe/assets/tee-charcoal.jpg">
+            <img src="/ttribe/assets/tee-charcoal.jpg" alt="Charcoal">
+          </div>
+          <div class="gallery-thumb" data-src="/ttribe/assets/cargo-black.jpg">
+            <img src="/ttribe/assets/cargo-black.jpg" alt="Cargo">
+          </div>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h2 class="product-title">TTribe Oversize T-Shirt | Off-White</h2>
+        <p class="product-sub">Heavyweight French terry cotton, minimalist drop-shoulder cut, subtle TTribe emblem.</p>
+        <div class="product-price">Price: $78.00 USD</div>
+
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">SIZE</div>
+        <div class="size-grid">
+          <button class="size-btn" type="button" data-size="S">S</button>
+          <button class="size-btn active" type="button" data-size="M">M</button>
+          <button class="size-btn" type="button" data-size="L">L</button>
+          <button class="size-btn" type="button" data-size="XL">XL</button>
+        </div>
+
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">QUANTITY</div>
+        <div class="qty-picker">
+          <button class="qty-btn" id="qty-minus" type="button">−</button>
+          <span class="qty-val" id="qty-val">1</span>
+          <button class="qty-btn" id="qty-plus" type="button">+</button>
+        </div>
+
+        <button class="cta-btn" id="add-to-bag-btn" type="button">Add to Bag</button>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+          <strong>Care Instructions:</strong> Machine wash cold inside out. Pre-shrunk 280 GSM combed organic cotton. Line dry in shade.
+        </div>
+      </div>
+    </section>
+
+    <section class="recommendations-sec">
+      <h3 class="rec-heading">You May Also Like</h3>
+      <div class="rec-grid">
+        <article class="rec-card">
+          <div class="rec-img-wrap"><img src="/ttribe/assets/cargo-black.jpg" alt="Cargo Black"></div>
+          <div class="rec-title">TTribe Cargo Pants - Black</div>
+          <div class="rec-price">$110.00 USD</div>
+          <button class="quick-shop-btn" data-title="TTribe Cargo Pants - Black" data-price="110.00" data-img="/ttribe/assets/cargo-black.jpg">Quick Shop</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-img-wrap"><img src="/ttribe/assets/tee-sand.jpg" alt="Tee Sand"></div>
+          <div class="rec-title">TTribe Oversize T-Shirt - Sand</div>
+          <div class="rec-price">$78.00 USD</div>
+          <button class="quick-shop-btn" data-title="TTribe Oversize T-Shirt - Sand" data-price="78.00" data-img="/ttribe/assets/tee-sand.jpg">Quick Shop</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-img-wrap"><img src="/ttribe/assets/tee-charcoal.jpg" alt="Tee Charcoal"></div>
+          <div class="rec-title">TTribe Heavyweight Tee - Charcoal</div>
+          <div class="rec-price">$78.00 USD</div>
+          <button class="quick-shop-btn" data-title="TTribe Heavyweight Tee - Charcoal" data-price="78.00" data-img="/ttribe/assets/tee-charcoal.jpg">Quick Shop</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-img-wrap"><img src="/ttribe/assets/hero-tee.jpg" alt="Tee White"></div>
+          <div class="rec-title">TTribe Oversize T-Shirt - Off-White</div>
+          <div class="rec-price">$78.00 USD</div>
+          <button class="quick-shop-btn" data-title="TTribe Oversize T-Shirt - Off-White" data-price="78.00" data-img="/ttribe/assets/hero-tee.jpg">Quick Shop</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- TAB 3: Embedded Figma Prototype Frame -->
+  <main class="content-wrapper tab-panel" id="figma-proto-tab" style="padding: 0; background: #000000;">
+    <iframe 
+      class="figma-proto-view" 
+      src="https://embed.figma.com/proto/Ru8L9aH5AF8zdFM0YM8COk/case-study?embed-host=oembed&node-id=159-554&scaling=min-zoom&content-scaling=fixed&page-id=159%3A553" 
+      allowfullscreen>
+    </iframe>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer-overlay" id="cart-overlay">
+    <div class="cart-drawer">
+      <div class="drawer-header">
+        <div style="font-size: 15px; font-weight: 700; text-transform: uppercase;">Shopping Bag (<span id="drawer-item-count">1</span>)</div>
+        <button class="drawer-close" id="close-cart-btn" aria-label="Close cart">✕</button>
+      </div>
+      <div style="padding: 12px 24px; background: #F4F1EC; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--border-color);">
+        ✓ Free Standard Worldwide Shipping Unlocked!
+      </div>
+      <div class="drawer-items" id="cart-items-container">
+        <div class="cart-item">
+          <div class="cart-item-img"><img src="/ttribe/assets/hero-tee.jpg" alt="Tee"></div>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 600;">TTribe Oversize T-Shirt | Off-White</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Size: M &bull; Qty: 1</div>
+            <div style="font-size: 13px; font-weight: 700;">$78.00 USD</div>
+          </div>
+        </div>
+      </div>
+      <div class="drawer-footer">
+        <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; margin-bottom: 16px;">
+          <span>Subtotal</span>
+          <span id="drawer-subtotal">$78.00 USD</span>
+        </div>
+        <button class="cta-btn" style="margin-bottom: 0;" onclick="alert('Demo checkout triggered: Ready for Shopify / Stripe.');">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const targetId = btn.dataset.tab;
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // Gallery and sizing
+    let selectedSize = 'M';
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = btn.dataset.size;
+      });
+    });
+
+    const mainImg = document.getElementById('main-product-img');
+    document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        mainImg.src = thumb.dataset.src;
+      });
+    });
+
+    let qty = 1;
+    const qtyVal = document.getElementById('qty-val');
+    document.getElementById('qty-plus').addEventListener('click', () => { qty++; qtyVal.textContent = qty; });
+    document.getElementById('qty-minus').addEventListener('click', () => { if (qty > 1) { qty--; qtyVal.textContent = qty; } });
+
+    // Cart logic
+    const cart = [{ title: 'TTribe Oversize T-Shirt | Off-White', size: 'M', price: 78.00, qty: 1, img: '/ttribe/assets/hero-tee.jpg' }];
+    function updateCartUI() {
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      document.getElementById('cart-badge').textContent = totalItems;
+      document.getElementById('drawer-item-count').textContent = totalItems;
+      document.getElementById('drawer-subtotal').textContent = '$' + subtotal.toFixed(2) + ' USD';
+      document.getElementById('cart-items-container').innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-img"><img src="${item.img}" alt="${item.title}"></div>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 600;">${item.title}</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Size: ${item.size} &bull; Qty: ${item.qty}</div>
+            <div style="font-size: 13px; font-weight: 700;">$${(item.price * item.qty).toFixed(2)} USD</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const overlay = document.getElementById('cart-overlay');
+    function openCart() { overlay.classList.add('open'); }
+    function closeCart() { overlay.classList.remove('open'); }
+    document.getElementById('open-cart-btn').addEventListener('click', openCart);
+    document.getElementById('close-cart-btn').addEventListener('click', closeCart);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCart(); });
+
+    document.getElementById('add-to-bag-btn').addEventListener('click', () => {
+      const existing = cart.find(i => i.title.includes('Off-White') && i.size === selectedSize);
+      if (existing) { existing.qty += qty; }
+      else { cart.push({ title: 'TTribe Oversize T-Shirt | Off-White', size: selectedSize, price: 78.00, qty, img: mainImg.src }); }
+      updateCartUI();
+      openCart();
+    });
+
+    document.querySelectorAll('.quick-shop-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const title = btn.dataset.title;
+        const price = parseFloat(btn.dataset.price);
+        const img = btn.dataset.img;
+        const existing = cart.find(i => i.title === title);
+        if (existing) { existing.qty += 1; }
+        else { cart.push({ title, size: 'M', price, qty: 1, img }); }
+        updateCartUI();
+        openCart();
+      });
+    });
+
+    updateCartUI();
+  </script>
+</body>
+</html>

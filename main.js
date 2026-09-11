@@ -724,7 +724,32 @@
             { num: "65%", label: "Fewer Helpdesk Queries" },
             { num: "< 800ms", label: "Voice Response Time" }
           ],
-          image: "/assets/images/heyalpha-healthcare.png"
+          image: "/assets/images/heyalpha-healthcare.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                  Voice Dialogue & Wayfinding
+                </div>
+                <span class="deck-ui-badge-live">Live Listening</span>
+              </div>
+              <div class="deck-ui-vui-bubble">
+                <div class="deck-ui-wave">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div><strong>Patient:</strong> "Appointment with Dr. Sharma, Cardiology"</div>
+              </div>
+              <div class="deck-ui-vui-bubble" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
+                <div><strong>Kiosk:</strong> "Token #C-24 generated. Proceed to Elevator B, 2nd Floor."</div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">◆ English / Hindi</span>
+                <span class="deck-ui-token-chip">◆ Turn-by-Turn Map</span>
+                <span class="deck-ui-token-chip">◆ &lt;800ms Latency</span>
+              </div>
+            </div>
+          `
         },
         {
           num: "SLIDE 03 / 04",
@@ -739,7 +764,33 @@
             { num: "32\"", label: "Portrait Kiosk Target" },
             { num: "80+", label: "Figma Components" }
           ],
-          image: "/assets/images/heyalpha-healthcare.png"
+          image: "/assets/images/heyalpha-healthcare.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+                  Figma Component System
+                </div>
+                <span class="deck-ui-badge-live">80+ Variants</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">32"</div>
+                  <div class="deck-ui-stat-label">Portrait Kiosk Screen</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">48px</div>
+                  <div class="deck-ui-stat-label">Min Touch Target</div>
+                </div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">Auto-Layout Variables</span>
+                <span class="deck-ui-token-chip">WCAG AAA Contrast</span>
+                <span class="deck-ui-token-chip">Thermal Print Handler</span>
+              </div>
+            </div>
+          `
         },
         {
           num: "SLIDE 04 / 04",
@@ -754,7 +805,46 @@
             { num: "12,000+", label: "Patient Sessions" },
             { num: "40%", label: "Queue Cut" }
           ],
-          image: "/assets/images/heyalpha-healthcare.png"
+          image: "/assets/images/heyalpha-healthcare.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  Novacare Hospital Pilot Status
+                </div>
+                <span class="deck-ui-badge-live">Live Verified</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">12,000+</div>
+                  <div class="deck-ui-stat-label">Patient Sessions</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">-40%</div>
+                  <div class="deck-ui-stat-label">Lobby Queue Time</div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Hands-Free Voice Usage</span>
+                  <span>74%</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 74%;"></div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Patient Usability Rating</span>
+                  <span>92%</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 92%; background: #10b981;"></div>
+                </div>
+              </div>
+            </div>
+          `
         }
       ]
     },
@@ -791,7 +881,33 @@
             { num: "0", label: "UI Input Errors in Test" },
             { num: "1-Click", label: "Lab Order Trigger" }
           ],
-          image: "/assets/images/medicare.png"
+          image: "/assets/images/medicare.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+                  Patient EHR & Clinical Vitals
+                </div>
+                <span class="deck-ui-badge-live">Active Patient #8841</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">120/80</div>
+                  <div class="deck-ui-stat-label">Blood Pressure</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">98%</div>
+                  <div class="deck-ui-stat-label">SpO2 Oxygen</div>
+                </div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">◆ Zero Contrast Warnings</span>
+                <span class="deck-ui-token-chip">◆ 1-Click Rx Draft</span>
+                <span class="deck-ui-token-chip">◆ Lab Sync</span>
+              </div>
+            </div>
+          `
         },
         {
           num: "SLIDE 03 / 04",
@@ -806,7 +922,33 @@
             { num: "120+", label: "Figma Variants" },
             { num: "AAA", label: "WCAG Contrast Level" }
           ],
-          image: "/assets/images/medicare.png"
+          image: "/assets/images/medicare.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.28 19.64 10.59 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+                  Clinical Design System
+                </div>
+                <span class="deck-ui-badge-live">WCAG AAA</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">120+</div>
+                  <div class="deck-ui-stat-label">UI Components</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">100%</div>
+                  <div class="deck-ui-stat-label">Token Coverage</div>
+                </div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">Primary #0284c7</span>
+                <span class="deck-ui-token-chip">Radiology Dark Theme</span>
+                <span class="deck-ui-token-chip">Auto-Layout 4.0</span>
+              </div>
+            </div>
+          `
         },
         {
           num: "SLIDE 04 / 04",
@@ -821,7 +963,194 @@
             { num: "3.2m", label: "Time Saved per Patient" },
             { num: "4.9 / 5", label: "Physician Rating" }
           ],
-          image: "/assets/images/medicare.png"
+          image: "/assets/images/medicare.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  Clinical Deployment Metrics
+                </div>
+                <span class="deck-ui-badge-live">Live Scale</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">3.2m</div>
+                  <div class="deck-ui-stat-label">Saved Per Patient</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">4.9/5</div>
+                  <div class="deck-ui-stat-label">Physician CSAT</div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Clinical Task Completion Rate</span>
+                  <span>94%</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 94%;"></div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Diagnostic Speed Improvement</span>
+                  <span>250%</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 100%; background: #0284c7;"></div>
+                </div>
+              </div>
+            </div>
+          `
+        }
+      ]
+    },
+    ttribe: {
+      company: "TTribe • Brand Identity & E-Commerce",
+      title: "TTribe: Brand Identity & Streetwear Web Store",
+      figmaUrl: "https://www.figma.com/proto/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=159-554&scaling=min-zoom",
+      slides: [
+        {
+          num: "SLIDE 01 / 04",
+          heading: "Brand Identity & Brutalist Streetwear Vision",
+          desc: "Crafted the brand identity and digital e-commerce storefront for TTribe, a luxury streetwear label. The visual language balances brutalist typography with high-fashion editorial imagery.",
+          points: [
+            "Visual Language: Monochrome palette with tactile industrial typography.",
+            "Drop Experience: Designed around limited-quantity seasonal drops with hype timers.",
+            "Editorial First: Seamless blend of runway lookbook photography and instant purchasing."
+          ],
+          metrics: [
+            { num: "3.4x", label: "Lookbook Engagement" },
+            { num: "62%", label: "Mobile Checkout Uplift" }
+          ],
+          image: "/assets/images/ttribe.png"
+        },
+        {
+          num: "SLIDE 02 / 04",
+          heading: "Drop Architecture & Lookbook Grid",
+          desc: "Reimagined the apparel shopping journey through an interactive lookbook where customers shop directly from model photography without navigating away.",
+          points: [
+            "Hotspot Tagging: Tap any garment on the model to reveal sizing, price, and instant bag add.",
+            "Infinite Lookbook: Smooth horizontal swipe on mobile with haptic micro-interactions.",
+            "Stock Transparency: Live stock counter creates authentic urgency without dark patterns."
+          ],
+          metrics: [
+            { num: "+48%", label: "Multi-item Cart Adds" },
+            { num: "< 1.2s", label: "Page Load Benchmark" }
+          ],
+          image: "/assets/images/ttribe.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  Drop 04 // Lookbook Engine
+                </div>
+                <span class="deck-ui-badge-live">Live Shop Hotspots</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">3.4x</div>
+                  <div class="deck-ui-stat-label">Engagement</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">+48%</div>
+                  <div class="deck-ui-stat-label">Cart Size</div>
+                </div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">◆ Quick-Add Drawer</span>
+                <span class="deck-ui-token-chip">◆ Fit Guide Matrix</span>
+                <span class="deck-ui-token-chip">◆ Apple Pay 1-Tap</span>
+              </div>
+            </div>
+          `
+        },
+        {
+          num: "SLIDE 03 / 04",
+          heading: "Fluid Cart & Micro-Interactions",
+          desc: "Engineered a slide-over slide bag with instant size switching, real-time shipping threshold calculations, and 1-tap checkout via Apple Pay and Google Pay.",
+          points: [
+            "Zero Page Reloads: State persisted smoothly with optimistic UI updates.",
+            "Size Predictor: Visual height/weight slider minimizing return rates.",
+            "Express Checkout: Streamlined 1-tap buy button directly inside product cards."
+          ],
+          metrics: [
+            { num: "35%", label: "Lower Return Rate" },
+            { num: "1.8s", label: "Average Checkout Speed" }
+          ],
+          image: "/assets/images/ttribe.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                  Slide Bag & Express Pay
+                </div>
+                <span class="deck-ui-badge-live">1-Tap Ready</span>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">Apple Pay</span>
+                <span class="deck-ui-token-chip">Google Pay</span>
+                <span class="deck-ui-token-chip">Dynamic Free Shipping</span>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Free Express Shipping Threshold</span>
+                  <span>$120 / $100 (Unlocked!)</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 100%; background: #10b981;"></div>
+                </div>
+              </div>
+            </div>
+          `
+        },
+        {
+          num: "SLIDE 04 / 04",
+          heading: "Design System & Commerce Outcomes",
+          desc: "Created a componentized design system in Figma with 150+ components, auto-layout tokens, responsive break points, and dark/light contrast rules.",
+          points: [
+            "Figma Component Library: 150+ production-ready design tokens and interactive variants.",
+            "Conversion Results: 62% lift in mobile checkout completion over previous storefront.",
+            "Community Resonance: Sold out Drop 04 inventory within 48 hours of launch."
+          ],
+          metrics: [
+            { num: "62%", label: "Mobile Checkout Uplift" },
+            { num: "48h", label: "Drop Sell-Out Record" }
+          ],
+          image: "/assets/images/ttribe.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  Verified Commerce Impact
+                </div>
+                <span class="deck-ui-badge-live">150+ Figma Tokens</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">62%</div>
+                  <div class="deck-ui-stat-label">Checkout Uplift</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">48h</div>
+                  <div class="deck-ui-stat-label">Sell-out Time</div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Design Token Coverage</span>
+                  <span>100% Production Ready</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 100%; background: #6366f1;"></div>
+                </div>
+              </div>
+            </div>
+          `
         }
       ]
     },
@@ -858,7 +1187,32 @@
             { num: "22%", label: "Higher Order Value" },
             { num: "96%", label: "Voice Recognition Accuracy" }
           ],
-          image: "/assets/images/in-room-qr.png"
+          image: "/assets/images/in-room-qr.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                  Conversational VUI Cart
+                </div>
+                <span class="deck-ui-badge-live">96% Accuracy</span>
+              </div>
+              <div class="deck-ui-vui-bubble">
+                <div class="deck-ui-wave">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div><strong>Guest:</strong> "2 Cappuccinos & 1 Club Sandwich, extra spicy"</div>
+              </div>
+              <div class="deck-ui-vui-bubble" style="background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.25);">
+                <div><strong>AI Butler:</strong> "Added to cart. Would you like blueberry cheesecake with that?"</div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">◆ Multi-item Parse</span>
+                <span class="deck-ui-token-chip">◆ Smart Upsell +22%</span>
+                <span class="deck-ui-token-chip">◆ Visual Sync</span>
+              </div>
+            </div>
+          `
         },
         {
           num: "SLIDE 03 / 04",
@@ -873,7 +1227,33 @@
             { num: "< 1s", label: "QR Launch Speed" },
             { num: "Real-time", label: "Kitchen KDS Dispatch" }
           ],
-          image: "/assets/images/in-room-qr.png"
+          image: "/assets/images/in-room-qr.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/></svg>
+                  QR Room & Kitchen Pipeline
+                </div>
+                <span class="deck-ui-badge-live">Table Moxy #412</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">&lt; 1s</div>
+                  <div class="deck-ui-stat-label">Web QR Launch</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">Direct</div>
+                  <div class="deck-ui-stat-label">POS / KDS Dispatch</div>
+                </div>
+              </div>
+              <div class="deck-ui-chips-row">
+                <span class="deck-ui-token-chip">Apple / Google Pay</span>
+                <span class="deck-ui-token-chip">Room Charge Billing</span>
+                <span class="deck-ui-token-chip">Encrypted Tokens</span>
+              </div>
+            </div>
+          `
         },
         {
           num: "SLIDE 04 / 04",
@@ -888,7 +1268,46 @@
             { num: "45,000+", label: "Orders Processed" },
             { num: "60%", label: "Fewer Phone Calls" }
           ],
-          image: "/assets/images/in-room-qr.png"
+          image: "/assets/images/in-room-qr.png",
+          previewHtml: `
+            <div class="deck-ui-card">
+              <div class="deck-ui-card-header">
+                <div class="deck-ui-card-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  Marriott Moxy Live Scale
+                </div>
+                <span class="deck-ui-badge-live">45,000+ Orders</span>
+              </div>
+              <div class="deck-ui-stat-grid">
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">45,000+</div>
+                  <div class="deck-ui-stat-label">Guest Orders</div>
+                </div>
+                <div class="deck-ui-stat-box">
+                  <div class="deck-ui-stat-val">-60%</div>
+                  <div class="deck-ui-stat-label">Front-Desk Calls</div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Guest Satisfaction Rating</span>
+                  <span>4.8 / 5.0 ★★★★★</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 96%; background: #f59e0b;"></div>
+                </div>
+              </div>
+              <div class="deck-ui-progress-item">
+                <div class="deck-ui-progress-label">
+                  <span>Order Speed Advantage</span>
+                  <span>3x Faster</span>
+                </div>
+                <div class="deck-ui-progress-track">
+                  <div class="deck-ui-progress-fill" style="width: 88%;"></div>
+                </div>
+              </div>
+            </div>
+          `
         }
       ]
     }
@@ -914,11 +1333,14 @@
     if (!currentDeckKey || !caseDecks[currentDeckKey]) return;
     const deck = caseDecks[currentDeckKey];
     const total = deck.slides.length;
-    currentSlideIndex = (index + total) % total;
+    // Bound index between 0 and total - 1
+    currentSlideIndex = Math.max(0, Math.min(index, total - 1));
 
     if (isEmbedMode) {
       deckSlidesViewport.innerHTML = `<iframe class="deck-iframe-viewport" src="https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(deck.figmaUrl)}" allowfullscreen></iframe>`;
       if (deckCounter) deckCounter.textContent = `Figma Canvas Mode`;
+      if (deckPrevBtn) { deckPrevBtn.disabled = true; deckPrevBtn.classList.add('disabled'); }
+      if (deckNextBtn) { deckNextBtn.disabled = true; deckNextBtn.classList.add('disabled'); }
       return;
     }
 
@@ -931,6 +1353,10 @@
         <span class="metric-label">${m.label}</span>
       </div>
     `).join('') : '';
+
+    const previewContent = slide.previewHtml
+      ? slide.previewHtml
+      : `<img src="${slide.image}" alt="${slide.heading} mockup preview">`;
 
     deckSlidesViewport.innerHTML = `
       <div class="deck-slide active">
@@ -946,13 +1372,28 @@
           </div>
         </div>
         <div class="deck-slide-preview">
-          <img src="${slide.image}" alt="${slide.heading} mockup preview">
+          ${previewContent}
         </div>
       </div>
     `;
 
+    // Ensure clean reset of viewport scroll position
+    deckSlidesViewport.scrollTop = 0;
+    const activeSlide = deckSlidesViewport.querySelector('.deck-slide');
+    if (activeSlide) activeSlide.scrollTop = 0;
+
     if (deckCounter) {
       deckCounter.textContent = `Slide ${currentSlideIndex + 1} of ${total}`;
+    }
+
+    // Update prev/next button boundary states
+    if (deckPrevBtn) {
+      deckPrevBtn.disabled = currentSlideIndex === 0;
+      deckPrevBtn.classList.toggle('disabled', currentSlideIndex === 0);
+    }
+    if (deckNextBtn) {
+      deckNextBtn.disabled = currentSlideIndex === total - 1;
+      deckNextBtn.classList.toggle('disabled', currentSlideIndex === total - 1);
     }
 
     if (deckDotsContainer) {
@@ -1006,8 +1447,19 @@
   });
 
   if (deckCloseBtn) deckCloseBtn.addEventListener('click', closeDeckModal);
-  if (deckPrevBtn) deckPrevBtn.addEventListener('click', () => renderDeckSlide(currentSlideIndex - 1));
-  if (deckNextBtn) deckNextBtn.addEventListener('click', () => renderDeckSlide(currentSlideIndex + 1));
+  if (deckPrevBtn) {
+    deckPrevBtn.addEventListener('click', () => {
+      if (currentSlideIndex > 0) renderDeckSlide(currentSlideIndex - 1);
+    });
+  }
+  if (deckNextBtn) {
+    deckNextBtn.addEventListener('click', () => {
+      const deck = caseDecks[currentDeckKey];
+      if (deck && currentSlideIndex < deck.slides.length - 1) {
+        renderDeckSlide(currentSlideIndex + 1);
+      }
+    });
+  }
 
   if (deckToggleEmbedBtn) {
     deckToggleEmbedBtn.addEventListener('click', () => {
@@ -1037,10 +1489,11 @@
       if (e.changedTouches && e.changedTouches[0]) {
         touchEndX = e.changedTouches[0].screenX;
         const diffX = touchStartX - touchEndX;
-        if (Math.abs(diffX) > 40) {
-          if (diffX > 0) {
+        const deck = caseDecks[currentDeckKey];
+        if (Math.abs(diffX) > 40 && deck) {
+          if (diffX > 0 && currentSlideIndex < deck.slides.length - 1) {
             renderDeckSlide(currentSlideIndex + 1); // Swipe left -> next slide
-          } else {
+          } else if (diffX < 0 && currentSlideIndex > 0) {
             renderDeckSlide(currentSlideIndex - 1); // Swipe right -> prev slide
           }
         }
@@ -1050,10 +1503,16 @@
 
   document.addEventListener('keydown', (e) => {
     if (deckModal && deckModal.classList.contains('active')) {
+      const deck = caseDecks[currentDeckKey];
       if (e.key === 'Escape') closeDeckModal();
-      if (e.key === 'ArrowRight') renderDeckSlide(currentSlideIndex + 1);
-      if (e.key === 'ArrowLeft') renderDeckSlide(currentSlideIndex - 1);
+      if (e.key === 'ArrowRight' && deck && currentSlideIndex < deck.slides.length - 1) {
+        renderDeckSlide(currentSlideIndex + 1);
+      }
+      if (e.key === 'ArrowLeft' && currentSlideIndex > 0) {
+        renderDeckSlide(currentSlideIndex - 1);
+      }
     }
   });
 
 })();
+

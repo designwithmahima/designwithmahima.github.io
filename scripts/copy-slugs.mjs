@@ -5,3 +5,6 @@ const distDir = resolve('dist');
 
 mkdirSync(resolve(distDir, 'splash'), { recursive: true });
 copyFileSync(resolve(distDir, 'splash.html'), resolve(distDir, 'splash', 'index.html'));
+
+mkdirSync(resolve(distDir, 'ttribe'), { recursive: true });
+copyFileSync(resolve(distDir, 'ttribe.html'), resolve(distDir, 'ttribe', 'index.html'));
