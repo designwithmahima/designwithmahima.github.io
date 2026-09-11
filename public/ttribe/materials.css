@@ -40,10 +40,10 @@
 .product-stage>*{min-width:0}
 .gallery-thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .gallery-thumb{width:100%;min-width:0}
-.tag-mark{font-size:24px;margin-bottom:12px}
-.tag-wordmark{font-size:10px}
-.suspended-tag:nth-child(3n) .tag-mark{font-size:22px}
-@media(max-width:640px){.tag-mark{font-size:20px}.tag-wordmark{font-size:8px}.product-details{min-width:0}.product-title{font-size:26px;overflow-wrap:anywhere}}
+.tag-mark{font-size:38px;margin-bottom:12px}
+.tag-wordmark{font-size:12px}
+.suspended-tag:nth-child(3n) .tag-mark{font-size:32px}
+@media(max-width:640px){.tag-mark{font-size:30px}.tag-wordmark{font-size:10px}.product-details{min-width:0}.product-title{font-size:26px;overflow-wrap:anywhere}}
 /* One hanging installation; retain the packaging above it. */
 .has-chime-installation .packaging-art{aspect-ratio:1728/4695;overflow:hidden}
 .has-chime-installation .packaging-art img{width:100%;height:auto;max-height:none;transform:none!important;display:block}

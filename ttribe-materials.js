@@ -34,8 +34,8 @@ async function buildChimes(section) {
     const c=document.createElement('canvas'); c.width=768;c.height=512; const ctx=c.getContext('2d');
     ctx.fillStyle='#f2f0ea';ctx.fillRect(0,0,768,512);
     let seed=52;for(let i=0;i<90000;i++){seed=(seed*1664525+1013904223)>>>0;const x=seed%768;seed=(seed*1664525+1013904223)>>>0;const y=seed%512;ctx.fillStyle=i%2?'rgba(82,72,54,.035)':'rgba(255,255,255,.18)';ctx.fillRect(x,y,1,1);}
-    if(back){ctx.drawImage(ink,38,35,108,87);ctx.fillStyle='#292824';ctx.textAlign='right';ctx.font='bold 25px Arial';ctx.fillText('Ttribe',715,407);ctx.font='10px Arial';ctx.fillText('YOUR VIBE. YOUR TRIBE.',715,430);ctx.fillText('TTRIBE / EVERYDAY ESSENTIALS',715,449);}
-    else ctx.drawImage(ink,234,135,300,242);
+    if(back){ctx.drawImage(ink,20,15,160,128);ctx.fillStyle='#292824';ctx.textAlign='right';ctx.font='bold 25px Arial';ctx.fillText('Ttribe',715,407);ctx.font='10px Arial';ctx.fillText('YOUR VIBE. YOUR TRIBE.',715,430);ctx.fillText('TTRIBE / EVERYDAY ESSENTIALS',715,449);}
+    else ctx.drawImage(ink,134,55,500,402);
     const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;return tex;
   }
   const front=paperTexture(),back=paperTexture(true);
@@ -74,10 +74,10 @@ async function buildChimes(section) {
   const button=section.querySelector('.chime-toggle');
   const syncButton=()=>{button.textContent=paused?'Resume motion':'Pause motion';button.setAttribute('aria-pressed',String(paused));};syncButton();
   function draw(dt=0){
-    elapsed+=dt;const compact=width<600;const scale=compact?.62:1;
+    elapsed+=dt;const compact=width<600;const scale=compact?.75:1;
     tags.forEach((tag,i)=>{
-      tag.pivot.visible=tag.rope.visible=i<(compact?4:6);tag.fibers.forEach(f=>f.line.visible=tag.pivot.visible);if(!tag.pivot.visible)return;
-      const len=tag.length*(compact?.77:1);const anchorX=compact?[-.34,-.12,.12,.34][i]*viewWidth:tag.x*viewWidth;
+      tag.pivot.visible=tag.rope.visible=i<(compact?3:6);tag.fibers.forEach(f=>f.line.visible=tag.pivot.visible);if(!tag.pivot.visible)return;
+      const len=tag.length*(compact?.77:1);const anchorX=compact?[-.28,0,.28][i]*viewWidth:tag.x*viewWidth;
       if(dt){const gust=Math.sin(elapsed*.72+tag.phase)*.08+Math.sin(elapsed*1.13)*.045;tag.v+=(-tag.angle*(2.8*300/len)+gust)*dt;tag.v*=Math.exp(-.28*dt);tag.angle=THREE.MathUtils.clamp(tag.angle+tag.v*dt,-.28,.28);
       tag.tv+=((tag.yaw+Math.sin(elapsed*.42+tag.phase)*.34-tag.twist)*1.4+tag.v*.8)*dt;tag.tv*=Math.exp(-.5*dt);tag.twist+=tag.tv*dt;}
       const top=viewHeight/2+12;const sway=Math.sin(tag.angle)*len;
