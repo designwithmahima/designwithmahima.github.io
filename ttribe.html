@@ -502,9 +502,10 @@
       position: relative;
       width: 100%;
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       z-index: 10;
-      background: #FAF8F5;
+      background: #000000;
       color: #111111;
       padding: 0;
       border-bottom: 1px solid var(--border-color);
@@ -514,6 +515,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      height: 100dvh;
       width: 100%;
       display: flex;
       position: sticky;
@@ -524,6 +526,7 @@
     .case-study-hero .landing_screen {
       width: 100%;
       height: 100vh;
+      height: 100dvh;
       position: relative;
       display: flex;
       align-items: center;
@@ -531,21 +534,62 @@
       overflow: hidden;
     }
 
-    /* Off-White Base Hero Section (Exact PDF Layout from Screenshot) */
+    /* Layer 1: Fullscreen Space Background Video */
+    .case-study-hero .video-container {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 1;
+      will-change: transform, filter;
+    }
+
+    .case-study-hero .video-container video.hero-video-bg {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      filter: contrast(1.35) brightness(1.2) saturate(1.25);
+      transform: scale(1);
+      will-change: transform, filter;
+    }
+
+    /* Layer 2: Solid Black Transition Layer */
+    .case-study-hero .black-fade-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      z-index: 2;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    /* Layer 3: Off-White Base Hero Section (Exact PDF Layout from Commit 3e526ed) */
     .case-study-hero .hero-clean-base {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background: #FAF8F5;
+      background:
+        radial-gradient(circle at 82% 20%, rgba(217, 119, 6, 0.14), transparent 30%),
+        linear-gradient(145deg, #FAF8F5 0%, #F3EFE8 100%);
       color: #111111;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 44px 64px 40px;
       box-sizing: border-box;
-      z-index: 1;
+      z-index: 3;
+      opacity: 0;
+      transform: translateY(30px);
       overflow: hidden;
+      will-change: opacity, transform;
     }
 
     .case-study-hero .hero-ghost-t {
@@ -564,9 +608,6 @@
 
     .case-study-hero .hero-clean-base .hero-meta-row {
       position: relative;
-      top: auto;
-      left: auto;
-      right: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -595,14 +636,6 @@
       z-index: 2;
     }
 
-    .case-study-hero .hero-clean-base .hero-title-main .split-char {
-      display: inline-block;
-      color: #111111;
-      background: none;
-      -webkit-text-fill-color: initial;
-      filter: none;
-    }
-
     .case-study-hero .hero-clean-base .hero-tagline {
       font-family: 'Space Grotesk', var(--font-display);
       font-size: clamp(24px, 4vw, 38px);
@@ -620,8 +653,6 @@
       line-height: 1.8;
       max-width: 820px;
       background: #FFFFFF;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
       padding: 22px 28px;
       border-radius: 8px;
       border: 1px solid var(--border-color);
@@ -653,64 +684,12 @@
       height: 48px;
       background: #111111;
       margin-top: 10px;
-    }
-
-    /* Wormhole Intro Portal Layer Overlay */
-    .case-study-hero .wormhole-portal-layer {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;
-      pointer-events: none;
-      will-change: opacity, filter;
-    }
-
-    .case-study-hero .video-container {
-      width: 100%;
-      height: 100vh;
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      z-index: 1;
-      will-change: transform, filter, opacity;
-    }
-
-    .case-study-hero .video-container video {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      inset: 0;
-      filter: contrast(1.35) brightness(1.2) saturate(1.25);
-      z-index: 1;
-      will-change: transform;
-    }
-
-    .case-study-hero .fullscreen-mask-svg {
-      position: absolute;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .case-study-hero .zoom-text-group {
-      transform-origin: 960px 540px;
-      will-change: transform;
-    }
-
-    .case-study-hero .hero-mask-text {
-      font-family: 'Syne', var(--font-display);
-      font-weight: 800;
-      font-size: 210px;
-      letter-spacing: 6px;
+      animation: scrollCue 1.7s ease-in-out infinite;
     }
 
     .case-study-hero #enter {
       position: absolute;
-      bottom: 24px;
+      bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -719,7 +698,7 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #FFFFFF;
-      padding: 10px 26px;
+      padding: 12px 28px;
       border-radius: 999px;
       font-family: var(--font-mono);
       font-size: 12px;
@@ -1436,10 +1415,6 @@
         right: 0;
         top: -4%;
       }
-      .case-study-hero .hero-mask-text {
-        font-size: 150px;
-        letter-spacing: 2px;
-      }
       .case-study-hero .hero-clean-base .hero-scroll-cue {
         display: none;
       }
@@ -1478,6 +1453,7 @@
       
       .case-study-hero.wrapper {
         height: 100vh;
+        height: 100dvh;
       }
       .case-study-hero .hero-clean-base {
         padding: 24px 16px 20px;
@@ -1509,10 +1485,6 @@
         bottom: 16px;
         padding: 8px 20px;
         font-size: 11px;
-      }
-      .case-study-hero .hero-mask-text {
-        font-size: 110px;
-        letter-spacing: 1px;
       }
       .store-header {
         padding: 16px 20px;
@@ -1658,12 +1630,22 @@
       <button type="button" data-target="chapter-6" aria-label="Packaging and merchandise">06</button>
     </nav>
 
-    <!-- Hero Section: Off-white Figma home.pdf Design + Wormhole Intro Portal overlay -->
+    <!-- Hero Section: Off-white Figma home.pdf Design + Space Wormhole Travel Intro -->
     <section class="case-study-hero wrapper" id="case-study-overview">
       <div class="sticky_layer">
         <div class="landing_screen">
           
-          <!-- Base Layer: The Signature Off-White TTRIBE Hero Layout (from user's screenshot) -->
+          <!-- Layer 1: Edge-to-Edge Space Background Video (Initial load position) -->
+          <div class="video-container">
+            <video class="hero-video-bg" autoplay loop muted playsinline poster="/ttribe/assets/mountain-bg.jpg">
+              <source src="/ttribe/assets/stars-space.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <!-- Layer 2: Black Fade Transition Layer (Triggered on scroll travel) -->
+          <div class="black-fade-layer"></div>
+
+          <!-- Layer 3: The Signature Off-White TTRIBE Hero Layout (Revealed out of black screen, exact commit 3e526ed) -->
           <div class="hero-clean-base">
             <div class="hero-ghost-t" aria-hidden="true">T</div>
             <div class="hero-meta-row">
@@ -1671,16 +1653,7 @@
               <span>COMPANY: TTRIBE &bull; 01:04:2025</span>
             </div>
             
-            <h1 class="hero-title-main" aria-label="TTRIBE">
-              <span class="split-word">
-                <span class="split-char">T</span>
-                <span class="split-char">T</span>
-                <span class="split-char">R</span>
-                <span class="split-char">I</span>
-                <span class="split-char">B</span>
-                <span class="split-char">E</span>
-              </span>
-            </h1>
+            <h1 class="hero-title-main" aria-label="TTRIBE">TTRIBE</h1>
 
             <div class="hero-tagline">Your Vibe. Your Tribe.</div>
             <p class="hero-lead-quote">
@@ -1689,27 +1662,6 @@
             </p>
 
             <span class="hero-scroll-cue" aria-hidden="true">EXPLORE THE SYSTEM</span>
-          </div>
-
-          <!-- Overlay Layer: Wormhole Video & Fullscreen Text Mask -->
-          <div class="wormhole-portal-layer">
-            <div class="video-container">
-              <video class="hero-video-bg" autoplay loop muted playsinline poster="/ttribe/assets/mountain-bg.jpg">
-                <source src="/ttribe/assets/stars-space.mp4" type="video/mp4">
-              </video>
-            </div>
-
-            <svg class="fullscreen-mask-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <mask id="hero-viewport-mask">
-                  <rect width="100%" height="100%" fill="white" />
-                  <g class="zoom-text-group">
-                    <text class="hero-mask-text" x="960" y="540" text-anchor="middle" dominant-baseline="central" fill="black">TTRIBE</text>
-                  </g>
-                </mask>
-              </defs>
-              <rect width="100%" height="100%" fill="#090B0E" mask="url(#hero-viewport-mask)" />
-            </svg>
           </div>
 
           <div class="btn btn-primary" id="enter">Wormhole Scroll &darr;</div>
@@ -2278,56 +2230,57 @@
 
             const wormholeTimeline = gsap.timeline();
 
-            // Stage 1 (0.0 - 1.5s): Text cutout in full viewport SVG mask zooms in (flying through text cutout)
-            wormholeTimeline.to(".case-study-hero .zoom-text-group", {
-              scale: 90,
-              transformOrigin: "960px 540px",
-              duration: 1.5,
-              ease: "power2.in"
+            // Stage 1 (0.0 - 1.2s): Space Video Parallax Wormhole Travel (Scale 1.0 -> 2.1 & contrast/brightness warp)
+            wormholeTimeline.to(".case-study-hero .hero-video-bg", {
+              scale: 2.1,
+              filter: "contrast(1.65) brightness(1.5) saturate(1.5)",
+              duration: 1.2,
+              ease: "power1.inOut"
             }, 0);
 
-            // Stage 1b (0.0 - 0.5s): Hide topbar during wormhole scroll, fade floating enter button
+            // Stage 1b (0.0 - 0.4s): Hide topbar and enter pill button during scroll travel
             wormholeTimeline.to(".portfolio-topbar", {
               yPercent: -100,
               opacity: 0,
-              duration: 0.5,
-              ease: "power1.inOut"
+              duration: 0.4,
+              ease: "power1.out"
             }, 0);
 
             wormholeTimeline.to(".case-study-hero #enter", {
               opacity: 0,
-              y: -30,
-              duration: 0.5,
+              y: 20,
+              duration: 0.3,
               ease: "power1.out"
             }, 0);
 
-            // Stage 2 (1.0 - 1.8s): Space video travel
-            wormholeTimeline.to(".case-study-hero .hero-video-bg", {
-              scale: 1.4,
+            // Stage 2 (1.0 - 1.8s): Warp/Fade into Solid Black Screen
+            wormholeTimeline.to(".case-study-hero .black-fade-layer", {
+              opacity: 1,
               duration: 0.8,
-              ease: "none"
+              ease: "power2.inOut"
             }, 1.0);
 
-            // Stage 3 (1.4 - 2.2s): Wormhole portal dissolves away, exposing off-white TTRIBE hero layout & restoring topbar
-            wormholeTimeline.to(".case-study-hero .wormhole-portal-layer", {
-              opacity: 0,
-              filter: "blur(20px) brightness(1.6)",
-              duration: 0.8,
-              ease: "power2.out"
-            }, 1.4);
+            // Stage 3 (1.8 - 2.8s): Reveal off-white TTRIBE hero logo & layout from commit 3e526ed
+            wormholeTimeline.to(".case-study-hero .hero-clean-base", {
+              opacity: 1,
+              y: 0,
+              duration: 1.0,
+              ease: "power3.out"
+            }, 1.8);
 
+            // Restore topbar when off-white hero reveals
             wormholeTimeline.to(".portfolio-topbar", {
               yPercent: 0,
               opacity: 1,
               duration: 0.6,
               ease: "power1.out"
-            }, 1.4);
+            }, 2.0);
 
-            // Stage 4 (2.2 - 3.8s): Hold duration - Off-white hero layout stays locked & fully visible for reading
+            // Stage 4 (2.8 - 4.2s): Locked Reading Hold State
             wormholeTimeline.to(".case-study-hero .hero-clean-base", {
               opacity: 1,
-              duration: 1.6
-            }, 2.2);
+              duration: 1.4
+            }, 2.8);
 
             ScrollTrigger.create({
               trigger: ".case-study-hero.wrapper",
