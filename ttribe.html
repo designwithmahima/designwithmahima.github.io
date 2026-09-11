@@ -324,10 +324,10 @@
       color: var(--text-main);
     }
 
-    /* Brand Values Mind Map Section (Hub-and-Spoke Architecture) */
+    /* Brand Values Mind Map Section (Integrated Modern UI Hub-and-Spoke) */
     .mindmap-section {
-      padding: 56px 64px;
-      background: #FFFFFF;
+      padding: 64px 64px 72px;
+      background: #FAF8F5;
       border-bottom: 1px solid var(--border-color);
       position: relative;
     }
@@ -335,40 +335,46 @@
     .pdf-mindmap-wrapper {
       position: relative;
       width: 100%;
-      max-width: 900px;
-      margin: 36px auto 0;
-      min-height: 420px;
+      max-width: 920px;
+      margin: 44px auto 0;
+      min-height: 440px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .pdf-mindmap-oval {
-      width: 380px;
-      height: 180px;
-      border: 1.5px solid #111111;
-      border-radius: 50%;
+      width: 340px;
+      height: 160px;
+      border: 2px solid #111111;
+      border-radius: 999px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #FFFFFF;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 10px 32px rgba(17, 17, 17, 0.08), 0 0 0 6px #FAF8F5;
       z-index: 2;
-      transition: transform 0.3s var(--ease), border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.35s var(--ease);
     }
 
     .pdf-mindmap-oval:hover {
-      transform: scale(1.03);
-      border-color: #D97706;
-      box-shadow: 0 8px 30px rgba(217, 119, 6, 0.15);
+      transform: scale(1.04);
+      background: #111111;
+      border-color: #111111;
+      box-shadow: 0 16px 40px rgba(17, 17, 17, 0.22), 0 0 0 8px rgba(217, 119, 6, 0.25);
+    }
+
+    .pdf-mindmap-oval:hover .pdf-mindmap-logo {
+      color: #FFFFFF;
     }
 
     .pdf-mindmap-logo {
       font-family: 'Syne', var(--font-display);
-      font-size: 58px;
+      font-size: 52px;
       font-weight: 800;
       letter-spacing: -0.04em;
       color: #111111;
+      transition: color 0.3s ease;
     }
 
     .pdf-mindmap-svg {
@@ -383,7 +389,11 @@
     .pdf-mindmap-svg path {
       stroke: #111111;
       stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
       fill: none;
+      opacity: 0.85;
+      transition: stroke 0.3s ease;
     }
 
     .pdf-mindmap-nodes {
@@ -397,29 +407,37 @@
       position: absolute;
       pointer-events: auto;
       font-family: 'Space Grotesk', var(--font-display);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       color: #111111;
       background: #FFFFFF;
-      padding: 4px 10px;
-      border-radius: 4px;
-      transition: transform 0.2s ease, color 0.2s ease;
+      padding: 8px 18px;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s var(--ease);
+      cursor: pointer;
     }
 
     .pdf-node:hover {
-      color: #D97706;
-      transform: translateY(-2px);
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* Position 8 nodes exactly as in original PDF diagram */
-    .pdf-node-top { top: 0; left: 50%; transform: translateX(-50%); }
-    .pdf-node-tl { top: 12%; left: 16%; }
-    .pdf-node-tr { top: 12%; right: 16%; }
-    .pdf-node-left { top: 50%; left: 4%; transform: translateY(-50%); }
-    .pdf-node-right { top: 50%; right: 4%; transform: translateY(-50%); }
-    .pdf-node-bl { bottom: 12%; left: 16%; }
-    .pdf-node-br { bottom: 12%; right: 16%; }
-    .pdf-node-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+    /* Node positioning */
+    .pdf-node-top { top: 2%; left: 50%; transform: translateX(-50%); }
+    .pdf-node-tl { top: 12%; left: 14%; }
+    .pdf-node-tr { top: 12%; right: 14%; }
+    .pdf-node-left { top: 50%; left: 2%; transform: translateY(-50%); }
+    .pdf-node-right { top: 50%; right: 2%; transform: translateY(-50%); }
+    .pdf-node-bl { bottom: 12%; left: 14%; }
+    .pdf-node-br { bottom: 12%; right: 14%; }
+    .pdf-node-bottom { bottom: 2%; left: 50%; transform: translateX(-50%); }
 
     /* Figma Visual Art Slices */
     .figma-art-scroll {

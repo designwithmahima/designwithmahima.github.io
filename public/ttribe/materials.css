@@ -58,7 +58,7 @@
 .chime-ready canvas{opacity:1}.chime-ready .chime-fallback{visibility:hidden}
 .chime-fallback{position:absolute;inset:0;background:#f7f7f5 url('/ttribe/assets/figma-06-packaging-merch.jpg') center bottom / auto 660% no-repeat}
 .chime-caption{border-top:1px solid #eeede9;color:#6b6a64}
-.image-signal{animation:signalAcquire 2800ms steps(1,end) both!important}
+.image-signal{animation:signalAcquire 380ms steps(1,end) both!important}
 @keyframes signalAcquire{
   0%{clip-path:inset(0 0 92% 0);filter:grayscale(1) contrast(1.4);translate:-8px 0}
   8%{clip-path:polygon(0 0,100% 0,100% 30%,0 30%,0 38%,100% 38%,100% 42%,0 42%);translate:6px 0}
