@@ -2230,7 +2230,7 @@
         // Multi-layered Scroll Zoom & Parallax Effect
         const scrollY = window.scrollY;
         
-        // GSAP ScrollTrigger Pinned Wormhole Video Text Mask Animation
+        // GSAP ScrollTrigger Pinned Wormhole Video Text Mask & Hero Reveal Animation
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
           if (!window._gsapWormholeInit) {
             window._gsapWormholeInit = true;
@@ -2238,42 +2238,48 @@
 
             const wormholeTimeline = gsap.timeline();
 
-            // Stage 1: Text cutout in full viewport SVG mask zooms in (flying through text cutout)
+            // Stage 1 (0.0 - 1.5s): Text cutout in full viewport SVG mask zooms in (flying through text cutout)
             wormholeTimeline.to(".case-study-hero .zoom-text-group", {
               scale: 90,
               transformOrigin: "960px 540px",
-              duration: 2.2,
+              duration: 1.5,
               ease: "power2.in"
             }, 0);
 
-            // Stage 1b: Floating Enter button fades out
+            // Stage 1b (0.0 - 0.5s): Floating Enter button fades out
             wormholeTimeline.to(".case-study-hero #enter", {
               opacity: 0,
               y: -30,
-              duration: 0.6,
+              duration: 0.5,
               ease: "power1.out"
             }, 0);
 
-            // Stage 2: Full video space travel
+            // Stage 2 (1.0 - 1.8s): Space video travel
             wormholeTimeline.to(".case-study-hero .hero-video-bg", {
               scale: 1.4,
-              duration: 1.5,
+              duration: 0.8,
               ease: "none"
             }, 1.0);
 
-            // Stage 3: Wormhole Exit - Wormhole portal blurs out & dissolves, exposing the clean off-white TTRIBE hero layout underneath
+            // Stage 3 (1.4 - 2.2s): Wormhole portal dissolves away, exposing off-white TTRIBE hero layout
             wormholeTimeline.to(".case-study-hero .wormhole-portal-layer", {
               opacity: 0,
               filter: "blur(20px) brightness(1.6)",
-              duration: 1.4,
+              duration: 0.8,
               ease: "power2.out"
-            }, 1.8);
+            }, 1.4);
+
+            // Stage 4 (2.2 - 3.8s): Hold duration - Off-white hero layout stays locked & fully visible for reading
+            wormholeTimeline.to(".case-study-hero .hero-clean-base", {
+              opacity: 1,
+              duration: 1.6
+            }, 2.2);
 
             ScrollTrigger.create({
               trigger: ".case-study-hero.wrapper",
               animation: wormholeTimeline,
               start: "top top",
-              end: "+=220%",
+              end: "+=320%",
               scrub: 0.8,
               pin: true,
               anticipatePin: 1
@@ -2282,7 +2288,7 @@
             const enterBtn = document.getElementById('enter');
             if (enterBtn) {
               enterBtn.addEventListener('click', () => {
-                document.getElementById('chapter-1')?.scrollIntoView({ behavior: 'smooth' });
+                window.scrollTo({ top: window.innerHeight * 1.6, behavior: 'smooth' });
               });
             }
           }
