@@ -851,7 +851,7 @@
     aksigen: {
       company: "Aksigen • Healthcare Product Ecosystem",
       title: "Aksigen Healthcare: Clinical Workflow & Patient Portal SaaS",
-      figmaUrl: "https://www.figma.com/design/Ru8L9aH5AF8zdFM0YM8COk/case-study?node-id=158-13",
+      figmaUrl: "https://www.figma.com/proto/Ogs5Hf9lWLQyp7XHRTydoD/aksigne?node-id=1-18&t=TdaM6KRT4xnV7ojO-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1",
       slides: [
         {
           num: "SLIDE 01 / 04",
